@@ -1,4 +1,5 @@
 require("dotenv").config()
+const path = require('path')
 const express = require('express');
 const app = express();
 const applyRoute = require('./routers/routes')
@@ -13,6 +14,12 @@ applyRoute(app)
 
 //connect database
 dbConnection()
+
+//app server initialzed
+app.use(express.static(path.join(__dirname,'./client/build')))
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'./client/build/index.html'))
+})
 
 app.listen(process.env.PORT || 8080,()=>{
     console.log('Express server listening on port 8080')

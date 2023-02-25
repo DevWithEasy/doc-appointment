@@ -14,12 +14,12 @@ const routers = [
         path : '/api/admin',
         handler : adminRouter
     },
-    {
-        path : '/',
-        handler : (req,res) =>{
-            res.send('Server is ready!');
-        }
-    }
+    // {
+    //     path : '/',
+    //     handler : (req,res) =>{
+    //         res.send('Server is ready!');
+    //     }
+    // }
 ]
 
 const applyRouter = (app) =>{
