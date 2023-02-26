@@ -8,7 +8,7 @@ export default function Notification(){
     const addUser = useUserStore(state=>state.addUser)
     const [readState,setReadState] = useState(false)
     async function seenNotification(data){
-        const res = await axios.post('http://localhost:8080/api/auth/user/seenNotification',data,{
+        const res = await axios.post('/api/auth/user/seenNotification',data,{
             headers :{
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -18,7 +18,7 @@ export default function Notification(){
         }
     }
     async function seenAllNotification(){
-        const res = await axios.post('http://localhost:8080/api/auth/user/seenAllNotification',{},{
+        const res = await axios.post('/api/auth/user/seenAllNotification',{},{
             headers :{
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -29,7 +29,7 @@ export default function Notification(){
     }
 
     async function deleteAllNotification(){
-        const res = await axios.post('http://localhost:8080/api/auth/user/deleteAllNotification',{},{
+        const res = await axios.post('/api/auth/user/deleteAllNotification',{},{
             headers :{
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }

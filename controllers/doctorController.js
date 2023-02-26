@@ -1,6 +1,7 @@
 const User = require("../models/User")
 const Doctor = require("../models/Doctor")
 const createError = require("../utils/createError")
+const Chamber = require("../models/Chamber")
 
 exports.applyDoctor=async(req,res,next)=>{
         try {
@@ -164,16 +165,29 @@ exports.findAllActiveDoctor=async(req,res,next)=>{
 
 exports.addChamber=async(req,res,next)=>{
     try {
-        await Doctor.updateOne({_id : req.params.id},{$push : {chambers : req.body}})
 
-        const doctor = await Doctor.findOne({_id : req.params.id})
-
-        res.status(200).json({
-            status: 200,
-            success : true,
-            message : 'Chamber added successfully',
-            data : doctor
+        const newChamber = new Chamber({
+            doctorId : req.params.doctorId,
+            ...req.body
         })
+        
+        newChamber.save((err,data) => {
+            if (err) {
+                res.status(400).json({
+                    status: 400,
+                    success : false,
+                    message : err.message
+                })
+            }else{
+                res.status(200).json({
+                    status: 200,
+                    success : true,
+                    message : 'Chamber added successfully',
+                    data : data
+                })
+            }
+        })
+        
     } catch (error) {
         res.status(500).json({
             status: 500,
@@ -182,14 +196,75 @@ exports.addChamber=async(req,res,next)=>{
         })
     }
 }
+
+exports.findAllChambers=async(req,res,next)=>{
+    try {
+        const chambers = await Chamber.find({doctorId : req.params.doctorId})
+        
+        res.status(200).json({
+            status: 200,
+            success : true,
+            message : 'Chamber find successfully',
+            data : chambers
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+exports.findChamber=async(req,res,next)=>{
+    try {
+        const chamber = await Chamber.findOne({_id : req.params.chamberId})
+        
+        res.status(200).json({
+            status: 200,
+            success : true,
+            message : 'Chamber find successfully',
+            data : chamber
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
+exports.updateChamber=async(req,res,next)=>{
+    try {
+        await Chamber.updateOne({_id : req.params.chamberId},{$set:{
+            ...req.body
+        }})
+        
+        res.status(200).json({
+            status: 200,
+            success : true,
+            message : 'Chamber update successfully',
+        })
+        console.log(req.body)
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
 exports.removeChamber=async(req,res,next)=>{
     try {
-        const doctors = await Doctor.find({status : 'Approved'})
+        await Chamber.deleteOne({_id : req.params.chamberId})
 
         res.status(200).json({
             status: 200,
             success : true,
-            data : doctors
+            data : 'Chamber deleted successfully',
         })
     } catch (error) {
         res.status(500).json({

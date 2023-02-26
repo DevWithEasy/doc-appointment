@@ -50,30 +50,6 @@ const doctorSchema = mongoose.Schema({
       type : Number,
       required : true,
     },
-    chambers:[
-      {
-        location :{
-          type : String,
-          required : true
-        },
-        vanue :{
-          type : String,
-          required : true
-        },
-        day :{
-          type : String,
-          required : true
-        },
-        from :{
-          type : String,
-          required : true
-        },
-        to :{
-          type : String,
-          required : true
-        }
-      }
-    ],
     rating:[
       {
         userId : {

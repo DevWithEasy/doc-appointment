@@ -18,7 +18,7 @@ export default function Signup(){
 
     async function handleSignUp(){
         try {
-            await axios.post('http://localhost:8080/api/auth/signup',value)
+            await axios.post('/api/auth/signup',value)
             toast.success('Account created successfully')
             navigate('/signin')
         } catch (error) {

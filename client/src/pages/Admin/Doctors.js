@@ -9,7 +9,7 @@ export default function AppliedDoctors(){
     const [details,setDetails] = useState(false)
     const [id,setId] = useState()
     async function getAppliedDoctors(){
-        const res = await axios.get('http://localhost:8080/api/admin/getAlldoctors',{
+        const res = await axios.get('/api/admin/getAlldoctors',{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -18,7 +18,7 @@ export default function AppliedDoctors(){
     }
 
     async function approvedDoctor(id){
-        await axios.post(`http://localhost:8080/api/doctor/approve/${id}`,{},{
+        await axios.post(`/api/doctor/approve/${id}`,{},{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }

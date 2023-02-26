@@ -5,7 +5,7 @@ import { RxCrossCircled } from "react-icons/rx"
 export default function UserDetails({id,details,setDetails}){
     const [user,setUser] = useState({})
     async function getDoctor(){
-        const res = await axios.get(`http://localhost:8080/api/auth/user/${id}`,{
+        const res = await axios.get(`/api/auth/user/${id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }

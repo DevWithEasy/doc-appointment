@@ -20,7 +20,7 @@ export default function ApplyDoctor(){
         chambers : []
     })
     async function handleApplyDoctor(){
-        const res = await axios.post('http://localhost:8080/api/doctor/apply',value,{
+        const res = await axios.post('/api/doctor/apply',value,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }

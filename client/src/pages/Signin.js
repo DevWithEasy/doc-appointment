@@ -19,7 +19,7 @@ export default function Signin(){
 
     async function handleSignIn(){
         try {
-            const res = await axios.post('api/auth/signin',value)
+            const res = await axios.post('/api/auth/signin',value)
             toast.success('Successfully signed in')
             localStorage.setItem('accessToken', res.data.data.token)
             addUser((res.data.data))

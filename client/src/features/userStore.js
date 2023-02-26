@@ -4,7 +4,6 @@ import { devtools, persist } from "zustand/middleware";
 const userStore = (set)=>({
     isAuth : false,
     user : {},
-    doctor : {},
     hospital : {},
     random : 0,
     addUser : (user)=>{
@@ -17,11 +16,6 @@ const userStore = (set)=>({
         set((state)=>({
           isAuth : false,
           user : {},
-        }))
-    },
-    addDoctor : (doctor)=>{
-        set((state)=>({
-          doctor : doctor
         }))
     },
     reload : ()=>{

@@ -7,7 +7,7 @@ export default function Users(){
     const [details,setDetails] = useState(false)
     const [id,setId] = useState()
     async function getAllUsers(){
-        const res = await axios.get('http://localhost:8080/api/admin/getAllUsers',{
+        const res = await axios.get('/api/admin/getAllUsers',{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }

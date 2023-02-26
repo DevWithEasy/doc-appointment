@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 export default function AppliedHospital(){
     const [doctors,setDoctors] = useState([])
     async function getAppliedDoctors(){
-        const res = await axios.get('http://localhost:8080/api/admin/getAlldoctors',{
+        const res = await axios.get('/api/admin/getAlldoctors',{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }

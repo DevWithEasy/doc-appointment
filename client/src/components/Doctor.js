@@ -4,7 +4,7 @@ import { Link } from'react-router-dom'
 export default function Doctor({doctor}){
     const [user,setUser] = useState({})
     async function findUser(){
-        const res = await axios.get(`http://localhost:8080/api/auth/findUser/${doctor?.userId}`)
+        const res = await axios.get(`/api/auth/findUser/${doctor?.userId}`)
         setUser(res.data.data)
     }
     useEffect(()=>{

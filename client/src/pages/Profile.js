@@ -5,7 +5,7 @@ export default function Profile(){
     const {id}  = useParams()
     const [user,setUser] = useState({})
     async function getUser(){
-        const user = await axios.get(`http://localhost:8080/api/auth/user/${id}`,{
+        const user = await axios.get(`/api/auth/user/${id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }

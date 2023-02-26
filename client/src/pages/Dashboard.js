@@ -1,31 +1,51 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { IoMdAddCircleOutline } from "react-icons/io"
-import AddChamber from "../components/AddChamber"
-import ChamberList from "../components/ChamberList"
+import ChamberList from "../components/chamber/ChamberList"
+import AddChamber from "../components/chamber/AddChamber"
+import UpdateChamber from "../components/chamber/UpdateChamber"
 import useUserStore from "../features/userStore"
+import DeleteChamber from "../components/chamber/DeleteChamber"
 
 export default function Dashboard(){
-    const {user,doctor,addDoctor} = useUserStore()
+    const {random,user} = useUserStore()
+    const [doctor,setDoctor] = useState({})
+    const [chambers,setChambers] = useState([])
     const [add,setAdd] = useState(false)
     const [id,setId] = useState()
+    const [update,setUpdate] = useState(false)
+    const [updateId,setUpdateId] = useState()
+    const [chamberDelete,setChamberDelete] = useState()
+    const [deleteId,setDeleteId] = useState()
     async function getDoctor(){
-        const res = await axios.get(`http://localhost:8080/api/doctor/find/${user?._id}`,{
+        const res = await axios.get(`/api/doctor/find/${user?._id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
         })
-        addDoctor(res.data.data)
+        setDoctor(res.data.data)
     }
+
+    async function getChambers(doctorId){
+        const res = await axios.get(`/api/doctor/findChambers/${doctorId}`,{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+        setChambers(res.data.data)
+    }
+
     useEffect(()=>{
         getDoctor()
     },[])
+    useEffect(()=>{
+        if(doctor?._id) getChambers(doctor?._id)
+    },[doctor?._id,random])
     return(
-        <div>
+        <div className="space-y-2">
             <h1 className="text-2xl">Doctor Dashboard</h1>
             <hr/>
-            <div className="flex justify-between border mt-2 rounded-md">
-                <div className="w-1/2 border-r p-4">
+            <div className="border p-2 shadow rounded-md">
                     <p className="text-xl">Doctor Information : </p>
                     <p className=''>Name : {doctor?.firstName} {doctor?.lastName}</p>
                     <p>Edduction Qualification : {doctor?.education}</p>
@@ -34,8 +54,8 @@ export default function Dashboard(){
                     {
                         doctor?.designation && doctor?.workedAt && <p>I am Working as a {doctor?.designation} of {doctor?.workedAt}</p>
                     }
-                </div>
-                <div className="w-1/2 p-4 space-y-2">
+            </div>
+            <div className="space-y-2 border p-2 shadow rounded-md overflow-x-auto pb-6">
                     <p className="flex justify-between">
                         <span className="text-xl">Chamber Lists :</span>
                         <button onClick={()=>{setAdd(!add);setId(doctor._id)}} className="p-2 flex items-center space-x-1 bg-green-400 text-white rounded-md">
@@ -43,10 +63,13 @@ export default function Dashboard(){
                             <span>Add Chamber</span>
                         </button>
                     </p>
-                    <ChamberList chambers={doctor?.chambers}/>
-                </div>
+                    <ChamberList {...{chambers,setUpdateId,update,setUpdate,setDeleteId,chamberDelete,setChamberDelete}}/>
             </div>
-            {add && <AddChamber id ={id} add={add} setAdd={setAdd}/>}
+
+            {/* display add update chamber  UI */}
+            {add && <AddChamber {...{id,add,setAdd}}/>}
+            {update && <UpdateChamber {...{updateId,update,setUpdate}}/>}
+            {chamberDelete && <DeleteChamber {...{deleteId,chamberDelete,setChamberDelete}}/>}
         </div>
     )
 }

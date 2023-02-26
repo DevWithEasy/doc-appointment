@@ -6,7 +6,7 @@ export default function Doctors(){
     const [specialization,setSpecilaization] = useState('')
     const [doctors,setDoctors] = useState([])
     async function getAllActiveDoctors(){
-        const res = await axios('http://localhost:8080/api/doctor/allActiveDoctor')
+        const res = await axios('/api/doctor/allActiveDoctor')
         setDoctors(res.data.data)
     }
     useEffect(()=>{
