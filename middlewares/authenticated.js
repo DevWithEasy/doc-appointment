@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const authenticated=(req,res,next)=>{
     try {
         const token = req.headers['authorization'].split(' ')[1]
-        jwt.verify(token,process.env.Jwt_SECRET,(err,decode)=>{
+        jwt.verify(token,process.env.JWT_SECRET,(err,decode)=>{
             if(err){
                 res.status(401).json({
                     status: 500,
