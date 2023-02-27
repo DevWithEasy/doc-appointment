@@ -6,13 +6,13 @@ export default function Doctors(){
     const [specialization,setSpecilaization] = useState('')
     const [doctors,setDoctors] = useState([])
     async function getAllActiveDoctors(){
-        const res = await axios('/api/doctor/allActiveDoctor')
+        const res = await axios.get('/api/doctor/allApprovedDoctors')
         setDoctors(res.data.data)
     }
     useEffect(()=>{
         getAllActiveDoctors()
     },[])
-    console.log(doctors)
+
     return(
         <div className="">
             <h1 className="p-2 text-2xl font-bold text-center uppercase">Doctors</h1>

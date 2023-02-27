@@ -9,7 +9,7 @@ export default function UpdateChamber(props){
     const {updateId,update,setUpdate} = props
     const [value,setValue] = useState({})
     async function getChamber(id){
-        const res = await axios.get(`http://localhost:8080/api/doctor/findChamber/${id}`,{
+        const res = await axios.get(`/api/doctor/findChamber/${id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }

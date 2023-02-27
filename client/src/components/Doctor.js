@@ -10,7 +10,6 @@ export default function Doctor({doctor}){
     useEffect(()=>{
         findUser()
     },[])
-    console.log(doctor);
     return(
         <div className="shadow border-2 border-blue-200 rounded p-2 flex flex-col items-center space-y-2">
             <img src={user?.image?.url} alt="" className='w-[150px] rounded-lg ring-2'/>

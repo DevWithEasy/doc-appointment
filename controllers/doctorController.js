@@ -145,7 +145,7 @@ exports.find=async(req,res,next)=>{
         })
     }
 }
-exports.findAllActiveDoctor=async(req,res,next)=>{
+exports.allApprovedDoctors=async(req,res,next)=>{
     try {
         const doctors = await Doctor.find({status : 'Approved'})
 
@@ -153,7 +153,7 @@ exports.findAllActiveDoctor=async(req,res,next)=>{
             status: 200,
             success : true,
             data : doctors
-        })
+        })  
     } catch (error) {
         res.status(500).json({
             status: 500,
