@@ -21,6 +21,10 @@ const userSchema = mongoose.Schema({
       type : String,
       trim : true,
     },
+    gender:{
+      type : String,
+      enum : ['male','female','others'],
+    },
     isVerified : {
       type : Boolean,
       default : false

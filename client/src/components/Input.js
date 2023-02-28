@@ -1,6 +1,7 @@
 import handleChange from "../utils/handleChange";
 
-export default function Input({label,type,name,value,setValue}){
+export default function Input(props){
+    const {label,type,name,value,setValue} = props
     return (
         <div className=" space-y-1">
             <label>{label} : </label>
