@@ -12,7 +12,7 @@ export default function Header(){
     const user = useUserStore(state=>state.user)
     const removeUser = useUserStore(state=>state.removeUser)
     return(
-        <div className="w-full md:w-10/12 fixed top-0 right-0 md:pl-2">
+        <div className="w-full md:w-10/12 fixed top-0 right-0 md:pl-2 z-10">
             <div className="flex justify-between md:justify-end items-center p-2 md:py-2 md:px-6 md:rounded-b bg-blue-200/95 z-10">
                 <div className="md:hidden flex items-center space-x-3">
                     <AiOutlineMenu size={25} onClick={()=>setMenu(!menu)}/>

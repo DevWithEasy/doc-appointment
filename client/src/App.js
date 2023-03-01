@@ -7,6 +7,8 @@ import ApplyDoctor from './pages/ApplyDoctor';
 import Appointment from './pages/Appointment';
 import AppointmentDetails from './pages/AppointmentDeatils';
 import Appointments from './pages/Appointments';
+import AppointmentsAllPatient from './pages/AppointmentsAllPatient';
+import AppointmentsAllPatientSearch from './pages/AppointmentsAllPatientSearch';
 import AppointmentSubmit from './pages/AppointmentSubmit';
 import Dashboard from './pages/Dashboard';
 import Doctors from './pages/Doctors';
@@ -86,6 +88,14 @@ function App() {
           {
             path : '/doctor/dashboard',
             element : <ProtectedRoute><Dashboard/></ProtectedRoute>
+          },
+          {
+            path : '/doctor/allAppointments',
+            element : <ProtectedRoute><AppointmentsAllPatient/></ProtectedRoute>
+          },
+          {
+            path : '/doctor/allAppointments/search',
+            element : <ProtectedRoute><AppointmentsAllPatientSearch/></ProtectedRoute>
           },
           {
             path : '/admin',

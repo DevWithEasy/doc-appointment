@@ -80,5 +80,10 @@ export const doctorData = [
         path : '/doctor/dashboard',
         title : 'Dashboard',
         icon : <MdOutlineSpaceDashboard size={20} className='shrink-0'/>
+    },
+    {
+        path : '/doctor/allAppointments',
+        title : 'All Appointments',
+        icon : <MdOutlineSpaceDashboard size={20} className='shrink-0'/>
     }
 ]

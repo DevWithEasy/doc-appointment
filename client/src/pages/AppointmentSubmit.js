@@ -25,7 +25,6 @@ export default function AppointmentSubmit(){
         chamberId : '',
         appointmentDay : '',
         appointmentDate : '',
-        submitBy : user?._id
     })
 
     async function getDoctor(){
@@ -37,7 +36,6 @@ export default function AppointmentSubmit(){
         setDoctor(res.data.data)
     }
     
-
     async function getChambers(doctorId){
         const res = await axios.get(`/api/doctor/findChambers/${doctorId}`,{
             headers : {
@@ -47,6 +45,20 @@ export default function AppointmentSubmit(){
         setChambers(res.data.data)
     }
 
+    function selectedDay(selected){
+            const date = new Date(selected);
+            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const dayName = daysOfWeek[date.getDay()];
+            const days = chambers.map(chamber=> chamber.day)
+            const day = days.find(day => day === dayName)
+            const chamber = chambers.find(chamber=>chamber.day === day)
+            if(day === undefined){
+                setChamber({})
+                toast.error(`Please select a date from calender chamber list day name available`)
+            }else{
+                setChamber({...chamber,date : date.toLocaleDateString()}) 
+            }
+        }
     useEffect(()=>{
         getDoctor()
     },[])
@@ -55,33 +67,26 @@ export default function AppointmentSubmit(){
         getChambers(id)
     },[id])
 
-    
-    
-    function selectedDay(selected){
-        const date = new Date(selected);
-        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const dayName = daysOfWeek[date.getDay()];
-        const days = chambers.map(chamber=> chamber.day)
-        const day = days.find(day => day === dayName)
-        const chamber = chambers.find(chamber=>chamber.day === day)
-        if(day === undefined){
-            setChamber({})
-            toast.error(`Please select a date from calender chamber list day name available`)
-        }else{
-            setChamber({...chamber,date : date.toLocaleDateString()}) 
-        }
-    }
     useEffect(()=>{
         selectedDay(selected)
     },[selected])
 
-    const data = {...value,chamberId : chamber?._id,appointmentDay : chamber?.day,appointmentDate : chamber?.date}
-    console.log(data)
+    const data = {...value,chamberId : chamber?._id,appointmentDay : chamber?.day,appointmentDate : selected}
+
+    async function addAppointment(){
+        const res = await axios.post('/api/appointment/add',data,{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+        console.log(res.data);
+    }
+
     return(
         <div>
             <h1 className="py-2 text-2xl font-bold text-center uppercase">Submit appointment</h1>
             <hr/>
-            <div className='md:flex justify-between'>
+            <div className='md:flex justify-between pb-10'>
                 <div className='w-full md:w-7/12 pt-5'>
                     <div className='pb-2'>
                         <p className='text-xl font-bold'>{doctor?.firstName} {doctor?.lastName}</p>
@@ -101,7 +106,7 @@ export default function AppointmentSubmit(){
             
             <div className='space-y-2'>
                 {chamber.vanue && <div className='flex justify-center bg-gray-100 pb-5 rounded'>
-                    <div className='bg-blue-100 w-1/2 text-center rounded-md -mt-5 py-2'>
+                    <div className='bg-blue-100 w-11/12 md:w-1/2 text-center rounded-md -mt-5 py-2'>
                         <p className='text-2xl font-bold'>{chamber?.vanue}</p>
                         <p className=''>{chamber?.location}</p>
                         <p className=''>{chamber?.day} {chamber?.date}</p>
@@ -131,7 +136,7 @@ export default function AppointmentSubmit(){
                     <label>Patient Address : </label>
                     <input type='text' name='address' value={value?.address} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
-                <button className='p-2 bg-green-500 text-white rounded-md'>Booking Confirm</button>
+                <button onClick={()=>addAppointment()} className='p-2 bg-green-500 text-white rounded-md'>Booking Confirm</button>
             </div>
         </div>
     )
