@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import useUserStore from '../features/userStore';
 export default function AppointmentsAllPatientSearch(){
+    const {random} = useUserStore()
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const day = searchParams.get('day');
@@ -15,9 +17,19 @@ export default function AppointmentsAllPatientSearch(){
         });
         setAppointments(res.data.data);
     }
+
+    async function confirmAppointment(id){
+        const res = await axios.get(`/api/appointment/confirm/${id}`,{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        });
+        console.log(res.data);
+    }
+
     useEffect(()=>{
         getAppointments()
-    },[])
+    },[random])
     console.log(appointments);
     return(
         <div className='space-y-2'>
@@ -51,7 +63,7 @@ export default function AppointmentsAllPatientSearch(){
                 <tbody>
                     {appointments && appointments.map((appointment,i)=> <tr key={appointment._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td className="px-4 py-4">
-                            {i+1}
+                            {appointment?.appointmentId}
                         </td>
                         <td className="px-6 py-4">
                             {appointment?.patientName}
@@ -66,7 +78,7 @@ export default function AppointmentsAllPatientSearch(){
                             {appointment?.status}
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-4">
-                            <button className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Confirmed</button>
+                            <button onClick={()=>confirmAppointment(appointment?._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Confirmed</button>
                             <button className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>
                         </td>
                         

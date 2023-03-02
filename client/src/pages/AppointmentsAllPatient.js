@@ -16,6 +16,26 @@ export default function AppointmentsAllPatient(){
         });
         setAppointments(res.data.data);
     }
+    async function confirmAppointment(id){
+        const res = await axios.put(`/api/appointment/confirm/${id}`,{},{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        });
+        if(res.data.status === 200){
+            getAppointments()
+        };
+    }
+    async function rejectAppointment(id){
+        const res = await axios.put(`/api/appointment/reject/${id}`,{},{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        });
+        if(res.data.status === 200){
+            getAppointments()
+        };
+    }
 
     useEffect(()=>{
         const date = new Date(selected);
@@ -41,7 +61,7 @@ export default function AppointmentsAllPatient(){
                     <option value="Thusday">Thusday</option>
                     <option value="Friday">Friday</option>
                 </select>
-                <input type='date' value={date} onChange={(e)=>setDate(e.target.value)} className='p-2 border rounded focus:outline-none focus:ring-2'></input>
+                <input type='date' value={date} onChange={(e)=>setDate(e.target.value)} className='p-2 border rounded focus:outline-none focus:ring-2' disabled></input>
                 <button onClick={()=>getAppointments()} className="px-6 bg-blue-400 text-white rounded-md">Search</button>
                 {day && !selected && <div className="absolute top-12 bg-gray-50 rounded-md shadow-md">
                     <DayPicker
@@ -93,8 +113,8 @@ export default function AppointmentsAllPatient(){
                             {appointment?.status}
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-4">
-                            <button className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Confirmed</button>
-                            <button className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>
+                            <button onClick={()=>confirmAppointment(appointment?._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Confirmed</button>
+                            <button onClick={()=>rejectAppointment(appointment?._id)} className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>
                         </td>
                         
                     </tr>)}

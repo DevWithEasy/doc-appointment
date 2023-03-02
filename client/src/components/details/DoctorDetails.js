@@ -4,7 +4,7 @@ import { RxCrossCircled } from "react-icons/rx"
 
 export default function DoctorDetails({id,details,setDetails}){
     const [doctor,setDoctor] = useState({})
-    async function getDoctor(){
+    async function getDoctor(id){
         const res = await axios.get(`/api/doctor/find/${id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
@@ -13,8 +13,8 @@ export default function DoctorDetails({id,details,setDetails}){
         setDoctor(res.data.data)
     }
     useEffect(()=>{
-        getDoctor()
-    },[])
+        getDoctor(id)
+    },[id])
     return(
         <div className="absolute top-0 left-0 w-full h-screen bg-gray-500/50 flex justify-center items-center">
             <div className="relative w-1/2 bg-white shadow-md rounded">

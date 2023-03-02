@@ -24,7 +24,7 @@ export default function Doctor({doctor}){
                 {
                     doctor?.designation && doctor?.workedAt && <p>{doctor?.designation} of {doctor?.workedAt}</p>
                 }
-                <p>Rating - </p>
+                <p>Fee - {doctor?.feesPerConsultation}</p>
                 <p className='flex justify-center'>
                     <Link to={`/appointment-submit/${doctor?._id}`} className='flex items-center space-x-2 text-green-500 px-4 py-2 rounded-full border border-green-500 hover:bg-green-500 hover:text-white transition-all duration-300'>
                         <FaBookMedical/>

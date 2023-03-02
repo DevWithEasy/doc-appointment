@@ -123,9 +123,9 @@ export default function AppointmentSubmit(){
                 <div>
                     <label className='block'>Patient Gender:</label>
                     <select value={value?.gender} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="others">Others</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
                     </select>
                 </div>
                 <div className=" space-y-1">
