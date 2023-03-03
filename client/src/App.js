@@ -5,7 +5,6 @@ import AppliedHospital from './pages/Admin/Hospitals';
 import Users from './pages/Admin/Users';
 import ApplyDoctor from './pages/ApplyDoctor';
 import Appointment from './pages/Appointment';
-import AppointmentDetails from './pages/AppointmentDeatils';
 import Appointments from './pages/Appointments';
 import AppointmentsAllPatient from './pages/AppointmentsAllPatient';
 import AppointmentsAllPatientSearch from './pages/AppointmentsAllPatientSearch';
@@ -76,10 +75,6 @@ function App() {
           {
             path : '/appointments',
             element : <ProtectedRoute><Appointments/></ProtectedRoute>
-          },
-          {
-            path : '/appointment/:id',
-            element : <ProtectedRoute><AppointmentDetails/></ProtectedRoute>
           },
           {
             path : '/notification',

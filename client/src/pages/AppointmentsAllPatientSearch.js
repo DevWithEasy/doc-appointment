@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import AppointmentDetails from '../components/AppointmentDeatils';
 import useUserStore from '../features/userStore';
 export default function AppointmentsAllPatientSearch(){
     const {random} = useUserStore()
@@ -9,6 +10,8 @@ export default function AppointmentsAllPatientSearch(){
     const day = searchParams.get('day');
     const date = searchParams.get('date');
     const [appointments,setAppointments] = useState([])
+    const [view,setView] = useState(false)
+    const [id,setId] = useState()
     async function getAppointments(){
         const res = await axios.get(`/api/appointment/all/search?day=${day}&date=${date}`,{
             headers : {
@@ -78,6 +81,7 @@ export default function AppointmentsAllPatientSearch(){
                             {appointment?.status}
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-4">
+                            <button onClick={()=>{setView(!view);setId(appointment._id)}} className="p-2 bg-blue-400 text-white rounded hover:bg-blue-500">Details</button>
                             <button onClick={()=>confirmAppointment(appointment?._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Confirmed</button>
                             <button className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>
                         </td>
@@ -85,7 +89,7 @@ export default function AppointmentsAllPatientSearch(){
                     </tr>)}
                 </tbody>
             </table>
-            
+            {view && <AppointmentDetails {...{id,view,setView}}/>}
         </div>
     )
 }

@@ -27,7 +27,7 @@ export default function AddChamber(props){
         }
     }
     return(
-        <div className="absolute top-0 left-0 w-full h-screen bg-gray-500/50 flex justify-center items-center">
+        <div className="absolute -top-2 left-0 w-full h-screen bg-gray-500/50 flex justify-center items-center">
             <div className="relative w-1/2 bg-white shadow-md rounded">
                 <RxCrossCircled onClick={()=>setAdd(!add)} size={25} className="absolute bg-white text-red-400 rounded-full -top-4 -right-4"/>
                 <h1 className="text-xl text-center font-bold p-2 border-b">Add Chamber With Details :</h1>

@@ -19,7 +19,7 @@ export default function AppointmentSubmit(){
         patientName: user?.name,
         age : '',
         gender : user?.gender,
-        phone : user?.phone,
+        patientPhone : user?.phone,
         address: user?.address?.location + ' ' + user?.address?.post_office+ ' ' + user?.address?.upazilla + ' ' + user?.address?.district,
         doctorId : id,
         chamberId : '',
@@ -130,7 +130,7 @@ export default function AppointmentSubmit(){
                 </div>
                 <div className=" space-y-1">
                     <label>Patient Mobile No : </label>
-                    <input type='text' name='phone' value={value?.phone} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
+                    <input type='text' name='patientPhone' value={value?.phone} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
                 <div className=" space-y-1">
                     <label>Patient Address : </label>

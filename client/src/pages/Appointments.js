@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import AppointmentDetails from "../components/AppointmentDeatils";
 import useUserStore from "../features/userStore";
-import {Link} from 'react-router-dom'
 
 export default function Appointments(){
     const {user} = useUserStore()
     const [appointments,setAppointments] = useState([])
+    const [view,setView] = useState(false)
+    const [id,setId] = useState()
     async function getAllAppointments(id){
         const res = await axios.get(`/api/appointment/all/${id}`,{
             headers : {
@@ -13,6 +15,18 @@ export default function Appointments(){
             }
         });
         setAppointments(res.data.data);
+    }
+
+    async function cancelAppointment(id){
+        const res = await axios.put(`/api/appointment/cancel/${id}`,{},{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        });
+        if(res.data.status === 200){
+            getAllAppointments(user?._id)
+        }
+        console.log(res.data);
     }
 
     useEffect(()=>{
@@ -66,13 +80,13 @@ export default function Appointments(){
                             {appointment?.status}
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-4">
-                            <Link to={`/appointment/${appointment?._id}`} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Details</Link>
-                            <button className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Delete</button>
-                        </td>
-                        
+                            <button onClick={()=>{setView(!view);setId(appointment._id)}} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Details</button>
+                            <button onClick={()=>cancelAppointment(appointment._id)} className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Cancel</button>
+                        </td> 
                     </tr>)}
                 </tbody>
             </table>
+            {view && <AppointmentDetails {...{id,view,setView}}/>}
         </div>
     )
 }

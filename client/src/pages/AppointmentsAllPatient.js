@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import axios from 'axios';
+import AppointmentDetails from "../components/AppointmentDeatils";
 
 export default function AppointmentsAllPatient(){
     const [day,setDay] = useState('')
     const [date,setDate] = useState('');
     const [selected, setSelected] = useState()
-
+    const [view,setView] = useState(false)
+    const [id,setId] = useState()
     const [appointments,setAppointments] = useState([])
     async function getAppointments(){
         const res = await axios.get(`/api/appointment/all/search?day=${day}&date=${new Date(selected).toISOString()}`,{
@@ -96,7 +98,7 @@ export default function AppointmentsAllPatient(){
                     </tr>
                 </thead>
                 <tbody>
-                    {appointments && appointments.map((appointment,i)=> <tr key={appointment._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    {appointments && appointments.filter(appointment=>appointment?.status !== 'Canceled').map((appointment,i)=> <tr key={appointment._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td className="px-4 py-4">
                             {i+1}
                         </td>
@@ -113,13 +115,14 @@ export default function AppointmentsAllPatient(){
                             {appointment?.status}
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-4">
+                            <button onClick={()=>{setView(!view);setId(appointment._id)}} className="p-2 bg-blue-400 text-white rounded hover:bg-blue-500">Details</button>
                             <button onClick={()=>confirmAppointment(appointment?._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Confirmed</button>
                             <button onClick={()=>rejectAppointment(appointment?._id)} className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>
-                        </td>
-                        
+                        </td>  
                     </tr>)}
                 </tbody>
             </table>
+            {view && <AppointmentDetails {...{id,view,setView}}/>}
         </div>
     )
 }
