@@ -100,7 +100,7 @@ export default function AppointmentsAllPatient(){
                 <tbody>
                     {appointments && appointments.filter(appointment=>appointment?.status !== 'Canceled').map((appointment,i)=> <tr key={appointment._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td className="px-4 py-4">
-                            {i+1}
+                            {appointment?.appointmentId}
                         </td>
                         <td className="px-6 py-4">
                             {appointment?.patientName}

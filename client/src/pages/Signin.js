@@ -34,8 +34,8 @@ export default function Signin(){
     }
 
     return(
-        <div className="w-full md:w-1/2 mx-auto p-2 border shadow rounded space-y-2">
-            <h1 className="text-2xl font-bold text-center uppercase">Login account</h1>
+        <div className="w-full md:w-5/12 mx-auto px-4 py-2 border rounded space-y-2 bg-white">
+            <h1 className="text-2xl font-bold text-center uppercase border-b py-2">Log in</h1>
             <div className=" space-y-1">
                 <label>Email : </label>
                 <input type='email' name='email' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
@@ -51,7 +51,7 @@ export default function Signin(){
 
             <button onClick={()=>handleSignIn()} className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">Sign in</button>
 
-            <div className="p-2">
+            <div className="p-2 text-center">
                 You are not an account ? <NavLink to='/signup' className='text-blue-500 font-bold'>Create an account</NavLink>
             </div>
         </div>

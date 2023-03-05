@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { toast } from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ChamberList from '../components/ChamberList';
 import useUserStore from '../features/userStore';
 import handleChange from '../utils/handleChange';
 
 export default function AppointmentSubmit(){
+    const navigate = useNavigate()
     const {user} =useUserStore()
     const {id} = useParams()
     const [doctor,setDoctor] = useState({})
@@ -79,14 +80,17 @@ export default function AppointmentSubmit(){
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
         })
-        console.log(res.data);
+        if(res.data.status === 200){
+            toast.success('Appointment added successfully')
+            navigate('/')
+        }
     }
 
     return(
         <div>
             <h1 className="py-2 text-2xl font-bold text-center uppercase">Submit appointment</h1>
             <hr/>
-            <div className='md:flex justify-between pb-10'>
+            <div className='md:flex justify-between pb-10 md:gap-x-4'>
                 <div className='w-full md:w-7/12 pt-5'>
                     <div className='pb-2'>
                         <p className='text-xl font-bold'>{doctor?.firstName} {doctor?.lastName}</p>
@@ -95,7 +99,7 @@ export default function AppointmentSubmit(){
                     </div>
                     {chambers && <ChamberList chambers={chambers}/>}
                 </div>
-                <div className='w-full md:w-5/12 flex flex-col items-center justify-center'>
+                <div className='w-full md:w-5/12 mt-4 flex flex-col items-center justify-center bg-white rounded-md'>
                     <DayPicker
                         mode="single"
                         selected={selected}
@@ -122,7 +126,7 @@ export default function AppointmentSubmit(){
                 </div>
                 <div>
                     <label className='block'>Patient Gender:</label>
-                    <select value={value?.gender} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'>
+                    <select onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Others">Others</option>

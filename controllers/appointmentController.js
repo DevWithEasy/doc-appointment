@@ -8,7 +8,7 @@ exports.addAppointment=async(req,res,next)=>{
         const all = await Appointment.find({})
         const newAppointment = new Appointment({
             ...req.body,
-            appointmentId : createAppointmentSerial(all,req.body.appointmentDate)
+            appointmentId : all.length == 0 ? 1 : all.length+1
         })
 
         const doctor = await Doctor.findOne({_id : req.body.doctorId})

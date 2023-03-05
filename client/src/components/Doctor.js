@@ -12,7 +12,7 @@ export default function Doctor({doctor}){
         findUser()
     },[])
     return(
-        <div className="flex shadow border-2 border-blue-200 rounded p-6 md:p-3">
+        <div className="flex border bg-white rounded p-6 md:p-3">
             <div className='flex justify-center '>
                 <img src={user?.image?.url} alt="" className='w-20 h-20 rounded-full'/>
             </div>

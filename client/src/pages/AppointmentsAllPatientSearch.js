@@ -22,12 +22,24 @@ export default function AppointmentsAllPatientSearch(){
     }
 
     async function confirmAppointment(id){
-        const res = await axios.get(`/api/appointment/confirm/${id}`,{
+        const res = await axios.put(`/api/appointment/confirm/${id}`,{},{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
         });
-        console.log(res.data);
+        if(res.data.status === 200){
+            getAppointments()
+        };
+    }
+    async function rejectAppointment(id){
+        const res = await axios.put(`/api/appointment/reject/${id}`,{},{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        });
+        if(res.data.status === 200){
+            getAppointments()
+        };
     }
 
     useEffect(()=>{
@@ -64,7 +76,7 @@ export default function AppointmentsAllPatientSearch(){
                     </tr>
                 </thead>
                 <tbody>
-                    {appointments && appointments.map((appointment,i)=> <tr key={appointment._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    {appointments && appointments.filter(appointment=>appointment?.status !== 'Canceled').map((appointment,i)=> <tr key={appointment._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td className="px-4 py-4">
                             {appointment?.appointmentId}
                         </td>
@@ -83,7 +95,7 @@ export default function AppointmentsAllPatientSearch(){
                         <td className="flex space-x-2 justify-center px-6 py-4">
                             <button onClick={()=>{setView(!view);setId(appointment._id)}} className="p-2 bg-blue-400 text-white rounded hover:bg-blue-500">Details</button>
                             <button onClick={()=>confirmAppointment(appointment?._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Confirmed</button>
-                            <button className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>
+                            <button onClick={()=>rejectAppointment(appointment?._id)} className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>
                         </td>
                         
                     </tr>)}
