@@ -45,7 +45,7 @@ export default function Dashboard(){
         <div className="space-y-2">
             <h1 className="text-2xl">Doctor Dashboard</h1>
             <hr/>
-            <div className="border p-2 shadow rounded-md">
+            <div className="bg-white border p-2 shadow rounded-md">
                     <p className="text-xl">Doctor Information : </p>
                     <p className=''>Name : {doctor?.firstName} {doctor?.lastName}</p>
                     <p>Edduction Qualification : {doctor?.education}</p>

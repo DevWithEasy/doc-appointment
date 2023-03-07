@@ -82,10 +82,10 @@ export default function AppointmentSubmit(){
         })
         if(res.data.status === 200){
             toast.success('Appointment added successfully')
-            navigate('/')
+            navigate('/appointments')
         }
     }
-
+    console.log(value);
     return(
         <div>
             <h1 className="py-2 text-2xl font-bold text-center uppercase">Submit appointment</h1>
@@ -126,7 +126,7 @@ export default function AppointmentSubmit(){
                 </div>
                 <div>
                     <label className='block'>Patient Gender:</label>
-                    <select onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'>
+                    <select name='gender' value={value?.gender} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Others">Others</option>

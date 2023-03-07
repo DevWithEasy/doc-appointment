@@ -47,10 +47,10 @@ export default function AppointmentDetails(props){
     useEffect(()=>{
         getAppointmentDetails(id)
     },[id])
-    
+    console.log(appointment);
     return(
         <div className="absolute -top-2 left-0 w-full h-screen bg-gray-500/50 flex justify-center items-center">
-            <div ref={printRef} className="relative mx-4 md:w-1/2 p-4 bg-white border shadow rounded space-y-4 z-20 print:w-11/12 print:mx-auto print:border-none print:shadow-none">
+            <div ref={printRef} className="relative mx-4 p-4 bg-white border shadow rounded space-y-4 z-20 print:w-11/12 print:mx-auto print:border-none print:shadow-none">
                 <RxCrossCircled onClick={()=>setView(!view)} size={25} className="absolute bg-white text-red-400 rounded-full -top-4 -right-4 cursor-pointer print:hidden"/>
                 <div className="flex justify-end print:hidden">
                     <AiOutlinePrinter onClick={()=>handlePrint()} size={30} className='cursor-pointer'/>
@@ -105,7 +105,10 @@ export default function AppointmentDetails(props){
                         </thead>
                         <tbody>
                             <tr className="bg-white">
-                                <td className="px-4 py-10 font-mono">
+                                <td className="px-4 py-5 font-mono space-y-2">
+                                    <span className="font-bold">Dr . {appointment?.firstName} {appointment?.lastName}</span>
+                                    <br/>
+                                    <br/>
                                     <span>{appointment?.vanue}</span>
                                     <br/>
                                     <span>{appointment?.location}</span>

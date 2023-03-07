@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.a7346da8.css",
-    "main.js": "/static/js/main.6396277f.js",
+    "main.css": "/static/css/main.42852aa5.css",
+    "main.js": "/static/js/main.fabdf589.js",
     "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
     "static/media/homepage_hero.jpg": "/static/media/homepage_hero.4b3196411537d086c95e.jpg",
     "static/media/icon.png": "/static/media/icon.194ca85d1fc0275eaa73.png",
     "static/media/hospital2.png": "/static/media/hospital2.c8fe69e5ce149f1a07f2.png",
     "index.html": "/index.html",
-    "main.a7346da8.css.map": "/static/css/main.a7346da8.css.map",
-    "main.6396277f.js.map": "/static/js/main.6396277f.js.map",
+    "main.42852aa5.css.map": "/static/css/main.42852aa5.css.map",
+    "main.fabdf589.js.map": "/static/js/main.fabdf589.js.map",
     "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a7346da8.css",
-    "static/js/main.6396277f.js"
+    "static/css/main.42852aa5.css",
+    "static/js/main.fabdf589.js"
   ]
 }

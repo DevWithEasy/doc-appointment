@@ -2,10 +2,9 @@ const Appointment = require('../models/Appointment')
 const Chamber = require('../models/Chamber')
 const Doctor = require('../models/Doctor')
 const User = require('../models/User')
-const createAppointmentSerial = require('../utils/createAppointmentSerial')
 exports.addAppointment=async(req,res,next)=>{
     try {
-        const all = await Appointment.find({})
+        const all = await Appointment.find({appointmentDate : req.body.appointmentDate})
         const newAppointment = new Appointment({
             ...req.body,
             appointmentId : all.length == 0 ? 1 : all.length+1
