@@ -5,7 +5,9 @@ import handleChange from "../utils/handleChange"
 import {toast} from 'react-hot-toast'
 import {BiImageAdd} from 'react-icons/bi'
 import Upload from "../components/Upload"
+import useUserStore from "../features/userStore"
 export default function Profile(){
+    const {random} = useUserStore()
     const {id}  = useParams()
     const [user,setUser] = useState({})
     const [address,setAddress] = useState({})
@@ -36,8 +38,8 @@ export default function Profile(){
 
     useEffect(()=>{
         getUser()
-    },[])
-
+    },[random])
+    console.log(user);
     return(
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 md:gap-x-4">

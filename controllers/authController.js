@@ -2,7 +2,8 @@ const User = require("../models/User");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const createError = require("../utils/createError");
-const { updateOne } = require("../models/User");
+const fs = require('fs')
+const path = require('path')
 
 exports.signup=async(req,res,next)=>{
     const {password} = req.body
@@ -175,6 +176,39 @@ exports.updateProfile=async(req,res,next)=>{
             status : 200,
             success : true,
             data : user
+        })
+    } catch (error) {
+        res.status(500).json({
+            status : 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
+exports.uploadProfilePhoto=async(req,res,next)=>{
+    try {
+        const user = await User.findOne({_id : req.params.id})
+
+        User.updateOne({_id : req.params.id},{$set : {
+           'image.url' : `/image/users/${req.file.filename}`
+        }},(err)=>{
+            if (err){
+                res.status(400).json({
+                    status : 500,
+                    success : false,
+                    message : err.message
+                })
+            }else{
+                const filepath = path.dirname(__dirname)+ '/public' + user.image.url
+                fs.unlinkSync(filepath)
+            }
+        })
+        const updateUser = await User.findOne({_id : req.params.id})
+        res.status(200).json({
+            status : 200,
+            success : true,
+            data : updateUser
         })
     } catch (error) {
         res.status(500).json({

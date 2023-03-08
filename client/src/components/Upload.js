@@ -1,9 +1,12 @@
+import axios from "axios"
 import { useState } from "react"
 import { BiImageAdd } from "react-icons/bi"
 import { FiUploadCloud } from 'react-icons/fi'
 import { RxCrossCircled } from "react-icons/rx"
+import useUserStore from "../features/userStore"
 
 export default function Upload(props){
+    const {user,reload} = useUserStore()
     const {upload,setUpload} = props
     const [file,setFile] = useState()
     const [image,setImage] = useState()
@@ -15,7 +18,20 @@ export default function Upload(props){
         }
         fileReader.readAsDataURL(e.target.files[0])
     }
-    console.log(image);
+    async function uploadPhoto(){
+        const formData = new FormData()
+        formData.append('file',file)
+        formData.append('filename',file.name)
+        const res = await axios.post(`/api/auth/upload/${user?._id}`,formData,{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+        if(res.data.status === 200){
+            reload()
+            setUpload(!upload)
+        }
+    }
     return (
         <div className="absolute -top-2 left-0 w-full h-screen bg-gray-500/50 flex justify-center items-center z-10">
             <div className="relative w-1/2 p-4 bg-white shadow-md rounded">
@@ -31,7 +47,7 @@ export default function Upload(props){
                 </label>
                 <input type="file" id="image" onChange={(e)=>handleFile(e)} className='hidden'/>
                 <div className="flex justify-center items-center py-2">
-                    <button className="flex items-center px-6 py-2 space-x-2 bg-green-400 text-white rounded-full hover:bg-green-500">
+                    <button onClick={()=>uploadPhoto()} className="flex items-center px-6 py-2 space-x-2 bg-green-400 text-white rounded-full hover:bg-green-500">
                         <BiImageAdd size={20}/>
                         <span>UPLOAD</span>
                     </button>
