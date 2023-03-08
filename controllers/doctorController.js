@@ -111,6 +111,66 @@ exports.cancelDoctor=async(req,res,next)=>{
     }
 }
 
+exports.updateDoctor=async(req,res,next)=>{
+    try {
+        await Doctor.updateOne({_id : req.params.id},{$set : {
+            firstName : req.body.firstName,
+            lastName : req.body.lastName,
+            phone : req.body.phone,
+            email : req.body.email,
+            website : req.body.website,
+            workedAt : req.body.workedAt,
+            designation : req.body.designation,
+            education : req.body.education,
+            specialization : req.body.specialization,
+            experience : req.body.experience,
+            experienceArea : req.body.experienceArea,
+            feesPerConsultation : req.body.feesPerConsultation
+        }})
+        
+        const doctor = await Doctor.findOne({_id : req.params.id})
+        res.status(200).json({
+            status: 200,
+            success : true,
+            data : doctor
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
+exports.deleteDoctor=async(req,res,next)=>{
+    try {
+        const admin = await User.findOne({_id : req.body.userId})
+        if(!admin.isAdmin) return createError(403,'Sorry, you are not admin')
+
+        const doctor = await Doctor.findOne({_id : req.query.id})
+        const user = await User.findOne({_id : doctor.userId})
+            user.notifications.push({
+                subject : 'Apply Request cancel for a doctor',
+            })
+        user.save()
+
+        await Doctor.deleteOne({_id : req.query.id})
+
+        res.status(200).json({
+            status: 200,
+            success : true,
+            message : 'Doctor cancel successfully'
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
 exports.findDoctor=async(req,res,next)=>{
     try {
         const doctor = await Doctor.findOne({userId : req.params.id})

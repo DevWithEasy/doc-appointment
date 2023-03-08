@@ -160,11 +160,17 @@ exports.findUser=async(req,res,next)=>{
 
 exports.updateProfile=async(req,res,next)=>{
     try {
+        await User.updateOne({_id : req.params.id},{$set : {
+            name : req.body.name,
+            gender : req.body.gender,
+            phone : req.body.phone,
+            dob : req.body.dob,
+            'address.location' : req.body.address.location,
+            'address.post_office' : req.body.address.post_office,
+            'address.upazilla' : req.body.address.upazilla,
+            'address.district' : req.body.address.district,
+        }})
         const user = await User.findOne({_id : req.params.id})
-        user.name = req.body.name
-        user.email = req.body.email
-        user.password = req.body.password
-        await user.save()
         res.status(200).json({
             status : 200,
             success : true,
