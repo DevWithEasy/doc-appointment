@@ -200,8 +200,10 @@ exports.uploadProfilePhoto=async(req,res,next)=>{
                     message : err.message
                 })
             }else{
-                const filepath = path.dirname(__dirname)+ '/public' + user.image.url
-                fs.unlinkSync(filepath)
+                if(user.image.url !== '/image/users/default_profile.jpg'){
+                    const filepath = path.dirname(__dirname)+ '/public' + user.image.url
+                    fs.unlinkSync(filepath)
+                }
             }
         })
         const updateUser = await User.findOne({_id : req.params.id})
