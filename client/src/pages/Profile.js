@@ -6,6 +6,7 @@ import {toast} from 'react-hot-toast'
 import {BiImageAdd} from 'react-icons/bi'
 import Upload from "../components/Upload"
 import useUserStore from "../features/userStore"
+import getdateFormate from "../utils/getDateFormate"
 export default function Profile(){
     const {random} = useUserStore()
     const {id}  = useParams()
@@ -39,7 +40,7 @@ export default function Profile(){
     useEffect(()=>{
         getUser()
     },[random])
-    console.log(user);
+
     return(
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 md:gap-x-4">
@@ -62,13 +63,13 @@ export default function Profile(){
                         <input type='text' name='name' value={user?.name} onChange={(e)=>handleChange(e,user,setUser)} className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Name"/>
                         
                         <div className="flex items-center space-x-2">
-                            <input type='email' name='email' value={user?.email} onChange={(e)=>handleChange(e,user,setUser)}  className='w-full p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Email" disabled/>
+                            <input type='email' name='email' value={user?.email} onChange={(e)=>handleChange(e,user,setUser)}  className='w-full p-2 bg-gray-200 rounded-md' placeholder="Email" disabled/>
                             <input type='text' name='phone' value={user?.phone} onChange={(e)=>handleChange(e,user,setUser)}  className='w-full p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Phone number"/>
                         </div>
 
                         <div className="flex items-center space-x-2">
                             <input type='text' name='gender' value={user?.gender} onChange={(e)=>handleChange(e,user,setUser)}  className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Gender"/>
-                            <input type='date' name='dob' value={new Date(user?.dob).toLocaleString()} onChange={(e)=>handleChange(e,user,setUser)}  className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder=""/>
+                            <input type='date' name='dob' value={getdateFormate(user?.dob)} onChange={(e)=>handleChange(e,user,setUser)}  className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder=""/>
                         </div>
 
                         <div className="flex items-center space-x-2">

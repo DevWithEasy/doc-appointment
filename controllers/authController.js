@@ -202,7 +202,13 @@ exports.uploadProfilePhoto=async(req,res,next)=>{
             }else{
                 if(user.image.url !== '/image/users/default_profile.jpg'){
                     const filepath = path.dirname(__dirname)+ '/public' + user.image.url
-                    fs.unlinkSync(filepath)
+                    fs.unlinkSync(filepath,(err)=>{
+                        res.status(400).json({
+                            status : 400,
+                            success : false,
+                            message : err.message
+                        })
+                    })
                 }
             }
         })

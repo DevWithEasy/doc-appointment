@@ -125,6 +125,26 @@ exports.cancelAppointment=async(req,res,next)=>{
         })
     }
 }
+exports.completeAppointment=async(req,res,next)=>{
+    try {
+        await Appointment.updateOne({_id:req.params.id}, {$set:{
+            status : 'Completed'
+        }})
+        
+        res.status(200).json({
+            status : 200,
+            success : true,
+            message : 'Appointment has been Completed'
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            status : 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
 exports.deleteAppointment=async(req,res,next)=>{
     try {
         await Appointment.findOne({_id : req.params.id})

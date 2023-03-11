@@ -1,11 +1,13 @@
 import axios from "axios"
 import { useState } from "react"
+import { toast } from 'react-hot-toast'
 import { BiImageAdd } from "react-icons/bi"
 import { FiUploadCloud } from 'react-icons/fi'
 import { RxCrossCircled } from "react-icons/rx"
 import useUserStore from "../features/userStore"
 
 export default function Upload(props){
+    const [startUpload,setStartUpload] = useState(false)
     const {user,reload} = useUserStore()
     const {upload,setUpload} = props
     const [file,setFile] = useState()
@@ -19,6 +21,7 @@ export default function Upload(props){
         fileReader.readAsDataURL(e.target.files[0])
     }
     async function uploadPhoto(){
+        setStartUpload(!startUpload)
         const formData = new FormData()
         formData.append('file',file)
         formData.append('filename',file.name)
@@ -27,9 +30,14 @@ export default function Upload(props){
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
         })
-        if(res.data.status === 200){
+        if(res.data.success === true){
             reload()
             setUpload(!upload)
+            toast.success('Profile Photo uploaded successfully')
+            setStartUpload(!startUpload)
+        }else{
+            toast.success('Profile Photo uploaded failed')
+            setStartUpload(!startUpload)
         }
     }
     return (
@@ -52,6 +60,15 @@ export default function Upload(props){
                         <span>UPLOAD</span>
                     </button>
                 </div>
+                {/* file upload processing animation */}
+                {startUpload && <div className="absolute top-0 left-0 bg-indigo-200/75 w-full h-full flex justify-center items-center">
+                    <button className="flex items-center space-x-2 bg-indigo-500 text-white px-4 py-2 rounded-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 animate-spin font-bold">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        <span>Uploading...</span>
+                    </button>
+                </div>}
             </div>
         </div>
     )

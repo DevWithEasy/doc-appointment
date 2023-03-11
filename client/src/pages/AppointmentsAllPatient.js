@@ -47,7 +47,7 @@ export default function AppointmentsAllPatient(){
         setDate(`${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`)
     },[selected])
 
-    console.log(appointments)
+    console.log(date)
     return(
         <div className="space-y-2">
             <h1 className="text-2xl font-bold text-center uppercase">All appointments</h1>
