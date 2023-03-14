@@ -21,11 +21,11 @@ export default function DoctorDetails({id,details,setDetails}){
                 <RxCrossCircled onClick={()=>setDetails(!details)} size={25} className="absolute bg-white text-red-400 rounded-full -top-4 -right-4"/>
                 <h1 className="text-xl text-center font-bold p-2 border-b">Doctor Details</h1>
                 <div className="p-2">
-                    <p className="">Name : {doctor?.firstName} {doctor.lastName}</p>
+                    <p className="">Name : {doctor?.firstName} {doctor?.lastName}</p>
                     <p className="">Email : {doctor?.email} </p>
                     <p className="">Phone : {doctor?.phone} </p>
-                    <p className="">Specialization : {doctor.specialization}</p>
-                    <p className="">Experience Area : {doctor.experienceArea}</p>  
+                    <p className="">Specialization : {doctor?.specialization}</p>
+                    <p className="">Experience Area : {doctor?.experienceArea}</p>  
                     <p className="">Education : {doctor?.education}</p>
                     <p className="">Works At : {doctor?.workedAt}</p>
                     <p className="">Fees Per Consultation : {doctor?.feesPerConsultation}</p>

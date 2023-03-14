@@ -113,7 +113,7 @@ export default function Dashboard(){
             <div className="space-y-2 border p-2 shadow rounded-md overflow-x-auto pb-6">
                     <p className="flex justify-between">
                         <span className="text-xl">Chamber Lists :</span>
-                        <button onChange={()=>{setAdd(!add);setId(doctor._id)}} className="p-2 flex items-center space-x-1 bg-green-400 text-white rounded-md">
+                        <button onClick={()=>{setAdd(!add);setId(doctor._id)}} className="p-2 flex items-center space-x-1 bg-green-400 text-white rounded-md">
                             <IoMdAddCircleOutline size={22}/>
                             <span>Add Chamber</span>
                         </button>

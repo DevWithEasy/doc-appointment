@@ -8,7 +8,7 @@ import Upload from "../components/Upload"
 import useUserStore from "../features/userStore"
 import getdateFormate from "../utils/getDateFormate"
 export default function Profile(){
-    const {random} = useUserStore()
+    const {random,addUser} = useUserStore()
     const {id}  = useParams()
     const [user,setUser] = useState({})
     const [address,setAddress] = useState({})
@@ -33,6 +33,7 @@ export default function Profile(){
         })
         if(res.data.status === 200){
             setUser(res.data.data)
+            addUser((res.data.data))
             toast.success('User updated successfully')
         }
     }

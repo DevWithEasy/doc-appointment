@@ -1,7 +1,8 @@
 const authRouter = require('./authRouter')
-const doctorRouter = require('./doctorRoute')
-const appointmentRouter = require('./appointmentRoute')
-const adminRouter = require('./adminRoute')
+const doctorRouter = require('./doctorRouter')
+const appointmentRouter = require('./appointmentRouter')
+const adminRouter = require('./adminRouter')
+const hospitalRouter = require('./hospitalRouter')
 const routers = [
     {
         path : '/api/auth',
@@ -10,6 +11,10 @@ const routers = [
     {
         path : '/api/doctor',
         handler : doctorRouter
+    },
+    {
+        path : '/api/hospital',
+        handler : hospitalRouter
     },
     {
         path : '/api/appointment',

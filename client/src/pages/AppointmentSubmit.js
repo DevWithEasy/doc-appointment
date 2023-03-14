@@ -21,7 +21,7 @@ export default function AppointmentSubmit(){
         age : '',
         gender : user?.gender,
         patientPhone : user?.phone,
-        address: user?.address?.location + ' ' + user?.address?.post_office+ ' ' + user?.address?.upazilla + ' ' + user?.address?.district,
+        address: user?.address?.location && user?.address?.post_office && user?.address?.upazilla && user?.address?.district ? `${user.address.location}, ${user.address.post_office}, ${user.address.upazilla}, ${user.address.district}.` : '',
         doctorId : id,
         chamberId : '',
         appointmentDay : '',
@@ -85,14 +85,14 @@ export default function AppointmentSubmit(){
             navigate('/appointments')
         }
     }
-    console.log(value);
+    console.log(user.phone);
     return(
         <div>
             <h1 className="py-2 text-2xl font-bold text-center uppercase">Submit appointment</h1>
             <hr/>
             <div className='md:flex justify-between pb-10 md:gap-x-4'>
-                <div className='w-full md:w-7/12 pt-5'>
-                    <div className='pb-2'>
+                <div className='w-full md:w-7/12 pt-4 space-y-2'>
+                    <div className='p-4 pt-2 bg-white rounded'>
                         <p className='text-xl font-bold'>{doctor?.firstName} {doctor?.lastName}</p>
                         <p>{doctor?.education},{doctor?.specialization}</p>
                         <p>{doctor?.experienceArea}</p>
@@ -107,16 +107,17 @@ export default function AppointmentSubmit(){
                     />
                 </div>
             </div>
-            
-            <div className='space-y-2'>
-                {chamber.vanue && <div className='flex justify-center bg-gray-100 pb-5 rounded'>
+
+            {chamber.vanue && <div className='flex justify-center bg-gray-100 pb-5 rounded'>
                     <div className='bg-blue-100 w-11/12 md:w-1/2 text-center rounded-md -mt-5 py-2'>
                         <p className='text-2xl font-bold'>{chamber?.vanue}</p>
                         <p className=''>{chamber?.location}</p>
                         <p className=''>{chamber?.day} {chamber?.date}</p>
                     </div>
-                </div>}
-                <div className=" space-y-1">
+            </div>}
+
+            <div className='mb-2 grid md:grid-cols-2 md:gap-2'>
+                <div className="space-y-1">
                     <label>Patient Name : </label>
                     <input type='text' name='patientName' value={value?.patientName} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
@@ -134,14 +135,14 @@ export default function AppointmentSubmit(){
                 </div>
                 <div className=" space-y-1">
                     <label>Patient Mobile No : </label>
-                    <input type='text' name='patientPhone' value={value?.phone} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
+                    <input type='text' name='patientPhone' value={value?.patientPhone} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
                 <div className=" space-y-1">
                     <label>Patient Address : </label>
                     <input type='text' name='address' value={value?.address} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
-                <button onClick={()=>addAppointment()} className='p-2 bg-green-500 text-white rounded-md'>Booking Confirm</button>
             </div>
+            <button onClick={()=>addAppointment()} className='p-2 bg-green-500 text-white rounded-md'>Booking Confirm</button>
         </div>
     )
 }
