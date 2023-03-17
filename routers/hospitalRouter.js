@@ -1,5 +1,4 @@
-const {  } = require('../controllers/adminController')
-const { addHospital, updateHospital, deleteHospital, getAllHospital } = require('../controllers/hospitalController')
+const { addHospital, getHospital, getAllHospital, updateHospital, deleteHospital } = require('../controllers/hospitalController')
 const authenticated = require('../middlewares/authenticated')
 const { uploadHospital } = require('../middlewares/upload')
 
@@ -8,7 +7,8 @@ const router = require('express').Router()
 
 router.post('/add',authenticated,uploadHospital.single('file'),addHospital)
       .get('/all',authenticated,getAllHospital)
-      .put('/update/:id',authenticated,updateHospital)
+      .get('/:id',authenticated,getHospital)
+      .put('/update/:id',authenticated,uploadHospital.single('file'),updateHospital)
       .delete('/delete/:id',authenticated,deleteHospital)
       
 

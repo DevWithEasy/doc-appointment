@@ -1,7 +1,10 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { AiFillDelete, AiFillEdit } from "react-icons/ai"
 import { IoMdAddCircleOutline } from "react-icons/io"
 import AddHospital from "../../components/hospital/AddHospital"
+import DeleteHospital from "../../components/hospital/DeleteHospital"
+import UpdateHospital from "../../components/hospital/UpdateHospital"
 import useUserStore from "../../features/userStore"
 
 export default function AppliedHospital(){
@@ -10,7 +13,7 @@ export default function AppliedHospital(){
     const [add,setAdd] = useState(false)
     const [update,setUpdate] = useState(false)
     const [updateId,setUpdateId] = useState()
-    const [chamberDelete,setChamberDelete] = useState()
+    const [hospitalDelete,setHospitalDelete] = useState()
     const [deleteId,setDeleteId] = useState()
     async function getAllHospitals(){
         const res = await axios.get('/api/hospital/all',{
@@ -56,10 +59,16 @@ export default function AppliedHospital(){
                                 <td className="p-2 text-center">{hospital?.type}</td>
                                 {/* <td className="p-2 text-center">{hospital?.open}</td>
                                 <td className="p-2 text-center">{hospital?.close}</td> */}
-                                <td className="p-2 text-center space-x-2">
+                                <td className="flex items-center justify-center p-2 text-center space-x-2">
                                     <button className="p-2 bg-blue-400 text-white rounded hover:bg-blue-500">Details</button>
-                                    <button className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Update</button>
-                                    <button className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Delete</button>
+                                    <button onClick={()=>{setUpdate(!update);setUpdateId(hospital?._id)}} className="flex items-center space-x-2 p-2 bg-blue-400 text-white rounded hover:bg-blue-500">
+                                        <AiFillEdit/>
+                                        <span>Update</span>
+                                    </button>
+                                    <button onClick={()=>{setHospitalDelete(!hospitalDelete);setDeleteId(hospital?._id)}}  className="flex items-center space-x-2 p-2 bg-red-400 text-white rounded hover:bg-red-500">
+                                        <AiFillDelete/>
+                                        <span>Delete</span>
+                                    </button>
                                 </td>
                             </tr>)
                     }
@@ -67,6 +76,8 @@ export default function AppliedHospital(){
             </table>
 
             {add && <AddHospital {...{add,setAdd}}/>}
+            {update && <UpdateHospital {...{updateId,update,setUpdate}}/>}
+            {hospitalDelete && <DeleteHospital {...{deleteId,hospitalDelete,setHospitalDelete}}/>}
         </div>
     )
 }

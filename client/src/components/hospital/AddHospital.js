@@ -69,7 +69,7 @@ export default function AddHospital(props){
                                 <option value="Clinic">Clinic</option>
                                 <option value="Personal Chember">Personal Chember</option>
                             </select>
-                        </div>
+                    </div>
                     
                     <div className="flex items-center space-x-2">
                         <div className="w-7/12 space-y-2">

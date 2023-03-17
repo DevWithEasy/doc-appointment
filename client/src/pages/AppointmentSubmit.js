@@ -59,7 +59,7 @@ export default function AppointmentSubmit(){
             }else{
                 setChamber({...chamber,date : date.toLocaleDateString()}) 
             }
-        }
+    }
     useEffect(()=>{
         getDoctor()
     },[])
