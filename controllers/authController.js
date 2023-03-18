@@ -8,6 +8,7 @@ const path = require('path')
 exports.signup=async(req,res,next)=>{
     const {password} = req.body
     try {
+        
         //HASHED PASSWORD FOR SECRET
         const hashed = await bcrypt.hash(password,10)
 
