@@ -223,6 +223,47 @@ exports.allApprovedDoctors=async(req,res,next)=>{
     }
 }
 
+exports.allApprovedDoctorsSpecialization=async(req,res,next)=>{
+    try {
+        const doctors = await Doctor.find({status : 'Approved'})
+        const specialization = doctors.map(doctor=>{
+            return doctor.specialization
+        })
+        res.status(200).json({
+            status: 200,
+            success : true,
+            data : specialization
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
+exports.allApprovedSpecialistDoctors=async(req,res,next)=>{
+    try {
+        const {specialist} = req.query
+        const doctors = await Doctor.find({status : 'Approved',specialization : specialist})
+        res.status(200).json({
+            status: 200,
+            success : true,
+            data : doctors
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
+
 exports.addChamber=async(req,res,next)=>{
     try {
 

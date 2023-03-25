@@ -1,9 +1,11 @@
-const { applyDoctor,cancelDoctor, approvedDoctor, findDoctor, removeChamber, addChamber, find, findAllChambers, findChamber, updateChamber, allApprovedDoctors, updateDoctor} = require('../controllers/doctorController')
+const { applyDoctor,cancelDoctor, approvedDoctor, findDoctor, removeChamber, addChamber, find, findAllChambers, findChamber, updateChamber, allApprovedDoctors, updateDoctor, allApprovedDoctorsSpecialization, allApprovedSpecialistDoctors} = require('../controllers/doctorController')
 const authenticated = require('../middlewares/authenticated')
 
 const router = require('express').Router()
 
 router.get('/allApprovedDoctors',allApprovedDoctors)
+      .get('/specialist',allApprovedDoctorsSpecialization)
+      .get('/find/specialist',allApprovedSpecialistDoctors)
       .post('/apply',authenticated,applyDoctor)
       .post('/approve/:id',authenticated,approvedDoctor)
       .post('/cancel/:id',authenticated,cancelDoctor)

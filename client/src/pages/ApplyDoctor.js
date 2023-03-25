@@ -14,9 +14,9 @@ export default function ApplyDoctor(){
         designation : '',
         education : '',
         specialization : '',
-        experience : 0,
+        experience : '',
         experienceArea : '',
-        feesPerConsultation : 0,
+        feesPerConsultation : '',
         chambers : []
     })
     async function handleApplyDoctor(){
@@ -42,9 +42,9 @@ export default function ApplyDoctor(){
                 <Input label='Designation (Organiazation)' type='text' name='designation' value={value} setValue={setValue} />
                 <Input label='Education (All degrees)' type='text' name='education' value={value} setValue={setValue} />
                 <Input label='Specialization' type='text' name='specialization' value={value} setValue={setValue} />
-                <Input label='Experience Year' type='number' name='experience' value={value} setValue={setValue} />
+                <Input label='Experience Year' type='text' name='experience' value={value} setValue={setValue} />
                 <Input label='Experience Area' type='text' name='experienceArea' value={value} setValue={setValue} />
-                <Input label='Fee Per Consultation' type='number' name='feesPerConsultation' value={value} setValue={setValue} />
+                <Input label='Fee Per Consultation' type='text' name='feesPerConsultation' value={value} setValue={setValue} />
             </div>
             <button onClick={()=>handleApplyDoctor()} className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">Send Apply</button>
         </div>

@@ -14,7 +14,5 @@ router.get('/all/search',authenticated,searchAppointment)
       .put('/complete/:id',authenticated,completeAppointment)
       .delete('/delete/:id',authenticated,addAppointment)
       
-    //   .get('/getAllhospitals',authenticated,getAllhospitals)
-      
 
 module.exports = router

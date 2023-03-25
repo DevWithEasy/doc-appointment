@@ -39,7 +39,7 @@ const doctorSchema = mongoose.Schema({
       required : true,
     },
     experience:{
-      type : Number,
+      type : String,
       required : true,
     },
     experienceArea:{
@@ -47,7 +47,7 @@ const doctorSchema = mongoose.Schema({
       default : '',
     },
     feesPerConsultation:{
-      type : Number,
+      type : String,
       required : true,
     },
     rating:[
