@@ -6,7 +6,7 @@ import {toast} from 'react-hot-toast'
 import {BiImageAdd} from 'react-icons/bi'
 import Upload from "../components/Upload"
 import useUserStore from "../features/userStore"
-import getdateFormate from "../utils/getDateFormate"
+import dateGenerator from "../utils/dateGenerator"
 export default function Profile(){
     const {random,addUser} = useUserStore()
     const {id}  = useParams()
@@ -70,7 +70,7 @@ export default function Profile(){
 
                         <div className="flex items-center space-x-2">
                             <input type='text' name='gender' value={user?.gender} onChange={(e)=>handleChange(e,user,setUser)}  className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Gender"/>
-                            <input type='date' name='dob' value={getdateFormate(user?.dob)} onChange={(e)=>handleChange(e,user,setUser)}  className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder=""/>
+                            <input type='date' name='dob' value={dateGenerator(user?.dob)} onChange={(e)=>handleChange(e,user,setUser)}  className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder=""/>
                         </div>
 
                         <div className="flex items-center space-x-2">

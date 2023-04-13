@@ -1,7 +1,8 @@
+import axios from 'axios';
 import { useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
-import axios from 'axios';
 import AppointmentDetails from "../components/AppointmentDeatils";
+import dateGenerator from "../utils/dateGenerator";
 
 export default function AppointmentsAllPatient(){
     const [day,setDay] = useState('')
@@ -11,7 +12,7 @@ export default function AppointmentsAllPatient(){
     const [id,setId] = useState()
     const [appointments,setAppointments] = useState([])
     async function getAppointments(){
-        const res = await axios.get(`/api/appointment/all/search?day=${day}&date=${new Date(selected).toISOString()}`,{
+        const res = await axios.get(`/api/appointment/all/search?day=${day}&date=${date}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -40,14 +41,10 @@ export default function AppointmentsAllPatient(){
     }
 
     useEffect(()=>{
-        const date = new Date(selected);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        setDate(`${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`)
+        const date = dateGenerator(selected);
+        setDate(date)
     },[selected])
 
-    console.log(date)
     return(
         <div className="space-y-2">
             <h1 className="text-2xl font-bold text-center uppercase">All appointments</h1>
@@ -63,7 +60,7 @@ export default function AppointmentsAllPatient(){
                     <option value="Thusday">Thusday</option>
                     <option value="Friday">Friday</option>
                 </select>
-                <input type='date' value={date} onChange={(e)=>setDate(e.target.value)} className='p-2 border rounded focus:outline-none focus:ring-2' disabled></input>
+                <button onClick={()=>setView(!view)} className='p-2 bg-white border rounded focus:outline-none focus:ring-2'>{date}</button>
                 <button onClick={()=>getAppointments()} className="px-6 bg-blue-400 text-white rounded-md">Search</button>
                 {day && !selected && <div className="absolute top-12 bg-gray-50 rounded-md shadow-md">
                     <DayPicker

@@ -24,21 +24,37 @@ exports.applyDoctor=async(req,res,next)=>{
            const newDoctor = new Doctor({
             ...req.body
            })
-           newDoctor.save((err,data)=>{
-            if (err){
+           newDoctor.save()
+           .then(data=>{
+                User.updateOne({isAdmin : true},{$push : {notifications : {
+                    id : Date.now(),
+                    doctorId : req.body.userId,
+                    name : `${req.body.firstName} ${req.body.lastName}`,
+                    message : `${req.body.firstName} ${req.body.lastName} has been applied to a doctor.`,
+                    onClickPath : '/admin/doctors/',
+                    status : 'unread'
+                }}})
+                .then(()=>{
+                    res.status(200).json({
+                        status : 200,
+                        success : true,
+                        message : 'Doctor has been applied'
+                    })
+                })
+                .catch(error=>{
+                    res.status(500).json({
+                        status: 500,
+                        success : false,
+                        message : error.message
+                    })
+                })
+           })
+           .catch(error => {
                 res.status(500).json({
                     status: 500,
                     success : false,
-                    message : err.message
+                    message : error.message
                 })
-            }else{
-                admin.save()
-                res.status(200).json({
-                status : 200,
-                success : true,
-                data : data
-            })
-            }
            })
 
         } catch (error) {
@@ -64,7 +80,7 @@ exports.approvedDoctor=async(req,res,next)=>{
                 doctorId : doctor._id,
                 name : `${findDoctor.firstName} ${findDoctor.lastName}`,
                 message : `${findDoctor.firstName} ${findDoctor.lastName} has been approved your doctor request.`,
-                onClickPath : `/doctor/dashboard/${findDoctor._id}`,
+                onClickPath : `/doctor/dashboard/`,
                 status : 'unread'
             })
         user.save()
@@ -272,22 +288,25 @@ exports.addChamber=async(req,res,next)=>{
             ...req.body
         })
         
-        newChamber.save((err,data) => {
-            if (err) {
-                res.status(400).json({
-                    status: 400,
-                    success : false,
-                    message : err.message
-                })
-            }else{
-                res.status(200).json({
+        const chamber = await newChamber.save()
+
+        if(chamber) {
+            Doctor.updateOne({_id : req.params.doctorId},{$push : {chambers : chamber}})
+            .then(()=>{
+                    res.status(200).json({
                     status: 200,
                     success : true,
                     message : 'Chamber added successfully',
-                    data : data
                 })
-            }
-        })
+            })
+        }else{
+            res.status(400).json({
+                status: 400,
+                success : false,
+                message : 'Chamber added failed',
+            })
+        }
+        
         
     } catch (error) {
         res.status(500).json({

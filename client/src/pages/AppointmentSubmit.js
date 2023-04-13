@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChamberList from '../components/ChamberList';
 import useUserStore from '../features/userStore';
+import dateGenerator from '../utils/dateGenerator';
 import handleChange from '../utils/handleChange';
 
 export default function AppointmentSubmit(){
@@ -72,7 +73,7 @@ export default function AppointmentSubmit(){
         selectedDay(selected)
     },[selected])
 
-    const data = {...value,chamberId : chamber?._id,appointmentDay : chamber?.day,appointmentDate : selected}
+    const data = {...value,chamberId : chamber?._id,appointmentDay : chamber?.day,appointmentDate : dateGenerator(selected)}
 
     async function addAppointment(){
         const res = await axios.post('/api/appointment/add',data,{
@@ -85,7 +86,8 @@ export default function AppointmentSubmit(){
             navigate('/appointments')
         }
     }
-    console.log(user.phone);
+    
+
     return(
         <div>
             <h1 className="py-2 text-2xl font-bold text-center uppercase">Submit appointment</h1>

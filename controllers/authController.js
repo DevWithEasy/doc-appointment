@@ -17,16 +17,12 @@ exports.signup=async(req,res,next)=>{
             ...req.body,
             password : hashed
         })
-        newuser.save((err,data)=>{
-            if(err){
-                next(createError(401,err.message))
-            }else{
-                res.status(200).json({
-                    status: 200,
-                    success : true,
-                    data : data
-                })
-            }
+        const data = await newuser.save()
+        
+        res.status(200).json({
+            status: 200,
+            success : true,
+            data : data
         })
     } catch (error) {
         res.status(500).json({

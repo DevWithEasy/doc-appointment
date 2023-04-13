@@ -16,25 +16,18 @@ exports.addAppointment=async(req,res,next)=>{
             id : Date.now(),
             name : req.body.patientName,
             message : `${req.body.patientName} has been applied for appointments.`,
+            day : req.body.appointmentDay,
+            date : req.body.appointmentDate,
             onClickPath : `/doctor/allAppointments/search?day=${req.body.appointmentDay}&date=${req.body.appointmentDate}`,
             status : 'unread'
         })
         
-        newAppointment.save((err,data)=>{
-            if (err){
-                res.status(400).json({
-                    status : 400,
-                    success : false,
-                    meaasage : err.message
-                })
-            }else{
-                user.save()
-                res.status(200).json({
-                    status : 200,
-                    success : true,
-                    data : data
-                })
-            }
+        newAppointment.save()
+        user.save()
+        res.status(200).json({
+            status : 200,
+            success : true,
+            message : 'Successfully applied'
         })
 
     } catch (error) {
@@ -166,13 +159,19 @@ exports.deleteAppointment=async(req,res,next)=>{
 exports.searchAppointment=async(req,res,next)=>{
     const {day,date}= req.query
     try {
-        const data = await Appointment.find({appointmentDay : day,appointmentDate : date})
+        
+        const user = await User.findOne({_id : req.body.userId})
+        const doctor = await Doctor.findOne({userId : user._id})
+        const data = await Appointment.find({
+            doctorId : doctor._id, 
+            appointmentDay : day, 
+            appointmentDate : date
+        })
         res.status(200).json({
             status : 200,
             success : true,
             data : data
         })
-
     } catch (error) {
         res.status(500).json({
             status : 500,

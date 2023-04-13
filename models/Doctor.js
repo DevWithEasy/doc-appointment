@@ -50,6 +50,12 @@ const doctorSchema = mongoose.Schema({
       type : String,
       required : true,
     },
+    chambers:[
+      {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Chamber'
+      },
+    ],
     rating:[
       {
         userId : {

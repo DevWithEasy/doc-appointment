@@ -37,7 +37,7 @@ const appointmentSchema = mongoose.Schema({
     required : true
   },
   appointmentDate :{
-    type : Date,
+    type : String,
     required : true
   },
   userId : {
