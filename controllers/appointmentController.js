@@ -165,7 +165,10 @@ exports.searchAppointment=async(req,res,next)=>{
         const data = await Appointment.find({
             doctorId : doctor._id, 
             appointmentDay : day, 
-            appointmentDate : date
+            appointmentDate : date,
+            status : {
+                $ne : 'Canceled'
+            }
         })
         res.status(200).json({
             status : 200,
@@ -183,7 +186,7 @@ exports.searchAppointment=async(req,res,next)=>{
 exports.getAllAppointment=async(req,res,next)=>{
     
     try {
-        const data = await Appointment.find({userId : req.params.id})
+        const data = await Appointment.find({user : req.params.id})
         res.status(200).json({
             status : 200,
             success : true,
@@ -201,20 +204,12 @@ exports.getAllAppointment=async(req,res,next)=>{
 exports.getAppointmentDetails=async(req,res,next)=>{
     
     try {
-        const appointment = await Appointment.findOne({_id : req.params.id})
-        const doctor = await Doctor.findOne({_id : appointment?.doctorId})
-        const chamber = await Chamber.findOne({_id : appointment?.chamberId})
-        const user = await User.findOne({_id : appointment?.userId})
-        const data ={
-            ...appointment._doc,
-            ...chamber._doc,
-            ...doctor._doc,
-            submitedBy : user?.name
-        }
+        const appointment = await Appointment.findById(req.params.id).populate('doctor').populate('user','name')
+        
         res.status(200).json({
             status : 200,
             success : true,
-            data : data
+            data : appointment
         })
 
     } catch (error) {

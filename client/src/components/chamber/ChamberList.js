@@ -1,6 +1,7 @@
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
-export default function ChamberList(props){
-    const {chambers,setUpdateId,update,setUpdate,setDeleteId,chamberDelete,setChamberDelete} = props
+import UpdateChamber from './UpdateChamber';
+import DeleteChamber from './DeleteChamber';
+export default function ChamberList({doctor}){
+    
     return (
         <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -30,7 +31,7 @@ export default function ChamberList(props){
                     </tr>
                 </thead>
                 <tbody>
-                    {chambers.map((chamber,i)=> <tr key={chamber._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    {doctor?.chambers.map((chamber,i)=> <tr key={chamber._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td className="px-4 py-4">
                             {i+1}
                         </td>
@@ -50,14 +51,8 @@ export default function ChamberList(props){
                             {chamber.to}
                         </td>
                         <td className="px-6 py-4 flex justify-center items-center p-2 text-center space-x-2">
-                            <button onClick={()=>{setUpdate(!update);setUpdateId(chamber._id)}} className="flex items-center space-x-2 p-2 bg-blue-400 text-white rounded hover:bg-blue-500">
-                                        <AiFillEdit/>
-                                        <span>Update</span>
-                            </button>
-                            <button onClick={()=>{setChamberDelete(!chamberDelete);setDeleteId(chamber._id)}}  className="flex items-center space-x-2 p-2 bg-red-400 text-white rounded hover:bg-red-500">
-                                        <AiFillDelete/>
-                                        <span>Delete</span>
-                            </button>
+                            <UpdateChamber {...{doctor,chamber}}/>
+                            <DeleteChamber {...{doctor,chamber}}/>
                         </td>
                     </tr>)}
                 </tbody>

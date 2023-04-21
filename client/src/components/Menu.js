@@ -13,11 +13,19 @@ export default function Menu({menu,setMenu}){
                 <img src={icon} alt="" className='w-10'/>
             </div>
             <div className='p-2 space-y-2'>
-                {data.map((item,i)=><NavLink to={item.path} key={i} onClick={()=>setMenu(!menu)} className='flex items-center space-x-2 px-3 py-2 rounded'>
+                {data.map((item,i)=><NavLink 
+                    to={item.path} 
+                    key={i} onClick={()=>setMenu(!menu)} 
+                    className='flex items-center space-x-2 px-3 py-2 rounded'
+                >
                     {item.icon} <span>{item.title}</span>
                 </NavLink>)}
             </div>
-            <AiOutlineCloseCircle size={35} onClick={()=>setMenu(!menu)} className="absolute right-0 top-2 text-red-500 cursor-pointer"/>
+            <AiOutlineCloseCircle 
+                size={35} 
+                onClick={()=>setMenu(!menu)} 
+                className="absolute right-0 top-2 text-red-500 cursor-pointer"
+            />
         </div>
     )
 }

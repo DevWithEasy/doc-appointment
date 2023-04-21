@@ -4,13 +4,13 @@ const appointmentSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  doctorId : {
+  doctor : {
     type: mongoose.Types.ObjectId,
-    required: true
+    ref: 'Doctor'
   },
   chamberId : {
-    type: mongoose.Types.ObjectId,
-    required: true
+    type: String,
+    required : true
   },
   patientName :{
     type : String,
@@ -40,9 +40,9 @@ const appointmentSchema = mongoose.Schema({
     type : String,
     required : true
   },
-  userId : {
+  user : {
     type: mongoose.Types.ObjectId,
-    required: true
+    ref: 'User'
   },
   status : {
     type : String,

@@ -1,4 +1,4 @@
-const { applyDoctor,cancelDoctor, approvedDoctor, findDoctor, removeChamber, addChamber, find, findAllChambers, findChamber, updateChamber, allApprovedDoctors, updateDoctor, allApprovedDoctorsSpecialization, allApprovedSpecialistDoctors} = require('../controllers/doctorController')
+const { applyDoctor,cancelDoctor, approvedDoctor, findDoctor, removeChamber, addChamber, find, updateChamber, allApprovedDoctors, updateDoctor, allApprovedDoctorsSpecialization, allApprovedSpecialistDoctors, deleteDoctor} = require('../controllers/doctorController')
 const authenticated = require('../middlewares/authenticated')
 
 const router = require('express').Router()
@@ -11,13 +11,11 @@ router.get('/allApprovedDoctors',allApprovedDoctors)
       .post('/cancel/:id',authenticated,cancelDoctor)
       .get('/:id',authenticated,find)
       .put('/update/:id',authenticated,updateDoctor)
-      .put('/delete/:id',authenticated,find)
+      .put('/delete/:id',authenticated,deleteDoctor)
       .get('/find/:id',authenticated,findDoctor)
       .post('/addChamber/:doctorId',authenticated,addChamber)
-      .get('/findChambers/:doctorId',findAllChambers)
-      .get('/findChamber/:chamberId',authenticated,findChamber)
-      .put('/updateChamber/:chamberId',authenticated,updateChamber)
-      .delete('/deleteChamber/:chamberId',authenticated,removeChamber)
+      .put('/updateChamber/:doctorId',authenticated,updateChamber)
+      .put('/deleteChamber/',authenticated,removeChamber)
 
 
 module.exports = router

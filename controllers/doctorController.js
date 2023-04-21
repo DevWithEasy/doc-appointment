@@ -1,3 +1,5 @@
+const {randomUUID} = require('crypto')
+const mongoose = require('mongoose')
 const User = require("../models/User")
 const Doctor = require("../models/Doctor")
 const createError = require("../utils/createError")
@@ -189,13 +191,14 @@ exports.deleteDoctor=async(req,res,next)=>{
 
 exports.findDoctor=async(req,res,next)=>{
     try {
-        const doctor = await Doctor.findOne({userId : req.params.id})
+        const doctor = await Doctor.findOne({user : req.params.id})
 
         res.status(200).json({
             status: 200,
             success : true,
             data : doctor
         })
+        
     } catch (error) {
         res.status(500).json({
             status: 500,
@@ -223,7 +226,7 @@ exports.find=async(req,res,next)=>{
 }
 exports.allApprovedDoctors=async(req,res,next)=>{
     try {
-        const doctors = await Doctor.find({status : 'Approved'})
+        const doctors = await Doctor.find({status : 'Approved'}).populate('user','image -_id')
 
         res.status(200).json({
             status: 200,
@@ -282,68 +285,17 @@ exports.allApprovedSpecialistDoctors=async(req,res,next)=>{
 
 exports.addChamber=async(req,res,next)=>{
     try {
-
-        const newChamber = new Chamber({
-            doctorId : req.params.doctorId,
-            ...req.body
-        })
-        
-        const chamber = await newChamber.save()
-
-        if(chamber) {
-            Doctor.updateOne({_id : req.params.doctorId},{$push : {chambers : chamber}})
-            .then(()=>{
-                    res.status(200).json({
-                    status: 200,
-                    success : true,
-                    message : 'Chamber added successfully',
-                })
-            })
-        }else{
-            res.status(400).json({
-                status: 400,
-                success : false,
-                message : 'Chamber added failed',
-            })
-        }
-        
-        
-    } catch (error) {
-        res.status(500).json({
-            status: 500,
-            success : false,
-            message : error.message
-        })
-    }
-}
-
-exports.findAllChambers=async(req,res,next)=>{
-    try {
-        const chambers = await Chamber.find({doctorId : req.params.doctorId})
-        
+        const {userId,...data} = req.body
+        const chamber = await Doctor.findByIdAndUpdate(req.params.doctorId,{$push : {
+            chambers : {
+                id : randomUUID(),
+                ...data
+            }
+        }})
         res.status(200).json({
             status: 200,
             success : true,
-            message : 'Chamber find successfully',
-            data : chambers
-        })
-        
-    } catch (error) {
-        res.status(500).json({
-            status: 500,
-            success : false,
-            message : error.message
-        })
-    }
-}
-exports.findChamber=async(req,res,next)=>{
-    try {
-        const chamber = await Chamber.findOne({_id : req.params.chamberId})
-        
-        res.status(200).json({
-            status: 200,
-            success : true,
-            message : 'Chamber find successfully',
+            message : 'Chamber added successfully',
             data : chamber
         })
         
@@ -357,18 +309,25 @@ exports.findChamber=async(req,res,next)=>{
 }
 
 exports.updateChamber=async(req,res,next)=>{
+    const {userId,...data} = req.body
     try {
-        await Chamber.updateOne({_id : req.params.chamberId},{$set:{
-            ...req.body
-        }})
+        const doctor = await Doctor.findOneAndUpdate({_id : req.params.doctorId , "chambers.id" : data.id},{$set:{
+            'chambers.$.vanue' : data.vanue,
+            'chambers.$.location' : data.location,
+            'chambers.$.day' : data.day,
+            'chambers.$.from' : data.from,
+            'chambers.$.to' : data.to
+        }},{new : true})
         
         res.status(200).json({
             status: 200,
             success : true,
             message : 'Chamber update successfully',
+            data : doctor
         })
-        console.log(req.body)
+        
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({
             status: 500,
             success : false,
@@ -378,13 +337,15 @@ exports.updateChamber=async(req,res,next)=>{
 }
 
 exports.removeChamber=async(req,res,next)=>{
+    const {dId,cId} = req.query
     try {
-        await Chamber.deleteOne({_id : req.params.chamberId})
+        const doctor = await Doctor.findOneAndUpdate({_id : dId},{$pull : {'chambers' : {'id' : cId}}},{new : true})
 
         res.status(200).json({
             status: 200,
             success : true,
-            data : 'Chamber deleted successfully',
+            message : 'Chamber deleted successfully',
+            data : doctor
         })
     } catch (error) {
         res.status(500).json({

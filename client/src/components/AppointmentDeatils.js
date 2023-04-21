@@ -9,6 +9,7 @@ export default function AppointmentDetails(props){
     const printRef = useRef()
     const {id,view,setView} = props
     const [appointment,setAppointment] = useState({})
+    const [chamber,setChamber] = useState({})
     async function getAppointmentDetails(id){
         const res = await axios.get(`/api/appointment/details/${id}`,{
             headers : {
@@ -16,6 +17,7 @@ export default function AppointmentDetails(props){
             }
         })
         setAppointment(res.data.data)
+        setChamber(res.data.data.doctor.chambers.find(c => c.id === res.data.data.chamberId))
     }
 
     function selectedDay(appoinmentDate){
@@ -47,7 +49,7 @@ export default function AppointmentDetails(props){
     useEffect(()=>{
         getAppointmentDetails(id)
     },[id])
-    console.log(appointment);
+    
     return(
         <div className="absolute -top-2 left-0 w-full h-screen bg-gray-500/50 flex justify-center items-center">
             <div ref={printRef} className="relative mx-4 p-4 bg-white border shadow rounded space-y-4 z-20 print:w-11/12 print:mx-auto print:border-none print:shadow-none">
@@ -106,21 +108,21 @@ export default function AppointmentDetails(props){
                         <tbody>
                             <tr className="bg-white">
                                 <td className="px-4 py-5 font-mono space-y-2">
-                                    <span className="font-bold">Dr . {appointment?.firstName} {appointment?.lastName}</span>
+                                    <span className="font-bold">Dr . {appointment?.doctor?.firstName} {appointment?.doctor?.lastName}</span>
                                     <br/>
                                     <br/>
-                                    <span>{appointment?.vanue}</span>
+                                    <span>{chamber?.vanue}</span>
                                     <br/>
-                                    <span>{appointment?.location}</span>
+                                    <span>{chamber?.location}</span>
                                 </td>
                                 <td className="px-6 py-10 font-mono">
-                                <span>= {appointment?.feesPerConsultation}/- Tk</span>
+                                <span>= {appointment?.doctor?.feesPerConsultation}/- Tk</span>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <div className="py-4">
-                        <p>Submited by : <span className="font-mono">{appointment?.submitedBy}</span></p>
+                        <p>Submited by : <span className="font-mono">{appointment?.user?.name}</span></p>
                         <p>Submited on : <span className="font-mono">{new Date(appointment?.createdAt).toDateString()}</span></p>
                     </div>
                 </div>

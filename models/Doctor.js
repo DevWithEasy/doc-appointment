@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const doctorSchema = mongoose.Schema({
-    userId : {
-      type : mongoose.Schema.Types.ObjectId
+    user : {
+      type : mongoose.Schema.Types.ObjectId,
+      ref : 'User'
     },
     firstName:{
       type : String,
@@ -50,17 +51,12 @@ const doctorSchema = mongoose.Schema({
       type : String,
       required : true,
     },
-    chambers:[
-      {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'Chamber'
-      },
-    ],
+    chambers:[],
     rating:[
       {
-        userId : {
+        user : {
           type : mongoose.Schema.Types.ObjectId,
-          required : true
+          ref : 'User'
         },
         comment : {
           type : String,

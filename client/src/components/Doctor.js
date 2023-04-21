@@ -1,20 +1,10 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
 import { Link } from'react-router-dom'
 import {FaBookMedical} from 'react-icons/fa'
 export default function Doctor({doctor}){
-    const [user,setUser] = useState({})
-    async function findUser(){
-        const res = await axios.get(`/api/auth/findUser/${doctor?.userId}`)
-        setUser(res.data.data)
-    }
-    useEffect(()=>{
-        findUser()
-    },[])
     return(
         <div className="flex border bg-white rounded p-6 md:p-3">
             <div className='flex justify-center '>
-                <img src={user?.image?.url} alt="" className='w-20 h-20 rounded-full'/>
+                <img src={doctor?.user?.image?.url} alt="" className='w-20 h-20 rounded-full'/>
             </div>
             <div className='pl-4 space-y-2'>
                 <p className='text-xl font-bold'>{doctor?.firstName} {doctor?.lastName}</p>

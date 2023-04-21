@@ -14,7 +14,6 @@ export default function AppointmentSubmit(){
     const {user} =useUserStore()
     const {id} = useParams()
     const [doctor,setDoctor] = useState({})
-    const [chambers,setChambers] = useState([])
     const [chamber,setChamber] = useState({})
     const [selected, setSelected] = useState()
     const [value, setValue] = useState({
@@ -29,7 +28,7 @@ export default function AppointmentSubmit(){
         appointmentDate : '',
     })
 
-    async function getDoctor(){
+    async function getDoctor(id){
         const res = await axios.get(`/api/doctor/${id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
@@ -37,23 +36,14 @@ export default function AppointmentSubmit(){
         })
         setDoctor(res.data.data)
     }
-    
-    async function getChambers(doctorId){
-        const res = await axios.get(`/api/doctor/findChambers/${doctorId}`,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        setChambers(res.data.data)
-    }
 
     function selectedDay(selected){
             const date = new Date(selected);
             const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             const dayName = daysOfWeek[date.getDay()];
-            const days = chambers.map(chamber=> chamber.day)
+            const days = doctor?.chambers.map(chamber=> chamber.day)
             const day = days.find(day => day === dayName)
-            const chamber = chambers.find(chamber=>chamber.day === day)
+            const chamber = doctor?.chambers.find(chamber=>chamber.day === day)
             if(day === undefined){
                 setChamber({})
                 toast.error(`Please select a date from calender chamber list day name available`)
@@ -62,18 +52,16 @@ export default function AppointmentSubmit(){
             }
     }
     useEffect(()=>{
-        getDoctor()
-    },[])
-
-    useEffect(()=>{
-        getChambers(id)
+        getDoctor(id)
     },[id])
 
     useEffect(()=>{
-        selectedDay(selected)
+        if (doctor.chambers) selectedDay(selected)
     },[selected])
 
-    const data = {...value,chamberId : chamber?._id,appointmentDay : chamber?.day,appointmentDate : dateGenerator(selected)}
+    const data = {...value,chamberId : chamber.id,appointmentDay : chamber?.day,appointmentDate : dateGenerator(selected)}
+
+    console.log(data);
 
     async function addAppointment(){
         const res = await axios.post('/api/appointment/add',data,{
@@ -99,7 +87,7 @@ export default function AppointmentSubmit(){
                         <p>{doctor?.education},{doctor?.specialization}</p>
                         <p>{doctor?.experienceArea}</p>
                     </div>
-                    {chambers && <ChamberList chambers={chambers}/>}
+                    {doctor.chambers && <ChamberList chambers={doctor.chambers}/>}
                 </div>
                 <div className='w-full md:w-5/12 mt-4 flex flex-col items-center justify-center bg-white rounded-md'>
                     <DayPicker
