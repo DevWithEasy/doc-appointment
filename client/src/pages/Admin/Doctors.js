@@ -2,12 +2,11 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import DoctorDetails from "../../components/details/DoctorDetails"
 import useUserStore from "../../features/userStore"
+import DeleteDoctor from "../../components/details/DeleteDoctor"
 
 export default function AppliedDoctors(){
     const {random,reload} = useUserStore()
     const [doctors,setDoctors] = useState([])
-    const [details,setDetails] = useState(false)
-    const [id,setId] = useState()
     async function getAppliedDoctors(){
         const res = await axios.get('/api/admin/getAlldoctors',{
             headers : {
@@ -18,12 +17,35 @@ export default function AppliedDoctors(){
     }
 
     async function approvedDoctor(id){
-        await axios.post(`/api/doctor/approve/${id}`,{},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        try {
+            const res = await axios.post(`/api/doctor/approve/${id}`,{},{
+                headers : {
+                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if(res.data.status === 200){
+                console.log(res.data)
+                reload()
             }
-        })
-        reload()
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function cancelDoctor(id){
+        try {
+            const res = await axios.post(`/api/doctor/cancel/${id}`,{},{
+                headers : {
+                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if(res.data.status === 200){
+                console.log(res.data)
+                reload()
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(()=>{
@@ -53,16 +75,21 @@ export default function AppliedDoctors(){
                                 <td className="p-2 text-center">{doctor?.feesPerConsultation}</td>
                                 <td className="p-2 text-center">{doctor?.status}</td>
                                 <td className="p-2 text-center space-x-2">
-                                    {doctor?.status === 'Pending' && <button onClick={()=>approvedDoctor(doctor.userId)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Approved</button>}
-                                    {doctor?.status === 'Pending' && <button className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>}
-                                    {doctor?.status === 'Approved' &&<button className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Block</button>}
-                                    <button onClick={()=>{setDetails(!details);setId(doctor._id)}} className="p-2 bg-blue-400 text-white rounded hover:bg-blue-500">Details</button>
+                                    {doctor?.status === 'Pending' && <button onClick={()=>approvedDoctor(doctor._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Approved</button>}
+                                    {doctor?.status === 'Pending' && <DeleteDoctor
+                                        {...{
+                                            id : doctor._id,
+                                            deleteHandler : cancelDoctor
+                                        }}
+                                    >
+                                            Rejected
+                                        </DeleteDoctor>}
+                                    <DoctorDetails {...{doctor}}/>
                                 </td>
                             </tr>)
                     }
                 </tbody>
             </table>
-            {details && <DoctorDetails id={id} details={details} setDetails={setDetails}/>}
         </div>
     )
 }

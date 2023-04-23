@@ -13,7 +13,7 @@ export default function Profile(){
     const [user,setUser] = useState({})
     const [address,setAddress] = useState({})
     const [upload,setUpload] = useState(false)
-    async function getUser(){
+    async function getUser(id){
         const res = await axios.get(`/api/auth/user/${id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
@@ -39,8 +39,8 @@ export default function Profile(){
     }
 
     useEffect(()=>{
-        getUser()
-    },[random])
+        getUser(id)
+    },[id,random])
 
     return(
         <div>

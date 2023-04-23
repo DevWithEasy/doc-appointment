@@ -1,12 +1,23 @@
+import {
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+} from '@chakra-ui/react'
 import axios from "axios"
 import { useState } from "react"
-import { RxCrossCircled } from "react-icons/rx"
+import { toast } from 'react-hot-toast'
 import useUserStore from "../../features/userStore"
 import handleChange from "../../utils/handleChange"
 import Input from "../Input"
-import {toast} from 'react-hot-toast'
+import { IoMdAddCircleOutline } from 'react-icons/io'
 
 export default function AddHospital(props){
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const {add,setAdd} = props
     const {reload} = useUserStore()
     const [file,setFile] = useState()
@@ -53,11 +64,20 @@ export default function AddHospital(props){
         }
     }
     return(
-        <div className="absolute -top-2 left-0 w-full h-screen bg-gray-500/50 flex justify-center items-center z-10">
-            <div className="relative w-1/2 bg-white shadow-md rounded">
-                <RxCrossCircled onClick={()=>setAdd(!add)} size={25} className="absolute bg-white text-red-400 rounded-full -top-4 -right-4"/>
-                <h1 className="text-xl text-center font-bold p-2 border-b">Add Hospital With Details :</h1>
-                <div className="p-2 space-y-2">
+
+<>
+    <button onClick={onOpen} className="p-2 flex items-center space-x-1 bg-green-400 text-white rounded-md">
+        <IoMdAddCircleOutline size={22}/>
+        <span>Add Hospitals</span>
+    </button>
+
+<Modal isOpen={isOpen} onClose={onClose}>
+    <ModalOverlay />
+    <ModalContent>
+    <ModalHeader>Add new Hospital</ModalHeader>
+    <ModalCloseButton />
+    <ModalBody>
+    <div className="p-2 space-y-2">
                     <Input label='Hospital / Clinic /Diagnostic Name' type='text' name='name' value={value} setValue={setValue}/>
                     <Input label='Location' type='text' name='location' value={value} setValue={setValue}/>
                     <div className="w-full space-y-1">
@@ -71,8 +91,8 @@ export default function AddHospital(props){
                             </select>
                     </div>
                     
-                    <div className="flex items-center space-x-2">
-                        <div className="w-7/12 space-y-2">
+                    <div className="space-y-2">
+                        <div className="space-y-2">
                             <label>Hospital Image :</label>
                             <input type='file' onChange={(e)=>handleFile(e)} className="w-full border p-1 rounded-md"/>
                             <div className="w-full flex items-center space-x-2">
@@ -97,13 +117,19 @@ export default function AddHospital(props){
                             </div>
                             
                         </div>
-                        <div className="w-5/12 flex justify-center items-center">
+                        <div className="flex justify-center items-center">
                             {image && <img src={image} alt='user_image' className="h-[180px] mx-auto rounded-md"/>}
                         </div>
                     </div>
-                    <button onClick={()=>addHospital()} className='py-2 px-6 bg-green-400 text-white rounded-md'>Submit</button>
+                    
                 </div>
-            </div>
-        </div>
+    </ModalBody>
+
+    <ModalFooter className='space-x-2'>
+        <button onClick={()=>addHospital()} className='py-2 px-6 bg-green-400 text-white rounded-md'>Submit</button>
+    </ModalFooter>
+    </ModalContent>
+</Modal>
+</>
     )
 }

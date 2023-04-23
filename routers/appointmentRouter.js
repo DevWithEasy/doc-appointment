@@ -1,4 +1,4 @@
-const { addAppointment, searchAppointment, confirmAppointment, rejectAppointment, getAllAppointment, getAppointmentDetails, cancelAppointment, completeAppointment } = require('../controllers/appointmentController')
+const { addAppointment, searchAppointment, confirmAppointment, rejectAppointment, getAllAppointment, getAppointmentDetails, cancelAppointment, completeAppointment, getAppointmentStatus } = require('../controllers/appointmentController')
 const authenticated = require('../middlewares/authenticated')
 
 const router = require('express').Router()
@@ -13,6 +13,7 @@ router.get('/all/search',authenticated,searchAppointment)
       .put('/cancel/:id',authenticated,cancelAppointment)
       .put('/complete/:id',authenticated,completeAppointment)
       .delete('/delete/:id',authenticated,addAppointment)
+      .get('/status',authenticated,getAppointmentStatus)
       
 
 module.exports = router

@@ -31,7 +31,7 @@ export default function ChamberList({doctor}){
                     </tr>
                 </thead>
                 <tbody>
-                    {doctor?.chambers.map((chamber,i)=> <tr key={chamber._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    {doctor?.chambers.map((chamber,i)=> <tr key={chamber.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td className="px-4 py-4">
                             {i+1}
                         </td>

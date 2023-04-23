@@ -22,7 +22,7 @@ export default function AppointmentSubmit(){
         gender : user?.gender,
         patientPhone : user?.phone,
         address: user?.address?.location && user?.address?.post_office && user?.address?.upazilla && user?.address?.district ? `${user.address.location}, ${user.address.post_office}, ${user.address.upazilla}, ${user.address.district}.` : '',
-        doctorId : id,
+        doctor : id,
         chamberId : '',
         appointmentDay : '',
         appointmentDate : '',
@@ -61,7 +61,6 @@ export default function AppointmentSubmit(){
 
     const data = {...value,chamberId : chamber.id,appointmentDay : chamber?.day,appointmentDate : dateGenerator(selected)}
 
-    console.log(data);
 
     async function addAppointment(){
         const res = await axios.post('/api/appointment/add',data,{

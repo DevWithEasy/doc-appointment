@@ -4,20 +4,24 @@ import UserDetails from "../../components/details/UserDetails"
 
 export default function Users(){
     const [users,setUsers] = useState([])
-    const [details,setDetails] = useState(false)
-    const [id,setId] = useState()
     async function getAllUsers(){
-        const res = await axios.get('/api/admin/getAllUsers',{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        try {
+            const res = await axios.get('/api/admin/getAllUsers',{
+                headers : {
+                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if(res.data.status === 200){
+                setUsers(res.data.data)
             }
-        })
-        setUsers(res.data.data)
+        } catch (error) {
+            console.log(error)
+        }
     }
     useEffect(()=>{
         getAllUsers()
     },[])
-    console.log(users)
+    
     return(
         <div>
             <h1 className="text-2xl text-center">All Users</h1>
@@ -44,14 +48,12 @@ export default function Users(){
                                     {user?.isAdmin ? 'Admin' : user?.isDoctor ? 'Doctor' : user?.isHospital ? 'Hospital' : 'User'}
                                 </td>
                                 <td className="p-2 text-center space-x-2">
-                                    {/* <button className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Approved</button> */}
-                                    <button onClick={()=>{setDetails(!details);setId(user._id)}} className="p-2 bg-blue-400 text-white rounded hover:bg-blue-500">Details</button>
+                                    <UserDetails {...{user}}/>
                                 </td>
                             </tr>)
                     }
                 </tbody>
             </table>
-            {details && <UserDetails id={id} details={details} setDetails={setDetails}/>}
         </div>
     )
 }

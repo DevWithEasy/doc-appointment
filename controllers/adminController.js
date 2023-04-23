@@ -3,7 +3,7 @@ const User = require("../models/User")
 
 exports.getAlldoctors=async(req,res,next)=>{
     try {
-        const doctors = await Doctor.find({}).sort({createdAt: -1})
+        const doctors = await Doctor.find({}).sort({createdAt: -1}).populate('user','image address -_id')
         res.status(200).json({
             status : 200,
             success : true,

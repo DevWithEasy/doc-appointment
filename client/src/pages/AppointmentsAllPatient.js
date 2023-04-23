@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import AppointmentDetails from "../components/AppointmentDeatils";
 import dateGenerator from "../utils/dateGenerator";
+import { useDisclosure } from '@chakra-ui/react';
 
 export default function AppointmentsAllPatient(){
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [id,setId] = useState('')
     const [day,setDay] = useState('')
     const [date,setDate] = useState('');
     const [selected, setSelected] = useState()
     const [view,setView] = useState(false)
-    const [id,setId] = useState()
     const [appointments,setAppointments] = useState([])
     async function getAppointments(){
         const res = await axios.get(`/api/appointment/all/search?day=${day}&date=${date}`,{
@@ -19,6 +21,7 @@ export default function AppointmentsAllPatient(){
         });
         setAppointments(res.data.data);
     }
+
     async function confirmAppointment(id){
         const res = await axios.put(`/api/appointment/confirm/${id}`,{},{
             headers : {
@@ -29,6 +32,18 @@ export default function AppointmentsAllPatient(){
             getAppointments()
         };
     }
+
+    async function completeAppointment(id){
+        const res = await axios.put(`/api/appointment/complete/${id}`,{},{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        });
+        if(res.data.status === 200){
+            getAppointments()
+        };
+    }
+
     async function rejectAppointment(id){
         const res = await axios.put(`/api/appointment/reject/${id}`,{},{
             headers : {
@@ -112,14 +127,20 @@ export default function AppointmentsAllPatient(){
                             {appointment?.status}
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-4">
-                            <button onClick={()=>{setView(!view);setId(appointment._id)}} className="p-2 bg-blue-400 text-white rounded hover:bg-blue-500">Details</button>
+                            <button 
+                                onClick={()=>{setId(appointment?._id);onOpen()}}
+                                className="p-2 bg-green-400 text-white rounded hover:bg-green-500"
+                            >
+                                Details
+                            </button>
                             <button onClick={()=>confirmAppointment(appointment?._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Confirmed</button>
+                            <button onClick={()=>completeAppointment(appointment?._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Completed</button>
                             <button onClick={()=>rejectAppointment(appointment?._id)} className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>
                         </td>  
                     </tr>)}
                 </tbody>
             </table>
-            {view && <AppointmentDetails {...{id,view,setView}}/>}
+            <AppointmentDetails {...{id,isOpen, onOpen, onClose}}/>
         </div>
     )
 }

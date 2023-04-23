@@ -70,7 +70,7 @@ const doctorSchema = mongoose.Schema({
     ],
     status : {
       type : String,
-      enum : ['Pending','Approved','Rejected','Block'],
+      enum : ['Pending','Approved','Rejected'],
       default : 'Pending'
     }
   },{timestamps : true})

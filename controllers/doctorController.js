@@ -1,14 +1,13 @@
 const {randomUUID} = require('crypto')
-const mongoose = require('mongoose')
 const User = require("../models/User")
 const Doctor = require("../models/Doctor")
 const createError = require("../utils/createError")
-const Chamber = require("../models/Chamber")
 
 exports.applyDoctor=async(req,res,next)=>{
         try {
-            const find = await Doctor.find({userId : req.body.userId})
-            if (find.length > 0) return res.status(401).json({
+            const doctor = await Doctor.findOne({user : req.body.userId})
+
+            if (doctor) return res.status(403).json({
                 status: 405,
                 success : false,
                 message : 'Already sent a request'
@@ -24,6 +23,7 @@ exports.applyDoctor=async(req,res,next)=>{
                 status : 'unread'
             })
            const newDoctor = new Doctor({
+            user : req.body.userId,
             ...req.body
            })
            newDoctor.save()
@@ -72,19 +72,19 @@ exports.approvedDoctor=async(req,res,next)=>{
     try {
         const admin = await User.findOne({_id : req.body.userId})
         if(!admin.isAdmin) return createError(403,'Sorry, you are not admin')
-        await User.updateOne({_id : req.params.id},{$set : {isDoctor : true}})
+        
+        const doctor = await Doctor.findByIdAndUpdate(req.params.id,{$set : {status : 'Approved'}},{new : true})
 
-        const doctor = await Doctor.updateOne({userId : req.params.id},{$set : {status : 'Approved'}})
-        const findDoctor = await Doctor.findOne({userId : req.params.id})
-        const user = await User.findOne({_id : req.params.id})
-            user.notifications.push({
-                id : Date.now(),
-                doctorId : doctor._id,
-                name : `${findDoctor.firstName} ${findDoctor.lastName}`,
-                message : `${findDoctor.firstName} ${findDoctor.lastName} has been approved your doctor request.`,
-                onClickPath : `/doctor/dashboard/`,
-                status : 'unread'
-            })
+        const user = await User.findByIdAndUpdate(doctor.user,{$set : {isDoctor : true}},{new : true})
+
+        user.notifications.push({
+            id : Date.now(),
+            doctorId : doctor._id,
+            name : `${doctor.firstName} ${doctor.lastName}`,
+            message : `${doctor.firstName} ${doctor.lastName} has been approved your doctor request.`,
+            onClickPath : `/doctor/dashboard/`,
+            status : 'unread'
+        })
         user.save()
 
         res.status(200).json({
@@ -106,14 +106,21 @@ exports.cancelDoctor=async(req,res,next)=>{
         const admin = await User.findOne({_id : req.body.userId})
         if(!admin.isAdmin) return createError(403,'Sorry, you are not admin')
 
-        const doctor = await Doctor.findOne({_id : req.query.id})
-        const user = await User.findOne({_id : doctor.userId})
-            user.notifications.push({
-                subject : 'Apply Request cancel for a doctor',
-            })
+        const doctor = await Doctor.findOne({_id : req.params.id})
+
+        const user = await User.findOne({_id : doctor.user})
+
+        user.notifications.push({
+            id : Date.now(),
+            doctorId : doctor._id,
+            name : `${doctor.firstName} ${doctor.lastName}`,
+            message : `${doctor.firstName} ${doctor.lastName} has been cancel request.`,
+            onClickPath : `/apply-doctor`,
+            status : 'unread'
+        })
         user.save()
 
-        await Doctor.deleteOne({_id : req.query.id})
+        await Doctor.deleteOne({_id : req.params.id})
 
         res.status(200).json({
             status: 200,
@@ -166,19 +173,26 @@ exports.deleteDoctor=async(req,res,next)=>{
         const admin = await User.findOne({_id : req.body.userId})
         if(!admin.isAdmin) return createError(403,'Sorry, you are not admin')
 
-        const doctor = await Doctor.findOne({_id : req.query.id})
-        const user = await User.findOne({_id : doctor.userId})
-            user.notifications.push({
-                subject : 'Apply Request cancel for a doctor',
-            })
+        const doctor = await Doctor.findOne({_id : req.params.id})
+
+        const user = await User.findByIdAndUpdate(doctor.user,{$set : {isDoctor : false}},{new : true})
+
+        user.notifications.push({
+            id : Date.now(),
+            doctorId : doctor._id,
+            name : `${doctor.firstName} ${doctor.lastName}`,
+            message : `${doctor.firstName} ${doctor.lastName} has been delete doctor profile.`,
+            onClickPath : `/`,
+            status : 'unread'
+        })
         user.save()
 
-        await Doctor.deleteOne({_id : req.query.id})
+        await Doctor.deleteOne({_id : req.params.id})
 
         res.status(200).json({
             status: 200,
             success : true,
-            message : 'Doctor cancel successfully'
+            message : 'Doctor delete successfully'
         })
     } catch (error) {
         res.status(500).json({
@@ -207,6 +221,7 @@ exports.findDoctor=async(req,res,next)=>{
         })
     }
 }
+
 exports.find=async(req,res,next)=>{
     try {
         const doctor = await Doctor.findOne({_id : req.params.id})
@@ -224,6 +239,7 @@ exports.find=async(req,res,next)=>{
         })
     }
 }
+
 exports.allApprovedDoctors=async(req,res,next)=>{
     try {
         const doctors = await Doctor.find({status : 'Approved'}).populate('user','image -_id')
@@ -281,7 +297,6 @@ exports.allApprovedSpecialistDoctors=async(req,res,next)=>{
         })
     }
 }
-
 
 exports.addChamber=async(req,res,next)=>{
     try {

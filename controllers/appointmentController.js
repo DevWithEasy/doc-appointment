@@ -1,5 +1,4 @@
 const Appointment = require('../models/Appointment')
-const Chamber = require('../models/Chamber')
 const Doctor = require('../models/Doctor')
 const User = require('../models/User')
 exports.addAppointment=async(req,res,next)=>{
@@ -7,11 +6,12 @@ exports.addAppointment=async(req,res,next)=>{
         const all = await Appointment.find({appointmentDate : req.body.appointmentDate})
         const newAppointment = new Appointment({
             ...req.body,
+            user : req.body.userId,
             appointmentId : all.length == 0 ? 1 : all.length+1
         })
 
-        const doctor = await Doctor.findOne({_id : req.body.doctorId})
-        const user = await User.findOne({_id : doctor.userId})
+        const doctor = await Doctor.findOne({_id : req.body.doctor})
+        const user = await User.findOne({_id : doctor.user})
         user.notifications.push({
             id : Date.now(),
             name : req.body.patientName,
@@ -41,8 +41,8 @@ exports.addAppointment=async(req,res,next)=>{
 exports.confirmAppointment=async(req,res,next)=>{
     try {
         const appointment = await Appointment.findOne({_id : req.params.id})
-        const doctor = await Doctor.findOne({_id : appointment.doctorId})
-        const user = await User.findOne({_id : appointment.userId})
+        const doctor = await Doctor.findOne({_id : appointment.doctor})
+        const user = await User.findOne({_id : appointment.user})
         await Appointment.updateOne({_id:req.params.id}, {$set:{
             status : 'Confirmed'
         }})
@@ -71,8 +71,8 @@ exports.confirmAppointment=async(req,res,next)=>{
 exports.rejectAppointment=async(req,res,next)=>{
     try {
         const appointment = await Appointment.findOne({_id : req.params.id})
-        const doctor = await Doctor.findOne({_id : appointment.doctorId})
-        const user = await User.findOne({_id : appointment.userId})
+        const doctor = await Doctor.findOne({_id : appointment.doctor})
+        const user = await User.findOne({_id : appointment.user})
         await Appointment.updateOne({_id:req.params.id}, {$set:{
             status : 'Rejected'
         }})
@@ -100,6 +100,17 @@ exports.rejectAppointment=async(req,res,next)=>{
 }
 exports.cancelAppointment=async(req,res,next)=>{
     try {
+
+        const appointment = await Appointment.findOne({_id:req.params.id})
+
+        if(appointment.status == 'Confirmed'){
+            return res.status(403).json({
+                status : 403,
+                success : false,
+                message : 'Already Confirmed.You can not cancel.'
+            })
+        }
+
         await Appointment.updateOne({_id:req.params.id}, {$set:{
             status : 'Canceled'
         }})
@@ -159,11 +170,9 @@ exports.deleteAppointment=async(req,res,next)=>{
 exports.searchAppointment=async(req,res,next)=>{
     const {day,date}= req.query
     try {
-        
-        const user = await User.findOne({_id : req.body.userId})
-        const doctor = await Doctor.findOne({userId : user._id})
+        const doctor = await Doctor.findOne({user : req.body.userId})
         const data = await Appointment.find({
-            doctorId : doctor._id, 
+            doctor : doctor._id, 
             appointmentDay : day, 
             appointmentDate : date,
             status : {
@@ -211,6 +220,35 @@ exports.getAppointmentDetails=async(req,res,next)=>{
             success : true,
             data : appointment
         })
+
+    } catch (error) {
+        res.status(500).json({
+            status : 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+exports.getAppointmentStatus=async(req,res,next)=>{
+    
+    try {
+        const appointments = await Appointment.find({
+            doctor : req.query.dId,
+            appointmentDate : req.query.date,
+            status : {
+                $nin : ['Rejected','Canceled','Completed']
+            }
+        })
+        
+        const status = appointments.findIndex(appointment=>appointment._id == req.query.aId)
+
+        res.status(200).json({
+            status : 200,
+            success : true,
+            possition : status === -1 ? -1 : status+1,
+            message : status === -1 ? `Appointment has been cancel or rejected` : `You are currently : ${status+1 <10 ? `0${status+1}` : status+1}`
+        })
+
 
     } catch (error) {
         res.status(500).json({

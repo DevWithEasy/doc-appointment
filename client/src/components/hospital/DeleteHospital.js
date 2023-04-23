@@ -1,33 +1,62 @@
 import axios from "axios"
 import useUserStore from "../../features/userStore"
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+    useDisclosure,
+    AlertDialogCloseButton,
+  } from '@chakra-ui/react'
+import { useRef } from "react"
+import { AiFillDelete } from "react-icons/ai"
 
-export default function DeleteHospital(props){
+export default function DeleteHospital({hospital}){
     const {reload} = useUserStore()
-    const {deleteId,hospitalDelete,setHospitalDelete} = props
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const cancelRef = useRef()
 
     async function deleteChamber(){
-        const res = await axios.delete(`/api/hospital/delete/${deleteId}`,{
+        const res = await axios.delete(`/api/hospital/delete/${hospital._id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
         })
         if(res.data.status === 200){
             reload()
-            setHospitalDelete(!hospitalDelete)
         }
     }
     return(
-        <div className="absolute top-0 left-0 w-full h-screen bg-gray-500/50 flex justify-center items-center">
-            <div className="relative w-1/2 bg-white shadow-md rounded">
-                <h1 className="text-xl text-center font-bold p-2 border-b">Delete This Chamber</h1>
-                    <div className="p-2 space-y-2">
-                        <p>You cant back this data.It will parmanently delete from your database.</p>
-                    </div>
-                    <div className="flex justify-end space-x-2 p-2">
-                    <button onClick={()=>setHospitalDelete(!hospitalDelete)} className='py-2 px-6 bg-gray-400 text-white rounded-md'>Cancel</button>
-                    <button onClick={()=>deleteChamber()} className='py-2 px-6 bg-red-400 text-white rounded-md'>Delete</button>
-                    </div>
-                </div>
-            </div>
+        <>
+        <button onClick={onOpen} className="flex items-center space-x-2 p-2 bg-red-400 text-white rounded hover:bg-red-500">
+            <AiFillDelete/>
+            <span>Delete</span>
+        </button>
+        <AlertDialog
+          motionPreset='slideInBottom'
+          leastDestructiveRef={cancelRef}
+          onClose={onClose}
+          isOpen={isOpen}
+          isCentered
+        >
+          <AlertDialogOverlay />
+  
+          <AlertDialogContent>
+            <AlertDialogHeader>Delete This Chamber?</AlertDialogHeader>
+            <AlertDialogCloseButton />
+            <AlertDialogBody>
+                You cant back this data.It will parmanently delete from your database.
+            </AlertDialogBody>
+            <AlertDialogFooter className="space-x-2">
+              <button ref={cancelRef} onClick={onClose} className='py-2 px-6 bg-gray-400 text-white rounded-md'>
+                No
+              </button>
+              <button onClick={()=>deleteChamber()} className='py-2 px-6 bg-red-400 text-white rounded-md'>Delete</button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </>
     )
 }

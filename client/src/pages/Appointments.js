@@ -2,12 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import AppointmentDetails from "../components/AppointmentDeatils";
 import useUserStore from "../features/userStore";
+import { useDisclosure } from "@chakra-ui/react";
 
 export default function Appointments(){
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const {user} = useUserStore()
+    const [id,setId] = useState('')
     const [appointments,setAppointments] = useState([])
-    const [view,setView] = useState(false)
-    const [id,setId] = useState()
     async function getAllAppointments(id){
         const res = await axios.get(`/api/appointment/all/${id}`,{
             headers : {
@@ -80,13 +81,18 @@ export default function Appointments(){
                             {appointment?.status}
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-4">
-                            <button onClick={()=>{setView(!view);setId(appointment._id)}} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Details</button>
+                            <button 
+                                onClick={()=>{setId(appointment?._id);onOpen()}}
+                                className="p-2 bg-green-400 text-white rounded hover:bg-green-500"
+                            >
+                                Details
+                            </button>
                             <button onClick={()=>cancelAppointment(appointment._id)} className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Cancel</button>
                         </td> 
                     </tr>)}
                 </tbody>
             </table>
-            {view && <AppointmentDetails {...{id,view,setView}}/>}
+            <AppointmentDetails {...{id,isOpen, onOpen, onClose}}/>
         </div>
     )
 }
