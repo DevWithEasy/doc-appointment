@@ -80,7 +80,7 @@ export default function AppointmentDetails({id,isOpen, onOpen, onClose}){
     useEffect(()=>{
         getAppointmentDetails(id)
     },[id])
-    console.log(status);
+
     return(
         <>
             <Modal isOpen={isOpen} size='xl' onClose={onClose}>

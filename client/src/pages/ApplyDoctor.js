@@ -20,13 +20,19 @@ export default function ApplyDoctor(){
         chambers : []
     })
     async function handleApplyDoctor(){
-        const res = await axios.post('/api/doctor/apply',value,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        try {
+            const res = await axios.post('/api/doctor/apply',value,{
+                headers : {
+                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if(res.data.status === 200){
+                toast.success('Applied Doctor successfully.')
             }
-        })
-        if(res.data.status === 200){
-            toast.success('Applied Doctor successfully.')
+        } catch (error) {
+            if(error){
+                toast.error(error.message)
+            }
         }
     }
     return(

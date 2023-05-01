@@ -232,6 +232,17 @@ exports.getAppointmentDetails=async(req,res,next)=>{
 exports.getAppointmentStatus=async(req,res,next)=>{
     
     try {
+        const appointment = await Appointment.findById(req.query.aId)
+
+        if (appointment.status=== 'Completed'){
+            return  res.status(200).json({
+                status : 200,
+                success : true,
+                position : 0,
+                message : `Appointment has been completed successfully`
+            })
+        }
+
         const appointments = await Appointment.find({
             doctor : req.query.dId,
             appointmentDate : req.query.date,
@@ -245,7 +256,7 @@ exports.getAppointmentStatus=async(req,res,next)=>{
         res.status(200).json({
             status : 200,
             success : true,
-            possition : status === -1 ? -1 : status+1,
+            position : status === -1 ? -1 : status+1,
             message : status === -1 ? `Appointment has been cancel or rejected` : `You are currently : ${status+1 <10 ? `0${status+1}` : status+1}`
         })
 

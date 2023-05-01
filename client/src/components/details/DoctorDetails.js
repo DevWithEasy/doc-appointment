@@ -25,7 +25,6 @@ export default function DoctorDetails({doctor}){
                 }
             })
             if(res.data.status === 200){
-                console.log(res.data)
                 reload()
             }
         } catch (error) {
@@ -45,7 +44,7 @@ export default function DoctorDetails({doctor}){
             <ModalBody>
                 <div className="p-2 space-y-2">
                         <img src={doctor?.user?.image?.url} alt='doctor_image' 
-                            className='rounded'
+                            className='h-[200px] mx-auto rounded-md'
                         />
                         <p className="">Name : {doctor?.firstName} {doctor?.lastName}</p>
                         <p className="">Email : {doctor?.email} </p>
@@ -54,6 +53,7 @@ export default function DoctorDetails({doctor}){
                         <p className="">Experience Area : {doctor?.experienceArea}</p>  
                         <p className="">Education : {doctor?.education}</p>
                         <p className="">Works At : {doctor?.workedAt}</p>
+                        <p className="">Designation : {doctor?.designation}</p>
                         <p className="">Fees Per Consultation : {doctor?.feesPerConsultation}</p>
                         <button className={`px-4 py-1 text-white ${doctor?.status === 'Pending' ? 'bg-yellow-500' : 'bg-green-500'} rounded-full`}>{doctor?.status}</button>
                 </div>

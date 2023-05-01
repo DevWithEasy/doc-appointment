@@ -24,7 +24,7 @@ export default function UserDetails({user}){
                 <ModalCloseButton />
                 <ModalBody>
                     <div className="p-2">
-                        <img src={user?.image?.url} alt={user?.name} className='w-[150px] mx-auto rounded-lg'/>
+                        <img src={user?.image?.url} alt={user?.name} className='h-[200px] mx-auto rounded-lg'/>
                         <p className="text-xl font-bold">{user?.name}</p>
                         <p className="">Email : {user?.email} </p>
                         <p className="">Phone : {user?.phone} </p>

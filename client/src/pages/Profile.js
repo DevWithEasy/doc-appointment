@@ -1,18 +1,16 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { toast } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
-import handleChange from "../utils/handleChange"
-import {toast} from 'react-hot-toast'
-import {BiImageAdd} from 'react-icons/bi'
 import Upload from "../components/Upload"
 import useUserStore from "../features/userStore"
 import dateGenerator from "../utils/dateGenerator"
+import handleChange from "../utils/handleChange"
 export default function Profile(){
     const {random,addUser} = useUserStore()
     const {id}  = useParams()
     const [user,setUser] = useState({})
     const [address,setAddress] = useState({})
-    const [upload,setUpload] = useState(false)
     async function getUser(id){
         const res = await axios.get(`/api/auth/user/${id}`,{
             headers : {
@@ -48,10 +46,7 @@ export default function Profile(){
                 <div className="bg-white p-4 rounded-2xl shadow">
                     <img src={user?.image?.url}  alt="user" className='h-64 mx-auto rounded-md'/>
                     <div className="flex justify-center items-center py-2">
-                        <button onClick={()=>setUpload(!upload)} className="flex items-center px-6 py-2 space-x-2 bg-green-400 text-white rounded-full hover:bg-green-500">
-                            <BiImageAdd size={20}/>
-                            <span>UPLOAD</span>
-                        </button>
+                        <Upload/>
                     </div>
                     <div className="p-4 flex justify-between">
                         <p className="text-2xl font-bold">{user?.name}</p>
@@ -113,7 +108,6 @@ export default function Profile(){
                     </div>
                 </div>
             </div>
-            {upload && <Upload {...{upload,setUpload}}/>}
         </div>
     )
 }
