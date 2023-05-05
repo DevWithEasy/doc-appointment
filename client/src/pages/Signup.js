@@ -18,10 +18,12 @@ export default function Signup(){
 
     async function handleSignUp(){
         try {
-            await axios.post('/api/auth/signup',value)
+            const res = await axios.post('/api/auth/signup',value)
             toast.success('Account created successfully')
-            navigate('/signin')
+            localStorage.setItem('accessToken', res.data.token)
+            navigate('/verify')
         } catch (error) {
+            console.log(error)
             toast.error('Account created Failed')
         }
     }

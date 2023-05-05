@@ -21,6 +21,7 @@ import ProtectedRoute from './pages/ProtectedRoute';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import VerifyAccount from './pages/VerifyAccount';
+import ForgetPassword from './pages/ForgetPassword';
 function App() {
   const routes = useRoutes(
     [
@@ -39,6 +40,10 @@ function App() {
           {
             path : '/signin',
             element : <Signin/>
+          },
+          {
+            path : '/find',
+            element : <ForgetPassword/>
           },
           {
             path : '/verify',
