@@ -11,6 +11,7 @@ export default function Signin(){
     const addUser = useUserStore(state=>state.addUser)
     const location = useLocation()
     const  navigate = useNavigate()
+    const [loading,setLoading] = useState(false)
     const [type,setType] = useState('password')
     const [value,setValue] = useState({
         email : '',
@@ -19,17 +20,26 @@ export default function Signin(){
 
     async function handleSignIn(){
         try {
+            setLoading(true)
             const res = await axios.post('/api/auth/signin',value)
-            toast.success('Successfully signed in')
-            localStorage.setItem('accessToken', res.data.data.token)
-            addUser((res.data.data))
-            if(location.state?.from){
-                navigate(location.state.from)
-            }else{
-                navigate('/')
+            if(res.data.status === 200){
+                setLoading(false)
+                toast.success('Successfully signed in')
+                localStorage.setItem('accessToken', res.data.data.token)
+                addUser((res.data.data))
+                if(location.state?.from){
+                    navigate(location.state.from)
+                }else{
+                    navigate('/')
+                }
             }
         } catch (error) {
-            toast.error('Something went wrong')
+            setLoading(false)
+            if(error.response.data.message){
+                toast.error(error.response.data.message)
+            }else{
+                toast.error('Something went wrong')
+            }
         }
     }
 
@@ -49,10 +59,16 @@ export default function Signin(){
                 </button>
             </div>
 
-            <button onClick={()=>handleSignIn()} className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">Sign in</button>
+            <button 
+                onClick={()=>handleSignIn()} 
+                className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300"
+            >
+                {loading ? 'Please wait...' : 'Sign in'}
+            </button>
 
-            <div className="p-2 text-center">
-                You are not an account ? <NavLink to='/signup' className='text-blue-500 font-bold'>Create an account</NavLink>
+            <div className="p-2 flex justify-between text-blue-500">
+                <NavLink to='/forget-password' className=''>Forget password?</NavLink>
+                <NavLink to='/signup' className=''>Create an account</NavLink>
             </div>
         </div>
     )

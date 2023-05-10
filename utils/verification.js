@@ -46,20 +46,20 @@ exports.sendSuccessful=(userEmail,name)=>{
     })
 }
 
-exports.sendForgetPassword=(userEmail,name,code)=>{
+exports.sendForgetPassword=(userEmail,name,code,token)=>{
     const options = {
         from : process.env.EMAIL,
         to : userEmail,
         subject : 'Amader Doctor forget password',
         html : `<div style="background: #e7e0e0;padding: 12px;border-radius: 10px;">
-        <h1 style="text-align: center;">CASHBOOK</h1>
+        <h1 style="text-align: center;">Amader Doctor</h1>
         <hr>
         <p>Dear <strong>${name}</strong> ,</p>
         <p>Assalamualikum.</p>
-        <p>Your account password recovery code is :  <span style="font-size: 20px;font-weight: 600;">${code}</span></p>
+        <p>Reset account password <a href='http://localhost:3000/password-reset?token=${token}&code=${code}'>Click here</a></p>
         <p>This code will be expire after 06 hours laters.</p>
         <h3>Thanks</h3>
-        <p><strong>CashBook Teams</strong></p>
+        <p><strong>Amader Doctor Teams</strong></p>
     </div>`
     }
     transporter.sendMail(options,function(err,result) {
@@ -75,14 +75,14 @@ exports.passwordChangeSuccessfull=(userEmail,name)=>{
         to : userEmail,
         subject : 'Amader Doctor password changed successfully',
         html : `<div style="background: #e7e0e0;padding: 12px;border-radius: 10px;">
-        <h1 style="text-align: center;">CASHBOOK</h1>
+        <h1 style="text-align: center;">Amader Doctor</h1>
         <hr>
         <p>Dear <strong>${name}</strong> ,</p>
         <p>Assalamualikum.</p>
         <p>Your account password has been changed successfully</p>
         <p>Stay with us.</p>
         <h3>Thanks</h3>
-        <p><strong>CashBook Teams</strong></p>
+        <p><strong>Amader Doctor Teams</strong></p>
     </div>`
     }
     transporter.sendMail(options,function(err,result) {

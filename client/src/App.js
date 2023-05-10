@@ -5,12 +5,13 @@ import AppliedHospital from './pages/Admin/Hospitals';
 import Users from './pages/Admin/Users';
 import ApplyDoctor from './pages/ApplyDoctor';
 import Appointment from './pages/Appointment';
+import AppointmentSubmit from './pages/AppointmentSubmit';
 import Appointments from './pages/Appointments';
 import AppointmentsAllPatient from './pages/AppointmentsAllPatient';
 import AppointmentsAllPatientSearch from './pages/AppointmentsAllPatientSearch';
-import AppointmentSubmit from './pages/AppointmentSubmit';
 import Dashboard from './pages/Dashboard';
 import Doctors from './pages/Doctors';
+import ForgetPassword from './pages/ForgetPassword';
 import Home from './pages/Home';
 import HospitalDetails from './pages/HospitalDetails';
 import Hospitals from './pages/Hospitals';
@@ -18,10 +19,10 @@ import Layout from './pages/Layout';
 import Notification from './pages/Notification';
 import Profile from './pages/Profile';
 import ProtectedRoute from './pages/ProtectedRoute';
+import ResetPassword from './pages/ResetPassword';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import VerifyAccount from './pages/VerifyAccount';
-import ForgetPassword from './pages/ForgetPassword';
 function App() {
   const routes = useRoutes(
     [
@@ -42,8 +43,12 @@ function App() {
             element : <Signin/>
           },
           {
-            path : '/find',
+            path : '/forget-password',
             element : <ForgetPassword/>
+          },
+          {
+            path : '/password-reset',
+            element : <ResetPassword/>
           },
           {
             path : '/verify',

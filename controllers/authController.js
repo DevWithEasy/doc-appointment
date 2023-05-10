@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 const createError = require("../utils/createError");
 const fs = require('fs')
 const path = require('path');
-const { sendVerificaion, sendSuccessful } = require("../utils/verification");
+const { sendVerificaion, sendSuccessful, sendForgetPassword } = require("../utils/verification");
+const { passwordChangeSuccessfull } = require("../utils/verification");
 
 exports.signup=async(req,res,next)=>{
     const {password} = req.body
@@ -55,12 +56,27 @@ exports.signin=async(req,res,next)=>{
     try {
         //FIND USER IN DATABASE
         const user = await User.findOne({email : req.body.email})
-        
-        //TOKEN FOR SECRET
-        const token = await jwt.sign({id : user._id},process.env.JWT_SECRET)
+
+        if (!user) {
+            return res.status(404).json({
+                status: 404,
+                success : false,
+                message : 'User not found.'
+            })
+        }
 
         const isvalid = await bcrypt.compare(req.body.password,user.password)
-        if (!isvalid) return createError(401, 'credentials are incorrect')
+
+        if (!isvalid) {
+            return res.status(404).json({
+                status: 404,
+                success : false,
+                message : 'Credentials do not match.'
+            })
+        }
+
+        //TOKEN FOR SECRET
+        const token = await jwt.sign({id : user._id},process.env.JWT_SECRET)
 
         res.status(200).json({
             status: 200,
@@ -113,6 +129,98 @@ exports.verifyAccount = async(req,res,next)=>{
             status: 200,
             success : true,
             message : 'Account successfully verified'
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
+exports.forgetPassword = async(req,res,next)=>{
+    try {
+        const {email} = req.query
+        const user = await User.findOne({email})
+
+        //generate random number
+        const randomNumber = Math.ceil(Math.random()*999999)
+        const code = await bcrypt.hash((randomNumber).toString(),10)
+
+        //TOKEN FOR SECRET
+        const token = await jwt.sign({id : user._id},process.env.JWT_SECRET)
+
+        const findCode = await Verification.findOne({"user": user._id})
+
+        if(!findCode){
+            const verify = new Verification({
+                user : user._id,
+                code : code
+            })
+            await verify.save()
+            sendForgetPassword(user.email,user.name,randomNumber,token)
+        }else{
+            await Verification.updateOne({"user": user._id},{$set:{
+                code : code,
+                expired : Date.now() + 21600000
+            }})
+            sendForgetPassword(user.email,user.name,randomNumber,token)
+        }
+        res.status(200).json({
+            success : true,
+            status : 200,
+            message : "Verification code sent successfully",
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
+exports.resetPassword = async(req,res,next)=>{
+    try {
+        
+        const {userId,code,password} = req.body
+        const user = await User.findOne({"_id" : userId})
+
+        const findCode = await Verification.findOne({"user": user._id})
+        if(!findCode) return res.status(404).json({
+            success : false,
+            status : 404,
+            message : "Code not found.Sent again"
+        })
+
+        if(findCode.expired < Date.now()) return res.status(201).json({
+            success : false,
+            status : 201,
+            message : "Code expired.Sent again"
+        })
+
+        const isvalid = await bcrypt.compare(code,findCode.code)
+        if(!isvalid) return res.status(403).json({
+            success : false,
+            status : 403,
+            message : "Invalid or Wrong Code"
+        })
+
+        const hashed = await bcrypt.hash(password,10)
+
+        await User.updateOne({"_id": user._id},{$set:{
+            password : hashed
+        }})
+
+        await Verification.deleteOne({"_id" : findCode._id})
+
+        passwordChangeSuccessfull(user.email,user.name)
+        
+        res.status(200).json({
+            success : true,
+            status : 200,
+            message : "Password Changed successfully"
         })
     } catch (error) {
         res.status(500).json({
@@ -215,8 +323,8 @@ exports.find=async(req,res,next)=>{
                 data : user
             })
         }else{
-            res.status(201).json({
-                status : 201,
+            res.status(200).json({
+                status : 200,
                 success : true,
                 find : false,
                 data : {}
