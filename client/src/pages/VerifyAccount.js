@@ -35,6 +35,25 @@ export default function VerifyAccount(){
 
     }
 
+    async function handleSendCodeAgain(){
+        if(!localStorage.getItem('accessToken')){
+            return toast.error('Please signin first time')
+        }
+        try {
+            const res = await axios.post('/api/auth/sent-code-again',{},{
+                headers: {
+                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if(res.data.status === 200){
+                 toast.success('Code send successfully.')
+            }
+        } catch (error) {
+            toast.error('Verification Failed')
+        }
+
+    }
+
     return(
         <div className="pt-20">
             {!verified ? <div className="w-full md:w-1/2 mx-auto  border shadow rounded bg-white">
@@ -42,8 +61,15 @@ export default function VerifyAccount(){
                 <div className="p-2 space-y-2">
                     <span className="text-gray-500">We sent a verification code to your email address.Please check your email inbox or spam folder and verify your account.</span> 
                     <input type='email' name='email' onChange={(e)=>setCode(e.target.value)} placeholder='Verification code' className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
+                    
                 </div>
-                <div className="flex justify-end px-2 pb-2">
+                <div className="flex justify-end px-2 pb-2 space-x-2">
+                    <button
+                        onClick={()=>handleSendCodeAgain()} 
+                        className="text-blue-500"
+                    >
+                        Sent code again
+                    </button>
                     <button
                         onClick={()=>handleVerify()} 
                         className="px-6 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">

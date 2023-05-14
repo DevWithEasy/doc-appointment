@@ -1,3 +1,4 @@
+import { Alert, AlertDescription, AlertIcon, AlertTitle } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -12,6 +13,7 @@ const ResetPassword = () => {
     const [confirmPassword,setConfirmPassword] = useState('')
     const [loading,setLoading] = useState('')
     const [nomatch,setNomatch] = useState('')
+    const [success,setSuccess] = useState(false)
 
     async function handleSendForget(){
         if(password !== confirmPassword){
@@ -31,8 +33,9 @@ const ResetPassword = () => {
                 }
             )
             if(res.data.status === 200){
-                navigate('/signin')
                 setLoading(false)
+                setSuccess(true)
+                setTimeout(()=>navigate('/signin'),2000)
             }
         } catch (error) {
             setLoading(false)
@@ -42,6 +45,9 @@ const ResetPassword = () => {
     
     return (
         <div>
+            {
+                !success ? 
+            
             <div className="mt-20 w-full md:w-1/2 mx-auto  border shadow rounded-md bg-white">
                 <h1 className="p-2 text-2xl font-bold uppercase">Reset Password</h1>
                 <hr/>
@@ -53,9 +59,9 @@ const ResetPassword = () => {
                 <hr/>
                 <div className='flex justify-end space-x-2 px-4 py-2 '>
                     <button
-                        onClick={()=>{}} 
+                        onClick={()=>{setPassword('');setConfirmPassword('');}} 
                         className="px-6 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 hover:transition-all hover:duration-300">
-                            Cancel
+                            Clear
                     </button>
                     <button
                         onClick={()=>handleSendForget()} 
@@ -63,7 +69,29 @@ const ResetPassword = () => {
                             {loading ? 'Please wait...' : 'Submit'}
                     </button>
                 </div>
-                </div>
+            </div>
+            :
+            <div className="mt-20 w-full md:w-1/2 mx-auto  border shadow rounded-md bg-white">
+                <Alert
+                status='success'
+                variant='subtle'
+                flexDirection='column'
+                alignItems='center'
+                justifyContent='center'
+                textAlign='center'
+                height='200px'
+                borderRadius='5px'
+                >
+                    <AlertIcon boxSize='40px' mr={0} />
+                    <AlertTitle mt={4} mb={1} fontSize='lg'>
+                        Successfully Change!
+                    </AlertTitle>
+                    <AlertDescription maxWidth='sm'>
+                        Your new password successfully changed.
+                    </AlertDescription>
+                </Alert>
+            </div>
+            }
         </div>
     );
 };

@@ -11,6 +11,10 @@ export default function Header(){
     const isAuth = useUserStore(state=>state.isAuth)
     const user = useUserStore(state=>state.user)
     const removeUser = useUserStore(state=>state.removeUser)
+    function handleLogout() {
+        removeUser()
+        localStorage.removeItem('accessToken')
+    }
     return(
         <div className="w-full md:w-10/12 fixed top-0 right-0 md:pl-2 z-10">
             <div className="flex justify-between md:justify-end items-center p-2 md:py-2 md:px-6 md:rounded-b bg-blue-200/95 z-10">
@@ -46,7 +50,7 @@ export default function Header(){
                                 <b>{user?.name}</b>
                             </span>
                         </Link>
-                        <Link onClick={()=>removeUser()} to="" className="p-2 hover:bg-white trasition-all duration-300 rounded">
+                        <Link onClick={()=>handleLogout()} to="" className="p-2 hover:bg-white trasition-all duration-300 rounded">
                             <AiOutlineLogout size={20} className="md:hidden"/>
                             <span className="hidden md:block">Logout</span>
                         </Link>

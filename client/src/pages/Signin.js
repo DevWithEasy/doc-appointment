@@ -24,13 +24,18 @@ export default function Signin(){
             const res = await axios.post('/api/auth/signin',value)
             if(res.data.status === 200){
                 setLoading(false)
-                toast.success('Successfully signed in')
-                localStorage.setItem('accessToken', res.data.data.token)
-                addUser((res.data.data))
-                if(location.state?.from){
-                    navigate(location.state.from)
+                if(!res.data.data.isVerified){
+                    localStorage.setItem('accessToken', res.data.data.token)
+                    navigate('/verify')
                 }else{
-                    navigate('/')
+                    toast.success('Successfully signed in')
+                    localStorage.setItem('accessToken', res.data.data.token)
+                    addUser((res.data.data))
+                    if(location.state?.from){
+                        navigate(location.state.from)
+                    }else{
+                        navigate('/')
+                    }
                 }
             }
         } catch (error) {

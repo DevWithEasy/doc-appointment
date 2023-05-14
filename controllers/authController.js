@@ -231,6 +231,44 @@ exports.resetPassword = async(req,res,next)=>{
     }
 }
 
+exports.sentCodeAgain = async(req,res,next)=>{
+    try {
+         //generate random number
+         const randomNumber = Math.ceil(Math.random()*999999)
+         const code = await bcrypt.hash((randomNumber).toString(),10)
+        
+         const user = await User.findOne({_id: req.body.userId})
+         const findCode = await Verification.findOne({"user": req.body.userId})
+ 
+         if(!findCode){
+             const verify = new Verification({
+                 user : user._id,
+                 code : code
+             })
+             await verify.save()
+             sendVerificaion(user.email,user.name,randomNumber)
+         }else{
+             await Verification.updateOne({"user": req.body.userId},{$set:{
+                 code : code,
+                 expired : Date.now() + 21600000
+             }})
+             sendVerificaion(user.email,user.name,randomNumber)
+         }
+ 
+         res.status(200).json({
+             success : true,
+             status : 200,
+             message : "Verification code sent again"
+         })
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
 exports.seenNotification=async(req,res,next)=>{
     try {
         const {userId,...notification} = req.body
