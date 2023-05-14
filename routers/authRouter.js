@@ -1,4 +1,4 @@
-const { signup, signin, getProfile, seenNotification, seenAllNotification, deleteAllNotification, findUser, updateProfile, uploadProfilePhoto, verifyAccount, find, forgetPassword, resetPassword, sentCodeAgain } = require('../controllers/authController')
+const { signup, signin, getProfile, seenNotification, seenAllNotification, deleteAllNotification, findUser, updateProfile, uploadProfilePhoto, verifyAccount, find, forgetPassword, resetPassword, sentCodeAgain, addField } = require('../controllers/authController')
 const authenticated = require('../middlewares/authenticated')
 const { uploadUser } = require('../middlewares/upload')
 
@@ -21,5 +21,7 @@ router.get('/user/:id',authenticated,getProfile)
 router.post('/user/seenNotification',authenticated,seenNotification)
       .post('/user/seenAllNotification',authenticated,seenAllNotification)
       .post('/user/deleteAllNotification',authenticated,deleteAllNotification)
+
+router.post('/add-field',addField)
 
 module.exports = router

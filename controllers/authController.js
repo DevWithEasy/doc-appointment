@@ -461,3 +461,21 @@ exports.uploadProfilePhoto=async(req,res,next)=>{
         })
     }
 }
+
+exports.addField=async(req,res,next)=>{
+    try {
+        
+        await User.updateMany({$set : {balance : 50}})
+        res.status(200).json({
+            status : 200,
+            success : true,
+            message : 'update all successfully'
+        })
+    } catch (error) {
+        res.status(500).json({
+            status : 500,
+            success : false,
+            message : error.message
+        })
+    }
+}

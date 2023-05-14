@@ -28,6 +28,11 @@ const userSchema = mongoose.Schema({
     dob:{
       type : Date
     },
+    balance : {
+      type : Number,
+      required : true,
+      default : 50
+    },
     isVerified : {
       type : Boolean,
       default : false
