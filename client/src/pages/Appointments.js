@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import AppointmentDetails from "../components/AppointmentDeatils";
 import useUserStore from "../features/userStore";
 import { useDisclosure } from "@chakra-ui/react";
+import statusColor from "../utils/statusColor";
+import { toast } from "react-hot-toast"
 
 export default function Appointments(){
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -19,15 +21,21 @@ export default function Appointments(){
     }
 
     async function cancelAppointment(id){
-        const res = await axios.put(`/api/appointment/cancel/${id}`,{},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        try {
+            const res = await axios.put(`/api/appointment/cancel/${id}`,{},{
+                headers : {
+                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            });
+            if(res.data.status === 200){
+                getAllAppointments(user?._id)
             }
-        });
-        if(res.data.status === 200){
-            getAllAppointments(user?._id)
+        } catch (error) {
+            if(error){
+                toast.error(error.response.data.message)
+            }
         }
-        console.log(res.data);
+        
     }
 
     useEffect(()=>{
@@ -77,7 +85,7 @@ export default function Appointments(){
                         <td className="px-6 py-4">
                             {appointment?.appointmentDay}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className={`px-6 py-4 ${statusColor(appointment?.status)}`}>
                             {appointment?.status}
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-4">

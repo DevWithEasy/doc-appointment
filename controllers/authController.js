@@ -7,6 +7,7 @@ const fs = require('fs')
 const path = require('path');
 const { sendVerificaion, sendSuccessful, sendForgetPassword } = require("../utils/verification");
 const { passwordChangeSuccessfull } = require("../utils/verification");
+const Appointment = require("../models/Appointment");
 
 exports.signup=async(req,res,next)=>{
     const {password} = req.body
@@ -336,10 +337,14 @@ exports.deleteAllNotification=async(req,res,next)=>{
 exports.getProfile=async(req,res,next)=>{
     try {
         const user = await User.findOne({_id : req.params.id})
+        const appointments = await Appointment.find({user : req.params.id}).countDocuments()
         res.status(200).json({
             status : 200,
             success : true,
-            data : user
+            data : {
+                ...user._doc,
+                appointments
+            }
         })
     } catch (error) {
         res.status(500).json({

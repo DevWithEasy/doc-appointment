@@ -3,6 +3,14 @@ const Doctor = require('../models/Doctor')
 const User = require('../models/User')
 exports.addAppointment=async(req,res,next)=>{
     try {
+        const user = await User.find({id : req.body.userId})
+        if(user.balance < 10) {
+            return res.status(500).json({
+                status : 500,
+                success : false,
+                message : 'Unsufficient balance.'
+            })
+        }
         const all = await Appointment.find({appointmentDate : req.body.appointmentDate})
         const newAppointment = new Appointment({
             ...req.body,
@@ -11,19 +19,39 @@ exports.addAppointment=async(req,res,next)=>{
         })
 
         const doctor = await Doctor.findOne({_id : req.body.doctor})
-        const user = await User.findOne({_id : doctor.user})
-        user.notifications.push({
-            id : Date.now(),
-            name : req.body.patientName,
-            message : `${req.body.patientName} has been applied for appointments.`,
-            day : req.body.appointmentDay,
-            date : req.body.appointmentDate,
-            onClickPath : `/doctor/allAppointments/search?day=${req.body.appointmentDay}&date=${req.body.appointmentDate}`,
-            status : 'unread'
+
+        await User.findByIdAndUpdate(doctor.user,{
+            $push : {
+                notifications : {
+                    id : Date.now(),
+                    name : req.body.patientName,
+                    message : `${req.body.patientName} has been applied for appointments.`,
+                    day : req.body.appointmentDay,
+                    date : req.body.appointmentDate,
+                    onClickPath : `/doctor/allAppointments/search?day=${req.body.appointmentDay}&date=${req.body.appointmentDate}`,
+                    status : 'unread'
+                }
+            }
         })
+
+        await User.findByIdAndUpdate(req.body.userId,{
+            $inc : {
+                balance : -10
+            }
+        })
+        // const user = await User.findOne({_id : doctor.user})
+        // user.notifications.push({
+        //     id : Date.now(),
+        //     name : req.body.patientName,
+        //     message : `${req.body.patientName} has been applied for appointments.`,
+        //     day : req.body.appointmentDay,
+        //     date : req.body.appointmentDate,
+        //     onClickPath : `/doctor/allAppointments/search?day=${req.body.appointmentDay}&date=${req.body.appointmentDate}`,
+        //     status : 'unread'
+        // })
         
         newAppointment.save()
-        user.save()
+        // user.save()
         res.status(200).json({
             status : 200,
             success : true,
@@ -31,6 +59,7 @@ exports.addAppointment=async(req,res,next)=>{
         })
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             status : 500,
             success : false,
@@ -111,9 +140,13 @@ exports.cancelAppointment=async(req,res,next)=>{
             })
         }
 
-        await Appointment.updateOne({_id:req.params.id}, {$set:{
-            status : 'Canceled'
-        }})
+        await Appointment.findByIdAndRemove(req.params.id)
+
+        await User.findByIdAndUpdate(appointment.user,{
+            $inc : {
+                balance : 5
+            }
+        })
         
         res.status(200).json({
             status : 200,

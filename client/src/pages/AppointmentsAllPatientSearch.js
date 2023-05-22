@@ -4,7 +4,15 @@ import { useLocation } from 'react-router-dom';
 import AppointmentDetails from '../components/AppointmentDeatils';
 import useUserStore from '../features/userStore';
 import dateGenerator from '../utils/dateGenerator';
-import { useDisclosure } from '@chakra-ui/react';
+import {
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    useDisclosure,
+    Button
+  } from '@chakra-ui/react'
+import statusColor from '../utils/statusColor';
 export default function AppointmentsAllPatientSearch(){
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [id,setId] = useState('')
@@ -14,6 +22,7 @@ export default function AppointmentsAllPatientSearch(){
     const day = searchParams.get('day');
     const date = searchParams.get('date');
     const [appointments,setAppointments] = useState([])
+    const [view,setView] = useState(false)
     async function getAppointments(day,date){
         const res = await axios.get(`/api/appointment/all/search?day=${day}&date=${date}`,{
             headers : {
@@ -30,7 +39,7 @@ export default function AppointmentsAllPatientSearch(){
             }
         });
         if(res.data.status === 200){
-            getAppointments()
+            getAppointments(day,date)
         };
     }
 
@@ -41,7 +50,7 @@ export default function AppointmentsAllPatientSearch(){
             }
         });
         if(res.data.status === 200){
-            getAppointments()
+            getAppointments(day,date)
         };
     }
 
@@ -52,7 +61,7 @@ export default function AppointmentsAllPatientSearch(){
             }
         });
         if(res.data.status === 200){
-            getAppointments()
+            getAppointments(day,date)
         };
     }
 
@@ -103,25 +112,44 @@ export default function AppointmentsAllPatientSearch(){
                         <td className="px-6 py-4">
                             {appointment?.address}
                         </td>
-                        <td className="px-6 py-4">
+                        <td className={`px-6 py-4 ${statusColor(appointment?.status)}`}>
                             {appointment?.status}
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-4">
-                            <button 
-                                onClick={()=>{setId(appointment?._id);onOpen()}}
-                                className="p-2 bg-green-400 text-white rounded hover:bg-green-500"
-                            >
-                                Details
-                            </button>
-                            <button onClick={()=>confirmAppointment(appointment?._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Confirmed</button>
-                            <button onClick={()=>completeAppointment(appointment?._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">Completed</button>
-                            <button onClick={()=>rejectAppointment(appointment?._id)} className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Rejected</button>
+                        <Menu>
+                            <MenuButton as={Button}>
+                                Actions
+                            </MenuButton>
+                            <MenuList className='p-2'>
+                                <MenuItem 
+                                    onClick={()=>{setId(appointment?._id);onOpen();setView(true)}}
+                                    className="p-2 rounded"
+                                >
+                                        Details
+                                </MenuItem>
+                                <MenuItem 
+                                    onClick={()=>confirmAppointment(appointment?._id)} className="p-2 rounded hover:bg-green-500 hover:text-white transition-all duration-300"
+                                >
+                                        Confirmed
+                                </MenuItem>
+                                <MenuItem 
+                                    onClick={()=>completeAppointment(appointment?._id)} className="p-2 rounded hover:bg-blue-500 hover:text-white transition-all duration-300"
+                                >
+                                        Completed
+                                </MenuItem>
+                                <MenuItem 
+                                    onClick={()=>rejectAppointment(appointment?._id)} className="p-2 rounded hover:bg-red-500 hover:text-white transition-all duration-300"
+                                >
+                                        Rejected
+                                </MenuItem>
+                            </MenuList>
+                            </Menu>
                         </td>
                         
                     </tr>)}
                 </tbody>
             </table>
-            <AppointmentDetails {...{id,isOpen, onOpen, onClose}}/>
+            {view && <AppointmentDetails {...{id,isOpen, onOpen, onClose}}/>}
         </div>
     )
 }

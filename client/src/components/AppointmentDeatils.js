@@ -23,13 +23,19 @@ export default function AppointmentDetails({id,isOpen, onOpen, onClose}){
     const [loading,setLoading] = useState(false)
 
     async function getAppointmentDetails(id){
-        const res = await axios.get(`/api/appointment/details/${id}`,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        try{
+            const res = await axios.get(`/api/appointment/details/${id}`,{
+                headers : {
+                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if(res.status === 200){
+                setAppointment(res.data.data)
+                setChamber(res.data.data.doctor.chambers.find(c => c.id === res.data.data.chamberId))
             }
-        })
-        setAppointment(res.data.data)
-        setChamber(res.data.data.doctor.chambers.find(c => c.id === res.data.data.chamberId))
+        }catch(err){
+            console.log(err)
+        }
     }
 
     async function getAppointmentStatus(){

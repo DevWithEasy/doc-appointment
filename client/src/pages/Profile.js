@@ -6,6 +6,7 @@ import Upload from "../components/Upload"
 import useUserStore from "../features/userStore"
 import dateGenerator from "../utils/dateGenerator"
 import handleChange from "../utils/handleChange"
+import moment from 'moment'
 export default function Profile(){
     const {random,addUser} = useUserStore()
     const {id}  = useParams()
@@ -51,7 +52,10 @@ export default function Profile(){
                     <div className="p-4 flex justify-between">
                         <p className="text-2xl font-bold">{user?.name}</p>
                         <div>
-                            <p>Member from 21/02/12 (2year)</p>
+                            <p>
+                                Member from 
+                                 - {moment(user?.createdAt).fromNow()}
+                            </p>
                             <p>Account status : General User</p>
                         </div>
                     </div>
@@ -87,24 +91,13 @@ export default function Profile(){
                 <div className="">
                     <div className="bg-white p-4 rounded-2xl shadow space-y-2">
                         <p className="flex justify-between">
-                            <span className="font-bold">Total Appointment</span>
-                            <span>20</span>
+                            <span className="">Balance</span>
+                            <span>{user?.balance} -Tk</span>
                         </p>
-                        <hr/>
-                        <div className="space-y-1">
-                            <p className="flex justify-between">
-                                <span>Success Appointment</span>
-                                <span>20</span>
-                            </p>
-                            <p className="flex justify-between">
-                                <span>Reject Appointment</span>
-                                <span>20</span>
-                            </p>
-                            <p className="flex justify-between">
-                                <span>Cancel Appointment</span>
-                                <span>20</span>
-                            </p>
-                        </div>
+                        <p className="flex justify-between">
+                            <span className="">Total Appointment</span>
+                            <span>{user?.appointments}</span>
+                        </p>
                     </div>
                 </div>
             </div>
