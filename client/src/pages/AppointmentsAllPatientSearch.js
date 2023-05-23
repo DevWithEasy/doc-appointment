@@ -68,10 +68,10 @@ export default function AppointmentsAllPatientSearch(){
     useEffect(()=>{
         getAppointments(day,date)
     },[day,date,random])
-    console.log(date);
+    
     return(
         <div className='space-y-2'>
-            <h1 className="text-2xl font-bold text-center uppercase">All appointments of {day} {dateGenerator(date)}</h1>
+            <h1 className="text-2xl font-bold text-center uppercase">All appointments of {day} {date}</h1>
             <hr/>
 
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

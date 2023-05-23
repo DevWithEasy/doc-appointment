@@ -3,7 +3,8 @@ const Doctor = require('../models/Doctor')
 const User = require('../models/User')
 exports.addAppointment=async(req,res,next)=>{
     try {
-        const user = await User.find({id : req.body.userId})
+        const user = await User.findOne({_id : req.body.userId})
+
         if(user.balance < 10) {
             return res.status(500).json({
                 status : 500,
@@ -11,7 +12,9 @@ exports.addAppointment=async(req,res,next)=>{
                 message : 'Unsufficient balance.'
             })
         }
+
         const all = await Appointment.find({appointmentDate : req.body.appointmentDate})
+
         const newAppointment = new Appointment({
             ...req.body,
             user : req.body.userId,
@@ -39,19 +42,8 @@ exports.addAppointment=async(req,res,next)=>{
                 balance : -10
             }
         })
-        // const user = await User.findOne({_id : doctor.user})
-        // user.notifications.push({
-        //     id : Date.now(),
-        //     name : req.body.patientName,
-        //     message : `${req.body.patientName} has been applied for appointments.`,
-        //     day : req.body.appointmentDay,
-        //     date : req.body.appointmentDate,
-        //     onClickPath : `/doctor/allAppointments/search?day=${req.body.appointmentDay}&date=${req.body.appointmentDate}`,
-        //     status : 'unread'
-        // })
         
         newAppointment.save()
-        // user.save()
         res.status(200).json({
             status : 200,
             success : true,

@@ -38,6 +38,9 @@ export default function AppointmentSubmit(){
     }
 
     function selectedDay(selected){
+            if(new Date(selected).getTime() < Date.now()){
+                return toast.error('Please select a date upper date than now')
+            }
             const date = new Date(selected);
             const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             const dayName = daysOfWeek[date.getDay()];
@@ -63,14 +66,20 @@ export default function AppointmentSubmit(){
 
 
     async function addAppointment(){
-        const res = await axios.post('/api/appointment/add',data,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        try {
+            const res = await axios.post('/api/appointment/add',data,{
+                headers : {
+                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if(res.data.status === 200){
+                toast.success('Appointment added successfully')
+                navigate('/appointments')
             }
-        })
-        if(res.data.status === 200){
-            toast.success('Appointment added successfully')
-            navigate('/appointments')
+        } catch (error) {
+            if(error){
+                toast.error(error.response.data.message)
+            }
         }
     }
     

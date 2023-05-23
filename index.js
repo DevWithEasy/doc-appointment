@@ -5,6 +5,7 @@ const app = express();
 const applyRoute = require('./routers/routes')
 const applyMidleware = require('./middlewares/midlewares');
 const dbConnection = require("./config/dbConnection");
+const sheduleTask = require("./utils/sheduleTask");
 
 //all midlewares apply
 applyMidleware(app)
@@ -23,6 +24,8 @@ app.use(express.static('public'))
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'./client/build/index.html'))
 })
+
+sheduleTask()
 
 app.listen(process.env.PORT || 8080,()=>{
     console.log('Express server listening on port 8080')

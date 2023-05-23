@@ -19,7 +19,6 @@ export default function Upload(props){
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [loading,setLoading] = useState(false)
     const {user,reload} = useUserStore()
-    const {upload,setUpload} = props
     const [file,setFile] = useState()
     const [image,setImage] = useState()
     const handleFile = (e)=>{
@@ -43,7 +42,6 @@ export default function Upload(props){
             })
             if(res.data.success === true){
                 reload()
-                setUpload(!upload)
                 toast.success('Profile Photo uploaded successfully')
                 setLoading(false)
             }

@@ -432,26 +432,47 @@ exports.uploadProfilePhoto=async(req,res,next)=>{
 
         User.updateOne({_id : req.params.id},{$set : {
            'image.url' : `/image/users/${req.file.filename}`
-        }},(err)=>{
-            if (err){
+        }})
+        .exec()
+        .then(() =>{
+            if(user.image.url !== '/image/users/default_profile.jpg'){
+                const filepath = path.dirname(__dirname)+ '/public' + user.image.url
+                fs.unlinkSync(filepath,(err)=>{
+                    res.status(400).json({
+                        status : 400,
+                        success : false,
+                        message : err.message
+                    })
+                })
+            }
+        })
+        .catch(err =>{
+                console.log(err)
                 res.status(400).json({
                     status : 500,
                     success : false,
                     message : err.message
                 })
-            }else{
-                if(user.image.url !== '/image/users/default_profile.jpg'){
-                    const filepath = path.dirname(__dirname)+ '/public' + user.image.url
-                    fs.unlinkSync(filepath,(err)=>{
-                        res.status(400).json({
-                            status : 400,
-                            success : false,
-                            message : err.message
-                        })
-                    })
-                }
-            }
+            // if (err){
+            //     res.status(400).json({
+            //         status : 500,
+            //         success : false,
+            //         message : err.message
+            //     })
+            // }else{
+            //     if(user.image.url !== '/image/users/default_profile.jpg'){
+            //         const filepath = path.dirname(__dirname)+ '/public' + user.image.url
+            //         fs.unlinkSync(filepath,(err)=>{
+            //             res.status(400).json({
+            //                 status : 400,
+            //                 success : false,
+            //                 message : err.message
+            //             })
+            //         })
+            //     }
+            // }
         })
+
         const updateUser = await User.findOne({_id : req.params.id})
         res.status(200).json({
             status : 200,
