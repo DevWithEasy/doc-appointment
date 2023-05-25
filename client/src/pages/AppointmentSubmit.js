@@ -8,8 +8,11 @@ import ChamberList from '../components/ChamberList';
 import useUserStore from '../features/userStore';
 import dateGenerator from '../utils/dateGenerator';
 import handleChange from '../utils/handleChange';
+import { useDisclosure } from '@chakra-ui/react';
+import NoBalanceAlert from '../components/NoBalanceAlert';
 
 export default function AppointmentSubmit(){
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate()
     const {user} =useUserStore()
     const {id} = useParams()
@@ -77,9 +80,10 @@ export default function AppointmentSubmit(){
                 navigate('/appointments')
             }
         } catch (error) {
-            if(error){
-                toast.error(error.response.data.message)
+            if(error.response.data.status === 405){
+                return onOpen()
             }
+            toast.error(error.response.data.message)
         }
     }
     
@@ -141,6 +145,7 @@ export default function AppointmentSubmit(){
                 </div>
             </div>
             <button onClick={()=>addAppointment()} className='p-2 bg-green-500 text-white rounded-md'>Booking Confirm</button>
+            <NoBalanceAlert {...{isOpen, onOpen, onClose,navigate}}/>
         </div>
     )
 }

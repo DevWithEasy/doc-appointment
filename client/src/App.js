@@ -23,6 +23,7 @@ import ResetPassword from './pages/ResetPassword';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import VerifyAccount from './pages/VerifyAccount';
+import AddBalance from './pages/AddBalance';
 function App() {
   const routes = useRoutes(
     [
@@ -118,6 +119,10 @@ function App() {
             path : '/admin/hospitals',
             element : <ProtectedRoute><AppliedHospital/></ProtectedRoute>,
           },
+          {
+            path : '/add-balance',
+            element : <ProtectedRoute><AddBalance/></ProtectedRoute>
+          }
         ]
       }
     ]

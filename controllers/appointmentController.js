@@ -6,8 +6,8 @@ exports.addAppointment=async(req,res,next)=>{
         const user = await User.findOne({_id : req.body.userId})
 
         if(user.balance < 10) {
-            return res.status(500).json({
-                status : 500,
+            return res.status(405).json({
+                status : 405,
                 success : false,
                 message : 'Unsufficient balance.'
             })
