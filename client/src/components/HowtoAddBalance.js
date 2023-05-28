@@ -52,8 +52,8 @@ const HowtoAddBalance = () => {
                           <Radio value='app'>APP</Radio>
                         </Stack>
                       </RadioGroup>
-                        <div className='grid grid-cols-1 gap-y-4 md:gap-y-0 md:grid-cols-2 md:gap-4'>
-                            {howToPay.filter(pay => pay.payment_option === payment && pay.pay_by === payBy).map(pay=><img src={pay.image} alt='bkash' className='rounded-md'/>)}
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                            {howToPay.filter(pay => pay.payment_option === payment && pay.pay_by === payBy).map(pay=><img key={pay.id} src={pay.image} alt='bkash' className='rounded-md'/>)}
                         </div>
                     </TabPanel>
                     <TabPanel>
@@ -63,7 +63,7 @@ const HowtoAddBalance = () => {
                             <Radio value='app'>APP</Radio>
                           </Stack>
                         </RadioGroup>
-                        <div className='space-y-2'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                             {howToPay.filter(pay => pay.payment_option === payment && pay.pay_by === payBy).map(pay=><img key={pay.id} src={pay.image} alt='bkash' className='rounded-md'/>)}
                         </div>
                     </TabPanel>
