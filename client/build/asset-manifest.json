@@ -1,19 +1,29 @@
 {
   "files": {
-    "main.css": "/static/css/main.e930b58c.css",
-    "main.js": "/static/js/main.e2bf7ff0.js",
+    "main.css": "/static/css/main.7723d8cd.css",
+    "main.js": "/static/js/main.0ae64039.js",
     "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
     "static/media/homepage_hero.jpg": "/static/media/homepage_hero.4b3196411537d086c95e.jpg",
+    "static/media/ussd_01.jpg": "/static/media/ussd_01.4aede36f58341dc98a05.jpg",
+    "static/media/ussd_05.jpg": "/static/media/ussd_05.6c4ac371ed5feb557fdd.jpg",
+    "static/media/ussd_03.jpg": "/static/media/ussd_03.6c96e2ce635114757c78.jpg",
+    "static/media/ussd_04.jpg": "/static/media/ussd_04.ad9c227816d200402653.jpg",
+    "static/media/ussd_02.jpg": "/static/media/ussd_02.bb4eee69cf0306ee58ca.jpg",
+    "static/media/app_01.jpg": "/static/media/app_01.bdb5612099d6898a726b.jpg",
+    "static/media/app_02.jpg": "/static/media/app_02.d6912c0aa5a70fe62f3e.jpg",
+    "static/media/app_04.jpg": "/static/media/app_04.35eeeb412a41adec81be.jpg",
+    "static/media/app_03.jpg": "/static/media/app_03.4d0113daa6a83e492d2a.jpg",
     "static/media/icon.png": "/static/media/icon.194ca85d1fc0275eaa73.png",
     "static/media/verified.png": "/static/media/verified.b52c076afe0efc99916c.png",
     "static/media/hospital2.png": "/static/media/hospital2.c8fe69e5ce149f1a07f2.png",
+    "static/media/BKash_Logo.png": "/static/media/BKash_Logo.151a74c94783cc69ad20.png",
     "index.html": "/index.html",
-    "main.e930b58c.css.map": "/static/css/main.e930b58c.css.map",
-    "main.e2bf7ff0.js.map": "/static/js/main.e2bf7ff0.js.map",
+    "main.7723d8cd.css.map": "/static/css/main.7723d8cd.css.map",
+    "main.0ae64039.js.map": "/static/js/main.0ae64039.js.map",
     "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e930b58c.css",
-    "static/js/main.e2bf7ff0.js"
+    "static/css/main.7723d8cd.css",
+    "static/js/main.0ae64039.js"
   ]
 }

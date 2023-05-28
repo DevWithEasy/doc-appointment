@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import hospital from '../images/hospital2.png'
+import hospital from '../assets/images/hospital2.png'
 export default function Hospital(){
     return(
         <div className="shadow border rounded p-2 space-y-2">

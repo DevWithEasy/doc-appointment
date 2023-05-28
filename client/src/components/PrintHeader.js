@@ -1,4 +1,4 @@
-import icon from '../images/icon.png'
+import icon from '../assets/images/icon.png'
 export default function PrintHeader(){
     return(
         <div className='print:flex justify-center hidden mt-10'>

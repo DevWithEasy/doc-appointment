@@ -1,7 +1,7 @@
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { NavLink } from "react-router-dom";
 import useUserStore from '../features/userStore';
-import icon from '../images/icon.png';
+import icon from '../assets/images/icon.png';
 import { adminData, doctorData, userData } from '../utils/sidebarData';
 
 export default function Menu({menu,setMenu}){

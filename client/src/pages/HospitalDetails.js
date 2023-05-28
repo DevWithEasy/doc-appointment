@@ -1,5 +1,5 @@
 import Doctor from '../components/Doctor'
-import hospital from '../images/hospital2.png'
+import hospital from '../assets/images/hospital2.png'
 
 export default function HospitalDetails(){
     return(

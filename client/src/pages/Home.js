@@ -1,4 +1,4 @@
-import background from '../images/homepage_hero.jpg'
+import background from '../assets/images/homepage_hero.jpg'
 import {Link} from 'react-router-dom'
 import {AiOutlineSearch} from 'react-icons/ai'
 export default function Home(){
