@@ -7,19 +7,17 @@ import axios from 'axios';
 const AddBalance = () => {
     const [loading,setLoading] = useState(false)
     const [value,setValue] = useState({
-        number :'',
-        payment : '',
-        tnxID : ''
+        amount :'',
     })
 
     async function addBalance() {
 
-        if(!value.number || !value.payment || !value.tnxID){
+        if(!value.amount){
             return toast.error('Please filled all fields')
         }
         setLoading(true)
         try {
-            const res = await axios.post('/api/transection/add',value,{
+            const res = await axios.post('/api/transection/init',value,{
                 headers: {
                     authorization : 'Bearer ' + localStorage.getItem('accessToken')
                 }
@@ -36,23 +34,9 @@ const AddBalance = () => {
         <div className="w-full md:w-5/12 mx-auto px-4 py-2 border rounded space-y-2 bg-white">
             <h1 className="text-2xl font-bold text-center uppercase border-b py-2">Add balance in account</h1>
             <div className=" space-y-1">
-                <label>Number : </label>
-                <input type='text' name='number' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
+                <label>Amount : </label>
+                <input type='text' name='amount' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
             </div>
-            <div className=" space-y-1">
-                <label>Payment option  : </label>
-                <select type='text' name='payment' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'>
-                    <option value=''>Select</option>
-                    <option value='BKash'>BKash</option>
-                    <option value='Nagad'>Nagad</option>
-                </select>
-            </div>
-            <div className=" space-y-1">
-                <label>Transection ID : </label>
-                <input type='text' name='tnxID' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
-            </div>
-            
-
 
             <button 
                 onClick={()=>addBalance()} 
