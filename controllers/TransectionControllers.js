@@ -1,57 +1,127 @@
 const Transection = require("../models/Transection")
 const SSLCommerzPayment = require('sslcommerz-lts')
+const User = require("../models/User")
 const {ObjectId} = require('mongoose').Types
 
 
 exports.initPayment=async(req,res,next)=>{
     const store_id = process.env.STORE_ID
-        const store_passwd = process.env.STORE_SECRET_KEY
-        const is_live = false
-
-        const data = {
-            total_amount: req.body.amount,
-            currency: 'BDT',
-            tran_id: 'REF123', // use unique tran_id for each api call
-            success_url: 'http://localhost:3030/success',
-            fail_url: 'http://localhost:3030/fail',
-            cancel_url: 'http://localhost:3030/cancel',
-            ipn_url: 'http://localhost:3030/ipn',
-            shipping_method: 'Courier',
-            product_name: 'Computer.',
-            product_category: 'Electronic',
-            product_profile: 'general',
-            cus_name: 'Customer Name',
-            cus_email: 'customer@example.com',
-            cus_add1: 'Dhaka',
-            cus_add2: 'Dhaka',
-            cus_city: 'Dhaka',
-            cus_state: 'Dhaka',
-            cus_postcode: '1000',
-            cus_country: 'Bangladesh',
-            cus_phone: '01711111111',
-            cus_fax: '01711111111',
-            ship_name: 'Customer Name',
-            ship_add1: 'Dhaka',
-            ship_add2: 'Dhaka',
-            ship_city: 'Dhaka',
-            ship_state: 'Dhaka',
-            ship_postcode: 1000,
-            ship_country: 'Bangladesh',
-        };
+    const store_passwd = process.env.STORE_SECRET_KEY
+    const is_live = false
+        
     try {
 
-        // const newTransection = new Transection({
-        //     ...req.body,
-        //     user : req.body.userId
-        // })
+        const tnxID = new ObjectId().toString();
 
-        // await newTransection.save()
+        const user = await User.findOne({_id : req.body.userId})
 
-        // res.status(200).json({
-        //     status : 200,
-        //     success : true,
-        //     message : 'Request sent successfully'
-        // })
+        const data = {
+                total_amount: req.body.amount,
+                currency: 'BDT',
+                tran_id: tnxID,
+                success_url: `http://localhost:8080/api/transection/success/${tnxID}`,
+                fail_url: `http://localhost:8080/api/transection/failure/${tnxID}`,
+                cancel_url: `http://localhost:8080/api/transection/failure/${tnxID}`,
+                ipn_url: 'http://localhost:8080/ipn',
+                shipping_method: 'Online',
+                product_name: 'Add Balance order',
+                product_category: 'payment',
+                product_profile: 'general',
+                cus_name: user.name,
+                cus_email: user.email,
+                cus_add1: user.address.location,
+                cus_add2: '',
+                cus_city: user.address.upazilla,
+                cus_state: user.address.district,
+                cus_postcode: user.address.post_code,
+                cus_country: 'Bangladesh',
+                cus_phone: user.phone,
+                cus_fax: '',
+                ship_name: user.name,
+                ship_add1: user.address.location,
+                ship_add2: '',
+                ship_city: user.address.upazilla,
+                ship_state: user.address.district,
+                ship_postcode: user.address.post_code,
+                ship_country: 'Bangladesh',
+            };
+
+            const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
+            sslcz.init(data).then(apiResponse => {
+                
+                let GatewayPageURL = apiResponse.GatewayPageURL
+
+                
+                
+                const newTransection = new Transection({
+                    tnxID,
+                    amount : req.body.amount,
+                    user : req.body.userId
+                })
+        
+                newTransection.save()
+                
+                
+                res.status(200).json({
+                    status : 200,
+                    success : true,
+                    url : GatewayPageURL,
+                    message : 'Request sent successfully'    
+                })
+            });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status : 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
+exports.successPayment=async(req,res,next)=>{
+    try {
+        const transection = await Transection.findOne({tnxID:req.params.tnxID})
+
+        await User.findByIdAndUpdate(transection.user,{
+            $inc:{
+                balance : transection.amount
+            }
+        })
+
+        await Transection.findByIdAndUpdate(transection._id,{
+            $set:{
+                payment : true
+            }
+        })
+
+        res.redirect('http://localhost:3000/payment/success')
+
+    } catch (error) {
+        res.status(500).json({
+            status : 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
+exports.failurePayment=async(req,res,next)=>{
+
+    try {
+        const data = await Transection.deleteOne({tnxID : req.params.tnxID})
+
+        if(data.deletedCount === 1){
+            res.redirect('http://localhost:3000/payment/failure')
+        }else{
+            return res.status(405).json({
+                status : 405,
+                success : false,
+                message : 'Something went wrong'
+            })
+        }
+
     } catch (error) {
         res.status(500).json({
             status : 500,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import handleChange from '../utils/handleChange';
-import HowtoAddBalance from '../components/HowtoAddBalance';
+import handleChange from '../../utils/handleChange';
+import HowtoAddBalance from '../../components/HowtoAddBalance';
 import  toast from 'react-hot-toast'
 import axios from 'axios';
 
@@ -25,6 +25,7 @@ const AddBalance = () => {
             if(res.data.status === 200){
                 setLoading(false)
                 toast.success(res.data.message)
+                window.location.replace(res.data.url)
             }
         } catch (error) {
             setLoading(false)

@@ -23,7 +23,10 @@ import ResetPassword from './pages/ResetPassword';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import VerifyAccount from './pages/VerifyAccount';
-import AddBalance from './pages/AddBalance';
+import AddBalance from './pages/payment/AddBalance';
+import Success from './pages/payment/Success';
+import Failure from './pages/payment/Failure';
+import NotFound from './pages/NotFound';
 function App() {
   const routes = useRoutes(
     [
@@ -120,8 +123,20 @@ function App() {
             element : <ProtectedRoute><AppliedHospital/></ProtectedRoute>,
           },
           {
-            path : '/add-balance',
+            path : '/payment/add',
             element : <ProtectedRoute><AddBalance/></ProtectedRoute>
+          },
+          {
+            path : '/payment/success',
+            element : <Success/>
+          },
+          {
+            path : '/payment/failure',
+            element : <Failure/>
+          },
+          {
+            path : '/*',
+            element : <NotFound/>
           }
         ]
       }

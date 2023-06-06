@@ -11,11 +11,11 @@ const TransectionSchema = mongoose.Schema({
         required:true
     },
     amount:{
-        type:String,
+        type:Number,
         required:true
     },
     payment:{
-        type:String,
+        type:Boolean,
         default : false,
         required:true
     }

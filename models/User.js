@@ -68,6 +68,10 @@ const userSchema = mongoose.Schema({
         type : String,
         default : ''
       },
+      post_code : {
+        type : Number,
+        default : ''
+      },
       post_office : {
         type : String,
         default : ''

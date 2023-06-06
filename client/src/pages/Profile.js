@@ -78,7 +78,12 @@ export default function Profile(){
                         </div>
 
                         <div className="flex items-center space-x-2">
+                            <input type='text' name='post_code' value={address?.post_code} onChange={(e)=>handleChange(e,address,setAddress)} className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Post Code"/>
+
                             <input type='text' name='upazilla' value={address?.upazilla} onChange={(e)=>handleChange(e,address,setAddress)} className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Upazilla"/>
+
+                        </div>
+                        <div className="flex items-center space-x-2">
                             <input type='text' name='district' value={address?.district} onChange={(e)=>handleChange(e,address,setAddress)} className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder="District"/>
                         </div>
 

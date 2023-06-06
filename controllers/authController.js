@@ -408,6 +408,7 @@ exports.updateProfile=async(req,res,next)=>{
             dob : req.body.dob,
             'address.location' : req.body.address.location,
             'address.post_office' : req.body.address.post_office,
+            'address.post_code' : req.body.address.post_code,
             'address.upazilla' : req.body.address.upazilla,
             'address.district' : req.body.address.district,
         }})
@@ -491,7 +492,7 @@ exports.uploadProfilePhoto=async(req,res,next)=>{
 exports.addField=async(req,res,next)=>{
     try {
         
-        await User.updateMany({$set : {balance : 50}})
+        await User.updateMany({$set : {'address.post_code' : ''}})
         res.status(200).json({
             status : 200,
             success : true,
