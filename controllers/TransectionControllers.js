@@ -1,6 +1,7 @@
 const Transection = require("../models/Transection")
 const SSLCommerzPayment = require('sslcommerz-lts')
 const User = require("../models/User")
+const { api_url } = require("../utils/baseUrl")
 const {ObjectId} = require('mongoose').Types
 
 
@@ -19,10 +20,10 @@ exports.initPayment=async(req,res,next)=>{
                 total_amount: req.body.amount,
                 currency: 'BDT',
                 tran_id: tnxID,
-                success_url: `http://localhost:8080/api/transection/success/${tnxID}`,
-                fail_url: `http://localhost:8080/api/transection/failure/${tnxID}`,
-                cancel_url: `http://localhost:8080/api/transection/failure/${tnxID}`,
-                ipn_url: 'http://localhost:8080/ipn',
+                success_url: `${api_url}/api/transection/success/${tnxID}`,
+                fail_url: `${api_url}/api/transection/failure/${tnxID}`,
+                cancel_url: `${api_url}/api/transection/failure/${tnxID}`,
+                ipn_url: '${api_url}/ipn',
                 shipping_method: 'Online',
                 product_name: 'Add Balance order',
                 product_category: 'payment',
@@ -96,7 +97,7 @@ exports.successPayment=async(req,res,next)=>{
             }
         })
 
-        res.redirect('http://localhost:3000/payment/success')
+        res.redirect(`${ui_url}/payment/success`)
 
     } catch (error) {
         res.status(500).json({
@@ -113,7 +114,7 @@ exports.failurePayment=async(req,res,next)=>{
         const data = await Transection.deleteOne({tnxID : req.params.tnxID})
 
         if(data.deletedCount === 1){
-            res.redirect('http://localhost:3000/payment/failure')
+            res.redirect(`${ui_url}/payment/failure`)
         }else{
             return res.status(405).json({
                 status : 405,

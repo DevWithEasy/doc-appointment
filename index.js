@@ -6,6 +6,7 @@ const applyRoute = require('./routers/routes')
 const applyMidleware = require('./middlewares/midlewares');
 const dbConnection = require("./config/dbConnection");
 const sheduleTask = require("./utils/sheduleTask");
+const { api_url, ui_url } = require("./utils/baseUrl");
 
 //all midlewares apply
 applyMidleware(app)
