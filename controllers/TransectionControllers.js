@@ -1,7 +1,7 @@
 const Transection = require("../models/Transection")
 const SSLCommerzPayment = require('sslcommerz-lts')
 const User = require("../models/User")
-const { api_url } = require("../utils/baseUrl")
+const { api_url, ui_url } = require("../utils/baseUrl")
 const {ObjectId} = require('mongoose').Types
 
 
