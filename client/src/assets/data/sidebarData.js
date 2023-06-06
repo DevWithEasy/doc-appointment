@@ -1,6 +1,6 @@
 import {BiHomeSmile,BiGitPullRequest} from 'react-icons/bi'
 import {FaHospital} from 'react-icons/fa'
-import {BsFillJournalBookmarkFill} from 'react-icons/bs'
+import {BsFillJournalBookmarkFill,BsCreditCard2Front} from 'react-icons/bs'
 import {GiDoctorFace} from 'react-icons/gi'
 import {MdAdminPanelSettings,MdOutlineSpaceDashboard} from'react-icons/md'
 
@@ -30,6 +30,11 @@ export const userData = [
         title : 'Apply Doctor',
         icon : <BiGitPullRequest size={20} className='shrink-0'/>
     },
+    {
+        path : '/payment/add',
+        title : 'Add Balance',
+        icon : <BsCreditCard2Front size={20} className='shrink-0'/>
+    }
 ]
 
 export const adminData = [
@@ -85,5 +90,10 @@ export const doctorData = [
         path : '/doctor/allAppointments',
         title : 'All Appointments',
         icon : <MdOutlineSpaceDashboard size={20} className='shrink-0'/>
+    },
+    {
+        path : '/payment/add',
+        title : 'Add Balance',
+        icon : <BsCreditCard2Front size={20} className='shrink-0'/>
     }
 ]

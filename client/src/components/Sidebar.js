@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import useUserStore from "../features/userStore";
 import icon from '../assets/images/icon.png';
-import { adminData, doctorData, userData } from '../utils/sidebarData';
+import { adminData, doctorData, userData } from '../assets/data/sidebarData';
 
 export default function Sidebar(){
     const user = useUserStore(state=>state.user)

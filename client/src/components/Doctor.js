@@ -18,7 +18,7 @@ export default function Doctor({doctor}){
                 <p className='flex justify-center'>
                     <Link to={`/appointment-submit/${doctor?._id}`} className='flex items-center space-x-2 text-green-500 px-4 py-2 rounded-full border border-green-500 hover:bg-green-500 hover:text-white transition-all duration-300'>
                         <FaBookMedical/>
-                        <span>Book Appointment</span>
+                        <span>Book</span>
                     </Link>
                 </p>
             </div>
