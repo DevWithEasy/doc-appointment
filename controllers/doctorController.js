@@ -282,7 +282,7 @@ exports.allApprovedDoctorsSpecialization=async(req,res,next)=>{
 exports.allApprovedSpecialistDoctors=async(req,res,next)=>{
     try {
         const {specialist} = req.query
-        const doctors = await Doctor.find({status : 'Approved',specialization : specialist})
+        const doctors = await Doctor.find({status : 'Approved',specialization : specialist}).populate('user','image')
         res.status(200).json({
             status: 200,
             success : true,
