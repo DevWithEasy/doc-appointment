@@ -23,7 +23,7 @@ exports.initPayment=async(req,res,next)=>{
                 success_url: `${api_url}/api/transection/success/${tnxID}`,
                 fail_url: `${api_url}/api/transection/failure/${tnxID}`,
                 cancel_url: `${api_url}/api/transection/failure/${tnxID}`,
-                ipn_url: '${api_url}/ipn',
+                ipn_url: `${api_url}/ipn`,
                 shipping_method: 'Online',
                 product_name: 'Add Balance order',
                 product_category: 'payment',

@@ -1,6 +1,8 @@
 import { Link } from'react-router-dom'
 import {FaBookMedical} from 'react-icons/fa'
 export default function Doctor({doctor}){
+    console.log(doctor?.user?.image?.url);
+    console.log(doctor);
     return(
         <div className="flex border bg-white rounded p-6 md:p-3">
             <div className='flex justify-center '>
@@ -16,9 +18,9 @@ export default function Doctor({doctor}){
                 }
                 <p>Fee - {doctor?.feesPerConsultation}</p>
                 <p className='flex justify-center'>
-                    <Link to={`/appointment-submit/${doctor?._id}`} className='flex items-center space-x-2 text-green-500 px-4 py-2 rounded-full border border-green-500 hover:bg-green-500 hover:text-white transition-all duration-300'>
-                        <FaBookMedical/>
-                        <span>Book</span>
+                    <Link to={`/appointment-submit/${doctor?._id}`} className='flex items-center space-x-2 text-green-500 px-4 py-1 rounded-full border border-green-500 hover:bg-green-500 hover:text-white transition-all duration-300'>
+                        <FaBookMedical size={15}/>
+                        <span>Appointment</span>
                     </Link>
                 </p>
             </div>
