@@ -1,8 +1,6 @@
 import { Link } from'react-router-dom'
 import {FaBookMedical} from 'react-icons/fa'
 export default function Doctor({doctor}){
-    console.log(doctor?.user?.image?.url);
-    console.log(doctor);
     return(
         <div className="flex border bg-white rounded p-6 md:p-3">
             <div className='flex justify-center '>

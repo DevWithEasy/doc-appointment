@@ -1,17 +1,16 @@
-import axios from 'axios';
+import {
+    Button,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    useDisclosure
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import AppointmentDetails from '../components/AppointmentDeatils';
 import useUserStore from '../features/userStore';
-import dateGenerator from '../utils/dateGenerator';
-import {
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    useDisclosure,
-    Button
-  } from '@chakra-ui/react'
+import { completeAppointment, confirmAppointment, getAppointments, rejectAppointment } from '../utils/appoimtments_utils';
 import statusColor from '../utils/statusColor';
 export default function AppointmentsAllPatientSearch(){
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -23,50 +22,9 @@ export default function AppointmentsAllPatientSearch(){
     const date = searchParams.get('date');
     const [appointments,setAppointments] = useState([])
     const [view,setView] = useState(false)
-    async function getAppointments(day,date){
-        const res = await axios.get(`/api/appointment/all/search?day=${day}&date=${date}`,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        });
-        setAppointments(res.data.data);
-    }
-
-    async function confirmAppointment(id){
-        const res = await axios.put(`/api/appointment/confirm/${id}`,{},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        });
-        if(res.data.status === 200){
-            getAppointments(day,date)
-        };
-    }
-
-    async function completeAppointment(id){
-        const res = await axios.put(`/api/appointment/complete/${id}`,{},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        });
-        if(res.data.status === 200){
-            getAppointments(day,date)
-        };
-    }
-
-    async function rejectAppointment(id){
-        const res = await axios.put(`/api/appointment/reject/${id}`,{},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        });
-        if(res.data.status === 200){
-            getAppointments(day,date)
-        };
-    }
 
     useEffect(()=>{
-        getAppointments(day,date)
+        getAppointments(day,date,setAppointments)
     },[day,date,random])
     
     return(
@@ -128,17 +86,17 @@ export default function AppointmentsAllPatientSearch(){
                                         Details
                                 </MenuItem>
                                 <MenuItem 
-                                    onClick={()=>confirmAppointment(appointment?._id)} className="p-2 rounded hover:bg-green-500 hover:text-white transition-all duration-300"
+                                    onClick={()=>confirmAppointment(appointment?._id,day,date)} className="p-2 rounded hover:bg-green-500 hover:text-white transition-all duration-300"
                                 >
                                         Confirmed
                                 </MenuItem>
                                 <MenuItem 
-                                    onClick={()=>completeAppointment(appointment?._id)} className="p-2 rounded hover:bg-blue-500 hover:text-white transition-all duration-300"
+                                    onClick={()=>completeAppointment(appointment?._id,day,date)} className="p-2 rounded hover:bg-blue-500 hover:text-white transition-all duration-300"
                                 >
                                         Completed
                                 </MenuItem>
                                 <MenuItem 
-                                    onClick={()=>rejectAppointment(appointment?._id)} className="p-2 rounded hover:bg-red-500 hover:text-white transition-all duration-300"
+                                    onClick={()=>rejectAppointment(appointment?._id,day,date)} className="p-2 rounded hover:bg-red-500 hover:text-white transition-all duration-300"
                                 >
                                         Rejected
                                 </MenuItem>

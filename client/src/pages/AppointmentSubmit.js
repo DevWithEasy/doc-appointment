@@ -1,3 +1,4 @@
+import { useDisclosure } from '@chakra-ui/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
@@ -5,11 +6,12 @@ import 'react-day-picker/dist/style.css';
 import { toast } from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChamberList from '../components/ChamberList';
+import NoBalanceAlert from '../components/NoBalanceAlert';
 import useUserStore from '../features/userStore';
+import { addAppointment } from '../utils/appoimtments_utils';
 import dateGenerator from '../utils/dateGenerator';
 import handleChange from '../utils/handleChange';
-import { useDisclosure } from '@chakra-ui/react';
-import NoBalanceAlert from '../components/NoBalanceAlert';
+import { selectedDay } from '../utils/selectedDay';
 
 export default function AppointmentSubmit(){
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -40,54 +42,16 @@ export default function AppointmentSubmit(){
         setDoctor(res.data.data)
     }
 
-    function selectedDay(selected){
-            if(new Date(selected).getTime() < Date.now()){
-                return toast.error('Please select a date upper date than now')
-            }
-            const date = new Date(selected);
-            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const dayName = daysOfWeek[date.getDay()];
-            const days = doctor?.chambers.map(chamber=> chamber.day)
-            const day = days.find(day => day === dayName)
-            const chamber = doctor?.chambers.find(chamber=>chamber.day === day)
-            if(day === undefined){
-                setChamber({})
-                toast.error(`Please select a date from calender chamber list day name available`)
-            }else{
-                setChamber({...chamber,date : date.toLocaleDateString()}) 
-            }
-    }
     useEffect(()=>{
         getDoctor(id)
     },[id])
 
     useEffect(()=>{
-        if (doctor.chambers) selectedDay(selected)
-    },[selected])
+        if (doctor.chambers) selectedDay(selected,doctor,setChamber,toast)
+    },[selected,doctor])
 
     const data = {...value,chamberId : chamber.id,appointmentDay : chamber?.day,appointmentDate : dateGenerator(selected)}
-
-
-    async function addAppointment(){
-        try {
-            const res = await axios.post('/api/appointment/add',data,{
-                headers : {
-                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            })
-            if(res.data.status === 200){
-                toast.success('Appointment added successfully')
-                navigate('/appointments')
-            }
-        } catch (error) {
-            if(error.response.data.status === 405){
-                return onOpen()
-            }
-            toast.error(error.response.data.message)
-        }
-    }
     
-
     return(
         <div>
             <h1 className="py-2 text-2xl font-bold text-center uppercase">Submit appointment</h1>
@@ -144,7 +108,7 @@ export default function AppointmentSubmit(){
                     <input type='text' name='address' value={value?.address} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
             </div>
-            <button onClick={()=>addAppointment()} className='p-2 bg-green-500 text-white rounded-md'>Booking Confirm</button>
+            <button onClick={()=>addAppointment(data,toast,navigate,onOpen)} className='p-2 bg-green-500 text-white rounded-md'>Booking Confirm</button>
             <NoBalanceAlert {...{isOpen, onOpen, onClose,navigate}}/>
         </div>
     )

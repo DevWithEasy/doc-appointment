@@ -1,4 +1,4 @@
-import axios from "axios"
+import moment from 'moment'
 import { useEffect, useState } from "react"
 import { toast } from 'react-hot-toast'
 import { useParams } from 'react-router-dom'
@@ -6,39 +6,15 @@ import Upload from "../components/Upload"
 import useUserStore from "../features/userStore"
 import dateGenerator from "../utils/dateGenerator"
 import handleChange from "../utils/handleChange"
-import moment from 'moment'
+import { getUser, updateUser } from "../utils/users_utils"
 export default function Profile(){
     const {random,addUser} = useUserStore()
     const {id}  = useParams()
     const [user,setUser] = useState({})
     const [address,setAddress] = useState({})
-    async function getUser(id){
-        const res = await axios.get(`/api/auth/user/${id}`,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        setUser(res.data.data)
-        setAddress(res.data.data.address)
-    }
-
-    async function updateUser(){
-        const res = await axios.put(`/api/auth/user/update/${id}`,
-        {...user,address},
-        {
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        if(res.data.status === 200){
-            setUser(res.data.data)
-            addUser((res.data.data))
-            toast.success('User updated successfully')
-        }
-    }
 
     useEffect(()=>{
-        getUser(id)
+        getUser(id,setUser,setAddress)
     },[id,random])
 
     return(
@@ -88,7 +64,7 @@ export default function Profile(){
                         </div>
 
                         <div className="flex justify-center items-center pt-4">
-                            <button onClick={()=>updateUser()} className="px-6 py-2 bg-green-400 text-white rounded-full hover:bg-green-500">Save</button>
+                            <button onClick={()=>updateUser(id,user,address,setUser,addUser,toast)} className="px-6 py-2 bg-green-400 text-white rounded-full hover:bg-green-500">Save</button>
                         </div>
 
                     </div>

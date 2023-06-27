@@ -1,7 +1,7 @@
-import axios from "axios"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import Input from "../components/Input"
+import { handleApplyDoctor } from "../utils/doctors_utils"
 
 export default function ApplyDoctor(){
     const [value,setValue] = useState({
@@ -19,22 +19,7 @@ export default function ApplyDoctor(){
         feesPerConsultation : '',
         chambers : []
     })
-    async function handleApplyDoctor(){
-        try {
-            const res = await axios.post('/api/doctor/apply',value,{
-                headers : {
-                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            })
-            if(res.data.status === 200){
-                toast.success('Applied Doctor successfully.')
-            }
-        } catch (error) {
-            if(error){
-                toast.error(error.message)
-            }
-        }
-    }
+
     return(
         <div className="space-y-2">
             <h1 className="text-2xl font-bold text-center uppercase">Apply as a Doctor</h1>
@@ -124,7 +109,7 @@ export default function ApplyDoctor(){
                     setValue={setValue} 
                 />
             </div>
-            <button onClick={()=>handleApplyDoctor()} className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">Send Apply</button>
+            <button onClick={()=>handleApplyDoctor(value,toast)} className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">Send Apply</button>
         </div>
     )
 }

@@ -1,38 +1,18 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { toast } from 'react-hot-toast'
 import AddChamber from "../components/chamber/AddChamber"
 import ChamberList from "../components/chamber/ChamberList"
 import useUserStore from "../features/userStore"
+import { getDoctor, updateDoctor } from "../utils/doctors_utils"
 import handleChange from "../utils/handleChange"
 
 export default function Dashboard(){
     const {random,user} = useUserStore()
     const [doctor,setDoctor] = useState({})
-    async function getDoctor(id){
-        const res = await axios.get(`/api/doctor/find/${id}`,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        console.log(res.data);
-        setDoctor(res.data.data)
-    }
 
-    async function updateDoctor(){
-        const res = await axios.put(`/api/doctor/update/${doctor?._id}`,{...doctor},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        if(res.data.status === 200){
-            setDoctor(res.data.data)
-            toast.success('Update successful')
-        }
-    }
 
     useEffect(()=>{
-        getDoctor(user?._id)
+        getDoctor(user?._id,setDoctor)
     },[user?._id,random])
 
     return(
@@ -65,7 +45,7 @@ export default function Dashboard(){
                         <input type='text' name='feesPerConsultation' value={doctor?.feesPerConsultation} onChange={(e)=>handleChange(e,doctor,setDoctor)} className='md:w-1/2 w-full p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Now working as a"/>
                     </div>
                     <div className="flex justify-center items-center pt-4">
-                        <button onClick={()=>updateDoctor()} className="px-6 py-2 bg-green-400 text-white rounded-full hover:bg-green-500">Save</button>
+                        <button onClick={()=>updateDoctor(doctor,setDoctor,toast)} className="px-6 py-2 bg-green-400 text-white rounded-full hover:bg-green-500">Save</button>
                     </div>
                 </div>
                 <div className="bg-white p-2 rounded-md shadow space-y-2">

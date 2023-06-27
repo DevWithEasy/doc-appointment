@@ -1,48 +1,21 @@
-import axios from "axios";
+import { useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import AppointmentDetails from "../components/AppointmentDeatils";
 import useUserStore from "../features/userStore";
-import { useDisclosure } from "@chakra-ui/react";
+import { cancelAppointment, getAllAppointments } from "../utils/appoimtments_utils";
 import statusColor from "../utils/statusColor";
-import { toast } from "react-hot-toast"
 
 export default function Appointments(){
     const { isOpen, onOpen, onClose } = useDisclosure()
     const {user} = useUserStore()
     const [id,setId] = useState('')
     const [appointments,setAppointments] = useState([])
-    async function getAllAppointments(id){
-        const res = await axios.get(`/api/appointment/all/${id}`,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        });
-        setAppointments(res.data.data);
-    }
-
-    async function cancelAppointment(id){
-        try {
-            const res = await axios.put(`/api/appointment/cancel/${id}`,{},{
-                headers : {
-                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            });
-            if(res.data.status === 200){
-                getAllAppointments(user?._id)
-            }
-        } catch (error) {
-            if(error){
-                toast.error(error.response.data.message)
-            }
-        }
-        
-    }
 
     useEffect(()=>{
-        getAllAppointments(user?._id)
+        getAllAppointments(user?._id,setAppointments)
     },[user?._id])
 
-    console.log(appointments);
     return(
         <div className="space-y-2">
             <h1 className="text-2xl font-bold text-center uppercase">Your appointments</h1>
@@ -95,7 +68,7 @@ export default function Appointments(){
                             >
                                 Details
                             </button>
-                            <button onClick={()=>cancelAppointment(appointment._id)} className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Cancel</button>
+                            <button onClick={()=>cancelAppointment(appointment._id,user,toast)} className="p-2 bg-red-400 text-white rounded hover:bg-red-500">Cancel</button>
                         </td> 
                     </tr>)}
                 </tbody>

@@ -1,17 +1,15 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Doctor from "../components/Doctor";
+import { getAllActiveDoctors } from "../utils/doctors_utils";
 
 export default function Doctors(){
     const [specialization,setSpecilaization] = useState('')
     const [doctors,setDoctors] = useState([])
-    async function getAllActiveDoctors(){
-        const res = await axios.get('/api/doctor/allApprovedDoctors')
-        setDoctors(res.data.data)
-    }
+
     useEffect(()=>{
-        getAllActiveDoctors()
+        getAllActiveDoctors(setDoctors)
     },[])
+    
     console.log(specialization);
     return(
         <div className="">

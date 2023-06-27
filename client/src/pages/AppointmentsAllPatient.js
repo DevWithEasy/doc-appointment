@@ -1,16 +1,16 @@
-import axios from 'axios';
+import {
+    Button,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    useDisclosure
+} from '@chakra-ui/react';
 import { useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import AppointmentDetails from "../components/AppointmentDeatils";
+import { completeAppointment, confirmAppointment, getAppointments, rejectAppointment } from '../utils/appoimtments_utils';
 import dateGenerator from "../utils/dateGenerator";
-import {
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    useDisclosure,
-    Button
-  } from '@chakra-ui/react'
 import statusColor from '../utils/statusColor';
 
 export default function AppointmentsAllPatient(){
@@ -21,47 +21,6 @@ export default function AppointmentsAllPatient(){
     const [selected, setSelected] = useState()
     const [view,setView] = useState(false)
     const [appointments,setAppointments] = useState([])
-    async function getAppointments(){
-        const res = await axios.get(`/api/appointment/all/search?day=${day}&date=${date}`,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        });
-        setAppointments(res.data.data);
-    }
-
-    async function confirmAppointment(id){
-        const res = await axios.put(`/api/appointment/confirm/${id}`,{},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        });
-        if(res.data.status === 200){
-            getAppointments()
-        };
-    }
-
-    async function completeAppointment(id){
-        const res = await axios.put(`/api/appointment/complete/${id}`,{},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        });
-        if(res.data.status === 200){
-            getAppointments()
-        };
-    }
-
-    async function rejectAppointment(id){
-        const res = await axios.put(`/api/appointment/reject/${id}`,{},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        });
-        if(res.data.status === 200){
-            getAppointments()
-        };
-    }
 
     useEffect(()=>{
         const date = dateGenerator(selected);
@@ -84,7 +43,7 @@ export default function AppointmentsAllPatient(){
                     <option value="Friday">Friday</option>
                 </select>
                 <button onClick={()=>setView(!view)} className='p-2 bg-white border rounded focus:outline-none focus:ring-2'>{date}</button>
-                <button onClick={()=>getAppointments()} className="px-6 bg-blue-400 text-white rounded-md">Search</button>
+                <button onClick={()=>getAppointments(day,date,setAppointments)} className="px-6 bg-blue-400 text-white rounded-md">Search</button>
                 {day && !selected && <div className="absolute top-12 bg-gray-50 rounded-md shadow-md">
                     <DayPicker
                             mode="single"
@@ -147,17 +106,17 @@ export default function AppointmentsAllPatient(){
                                         Details
                                 </MenuItem>
                                 <MenuItem 
-                                    onClick={()=>confirmAppointment(appointment?._id)} className="p-2 rounded hover:bg-green-500 hover:text-white transition-all duration-300"
+                                    onClick={()=>confirmAppointment(appointment?._id,day,date)} className="p-2 rounded hover:bg-green-500 hover:text-white transition-all duration-300"
                                 >
                                         Confirmed
                                 </MenuItem>
                                 <MenuItem 
-                                    onClick={()=>completeAppointment(appointment?._id)} className="p-2 rounded hover:bg-blue-500 hover:text-white transition-all duration-300"
+                                    onClick={()=>completeAppointment(appointment?._id,day,date)} className="p-2 rounded hover:bg-blue-500 hover:text-white transition-all duration-300"
                                 >
                                         Completed
                                 </MenuItem>
                                 <MenuItem 
-                                    onClick={()=>rejectAppointment(appointment?._id)} className="p-2 rounded hover:bg-red-500 hover:text-white transition-all duration-300"
+                                    onClick={()=>rejectAppointment(appointment?._id,day,date)} className="p-2 rounded hover:bg-red-500 hover:text-white transition-all duration-300"
                                 >
                                         Rejected
                                 </MenuItem>
