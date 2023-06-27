@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { AiOutlineLogout,AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineLogout, AiOutlineMenu } from "react-icons/ai";
 import { BsFillJournalBookmarkFill } from "react-icons/bs";
 import { MdNotificationsNone } from 'react-icons/md';
 import { Link } from "react-router-dom";
-import Menu from "./Menu";
 import useUserStore from "../features/userStore";
+import Menu from "./Menu";
 
 export default function Header(){
     const [menu,setMenu] = useState(false)
@@ -20,7 +20,7 @@ export default function Header(){
             <div className="flex justify-between md:justify-end items-center p-2 md:py-2 md:px-6 md:rounded-b bg-blue-200/95 z-10">
                 <div className="md:hidden flex items-center space-x-3">
                     <AiOutlineMenu size={25} onClick={()=>setMenu(!menu)}/>
-                    <span className="text-3xl">DOCAPP</span>
+                    <span className="text-xl">DOCAPP</span>
                 </div>
 
                 {menu && <Menu menu={menu} setMenu={setMenu}/>}

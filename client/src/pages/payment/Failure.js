@@ -6,7 +6,7 @@ import {RxCross2} from 'react-icons/rx'
 const Failure = () => {
     const navigate = useNavigate()
     return (
-        <div className='w-1/2 mx-auto pt-6 pb-16 flex justify-center items-center bg-white rounded'>
+        <div className='w-full m-4 md:w-1/2 md:mx-auto pt-6 pb-16 flex justify-center items-center bg-white rounded'>
             <div className='text-center space-x-2'>
                 <div className='flex justify-center'>
                     <RxCross2 size={30} className='bg-red-500 text-white rounded-full'/>
