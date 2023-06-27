@@ -20,11 +20,7 @@ export default function Header(){
             <div className="flex justify-between md:justify-end items-center p-2 md:py-2 md:px-6 md:rounded-b bg-blue-200/95 z-10">
                 <div className="md:hidden flex items-center space-x-3">
                     <AiOutlineMenu size={25} onClick={()=>setMenu(!menu)}/>
-<<<<<<< HEAD
                     <span className="text-xl">DOCAPP</span>
-=======
-                    <span className="textxl">DOCAPP</span>
->>>>>>> 78e491e5244443585c89176ac4f98c37c2b749c7
                 </div>
 
                 {menu && <Menu menu={menu} setMenu={setMenu}/>}
