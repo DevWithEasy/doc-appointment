@@ -1,58 +1,14 @@
-import axios from "axios";
 import { useState } from "react";
-import { toast } from "react-hot-toast"
-import { useNavigate } from "react-router-dom"
-import img from "../assets/images/verified.png"
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import img from "../assets/images/verified.png";
+import { handleSendCodeAgain, handleVerify } from "../utils/users_utils";
 
 export default function VerifyAccount(){
     const navigate = useNavigate()
     const [code,setCode] = useState('')
     const [loading,setLoading] = useState(false)
     const [verified,setVerified] = useState(false)
-
-    async function handleVerify(){
-        if(!code){
-            return toast.error('Please enter verification code')
-        }
-        try {
-            setLoading(true)
-            const res = await axios.post('/api/auth/verify',{code},{
-                headers: {
-                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            })
-            if(res.data.status === 200){
-                setLoading(false)
-                setVerified(true)
-                setTimeout(()=>{
-                    navigate('/signin')
-                },2000)
-            }
-        } catch (error) {
-            setLoading(false)
-            toast.error('Verification Failed')
-        }
-
-    }
-
-    async function handleSendCodeAgain(){
-        if(!localStorage.getItem('accessToken')){
-            return toast.error('Please signin first time')
-        }
-        try {
-            const res = await axios.post('/api/auth/sent-code-again',{},{
-                headers: {
-                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            })
-            if(res.data.status === 200){
-                 toast.success('Code send successfully.')
-            }
-        } catch (error) {
-            toast.error('Verification Failed')
-        }
-
-    }
 
     return(
         <div className="pt-20">
@@ -65,13 +21,13 @@ export default function VerifyAccount(){
                 </div>
                 <div className="flex justify-end px-2 pb-2 space-x-2">
                     <button
-                        onClick={()=>handleSendCodeAgain()} 
+                        onClick={()=>handleSendCodeAgain(toast)} 
                         className="text-blue-500"
                     >
                         Sent code again
                     </button>
                     <button
-                        onClick={()=>handleVerify()} 
+                        onClick={()=>handleVerify(code,navigate,setLoading,setVerified,toast)} 
                         className="px-6 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">
                             {loading ? 'Please wait...' : 'Confirm'}
                     </button>

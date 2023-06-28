@@ -1,10 +1,10 @@
 import { useState } from "react"
+import { toast } from "react-hot-toast"
+import { BsEye, BsEyeSlash } from "react-icons/bs"
+import { NavLink, useNavigate } from "react-router-dom"
 import handleChange from "../utils/handleChange"
 import passwordView from "../utils/passwordView"
-import {BsEye,BsEyeSlash} from "react-icons/bs"
-import { NavLink, useNavigate } from "react-router-dom"
-import axios from "axios"
-import { toast } from "react-hot-toast"
+import { handleSignUp } from "../utils/users_utils"
 
 export default function Signup(){
     const navigate = useNavigate()
@@ -15,18 +15,6 @@ export default function Signup(){
         phone : '',
         password : '',
     })
-
-    async function handleSignUp(){
-        try {
-            const res = await axios.post('/api/auth/signup',value)
-            toast.success('Account created successfully')
-            localStorage.setItem('accessToken', res.data.token)
-            navigate('/verify')
-        } catch (error) {
-            console.log(error)
-            toast.error('Account created Failed')
-        }
-    }
 
     return(
         <div className="w-full md:w-5/12 mx-auto px-4 py-2 border rounded space-y-2 bg-white">
@@ -55,7 +43,7 @@ export default function Signup(){
                 </button>
             </div>
 
-            <button onClick={()=>handleSignUp()} className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">Sign up</button>
+            <button onClick={()=>handleSignUp(value,navigate,toast)} className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">Sign up</button>
 
             <div className="p-2 text-center">
                 Already have an account ? <NavLink to='/signin' className='text-blue-500 font-bold'>Login</NavLink>

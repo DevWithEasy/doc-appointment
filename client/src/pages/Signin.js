@@ -1,4 +1,3 @@
-import axios from "axios"
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { BsEye, BsEyeSlash } from "react-icons/bs"
@@ -6,6 +5,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import useUserStore from "../features/userStore"
 import handleChange from "../utils/handleChange"
 import passwordView from "../utils/passwordView"
+import { handleSignIn } from "../utils/users_utils"
 
 export default function Signin(){
     const addUser = useUserStore(state=>state.addUser)
@@ -18,35 +18,6 @@ export default function Signin(){
         password : '',
     })
 
-    async function handleSignIn(){
-        try {
-            setLoading(true)
-            const res = await axios.post('/api/auth/signin',value)
-            if(res.data.status === 200){
-                setLoading(false)
-                if(!res.data.data.isVerified){
-                    localStorage.setItem('accessToken', res.data.data.token)
-                    navigate('/verify')
-                }else{
-                    toast.success('Successfully signed in')
-                    localStorage.setItem('accessToken', res.data.data.token)
-                    addUser((res.data.data))
-                    if(location.state?.from){
-                        navigate(location.state.from)
-                    }else{
-                        navigate('/')
-                    }
-                }
-            }
-        } catch (error) {
-            setLoading(false)
-            if(error.response.data.message){
-                toast.error(error.response.data.message)
-            }else{
-                toast.error('Something went wrong')
-            }
-        }
-    }
 
     return(
         <div className="w-full md:w-5/12 mx-auto px-4 py-2 border rounded space-y-2 bg-white">
@@ -65,7 +36,7 @@ export default function Signin(){
             </div>
 
             <button 
-                onClick={()=>handleSignIn()} 
+                onClick={()=>handleSignIn(value,addUser,setLoading,navigate,location,toast)} 
                 className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300"
             >
                 {loading ? 'Please wait...' : 'Sign in'}

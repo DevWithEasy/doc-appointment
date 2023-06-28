@@ -1,5 +1,24 @@
 import axios from "axios";
 
+export async function addAppointment(data,toast,navigate,onOpen){
+    try {
+        const res = await axios.post('/api/appointment/add',data,{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+        if(res.data.status === 200){
+            toast.success('Appointment added successfully')
+            navigate('/appointments')
+        }
+    } catch (error) {
+        if(error.response.data.status === 405){
+            return onOpen()
+        }
+        toast.error(error.response.data.message)
+    }
+}
+
 export async function getAllAppointments(id,setAppointments){
     const res = await axios.get(`/api/appointment/all/${id}`,{
         headers : {
@@ -25,25 +44,6 @@ export async function cancelAppointment(id,user,toast){
         }
     }
     
-}
-
-export async function addAppointment(data,toast,navigate,onOpen){
-    try {
-        const res = await axios.post('/api/appointment/add',data,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        if(res.data.status === 200){
-            toast.success('Appointment added successfully')
-            navigate('/appointments')
-        }
-    } catch (error) {
-        if(error.response.data.status === 405){
-            return onOpen()
-        }
-        toast.error(error.response.data.message)
-    }
 }
 
 export async function getAppointments(day,date,setAppointments){
@@ -86,4 +86,39 @@ export async function rejectAppointment(id,day,date){
     if(res.data.status === 200){
         getAppointments(day,date)
     };
+}
+
+export async function getAppointmentDetails(id,setAppointment,setChamber){
+    try{
+        const res = await axios.get(`/api/appointment/details/${id}`,{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+        if(res.status === 200){
+            setAppointment(res.data.data)
+            setChamber(res?.data?.data?.doctor?.chambers.find(c => c.id === res.data?.data?.chamberId))
+        }
+    }catch(err){
+        console.log(err)
+    }
+}
+
+export async function getAppointmentStatus(appointment,setLoading,setStatus){
+    setLoading(true)
+    try {
+        const res = await axios.get(`/api/appointment/status?dId=${appointment?.doctor?._id}&date=${appointment?.appointmentDate}&aId=${appointment?._id}`,{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+
+        if(res.data.status === 200){
+            setLoading(false)
+            setStatus(res.data)
+        }
+    } catch (error) {
+        setLoading(false)
+        console.log(error)
+    }
 }

@@ -1,13 +1,13 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { toast } from 'react-hot-toast';
 import {
     Alert,
     AlertDescription,
     AlertIcon,
     AlertTitle
 } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import hiddenEmail from '../utils/hiddenEmail';
+import { handleSendForget, handlefind } from '../utils/users_utils';
 
 const ForgetPassword = () => {
     const [finding,setFinding] = useState(false)
@@ -17,39 +17,6 @@ const ForgetPassword = () => {
     const [user,setUser] = useState({
 
     })
-    async function handlefind(){
-        if(!email){
-            return toast.error('Please enter email address')
-        }
-        setLoading(true)
-        try {
-            const res = await axios.get(`/api/auth/find?email=${email}`)
-            if(res.data.status === 200){
-                setUser(res.data)
-                setEmail('')
-                setFinding(res.data.find)
-                setLoading(false)
-            }
-        } catch (error) {
-            setLoading(false)
-            toast.error('Something went wrong')
-        }
-    
-    }
-    async function handleSendForget(){
-        try {
-            setLoading(true)
-            const res = await axios.post(`/api/auth/forget-password?email=${user.data.email}`)
-            if(res.data.status === 200){
-                setLoading(false)
-                setSending(true)
-            }
-        } catch (error) {
-            setLoading(false)
-            setSending(false)
-        }
-    
-    }
 
     return (
         <div>
@@ -76,7 +43,7 @@ const ForgetPassword = () => {
                             Cancel
                     </button>
                     <button
-                        onClick={()=>handlefind()} 
+                        onClick={()=>handlefind(email,setUser,setEmail,setFinding,setLoading,toast)} 
                         className="px-10 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">
                             {loading ? 'Findind...' : 'Find'}
                     </button>
@@ -98,7 +65,7 @@ const ForgetPassword = () => {
                                     Not my acconut ?
                                 </button>
                                 <button
-                                onClick={()=>handleSendForget()} 
+                                onClick={()=>handleSendForget(user,setLoading,setSending)} 
                                 className='px-2 py-1 text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300'
                                 >
                                     {loading ? 'Loading...' : 'Reset password'}

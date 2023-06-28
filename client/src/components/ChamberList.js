@@ -1,4 +1,3 @@
-import {AiFillEdit,AiFillDelete} from 'react-icons/ai'
 export default function ChamberList({chambers}){
     
     return (

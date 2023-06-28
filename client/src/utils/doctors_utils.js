@@ -64,3 +64,57 @@ export async function updateDoctor(doctor,setDoctor,toast){
         toast.success('Update successful')
     }
 }
+
+export async function deleteDoctor(id,reload){
+    try {
+        const res = await axios.post(`/api/doctor/delete/${id}`,{},{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+        if(res.data.status === 200){
+            reload()
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+//----------------chamber----------------------
+
+export async function addChamber(id,value,reload,onClose){
+    const res = await axios.post(`/api/doctor/addChamber/${id}`,value,{
+        headers : {
+            authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        }
+    })
+
+    if(res.data.status === 200){
+        reload()
+        onClose()
+    }
+}
+
+export async function updateChamber(id,data,reload,onClose){
+    const res = await axios.put(`/api/doctor/updateChamber/${id}`,data,{
+        headers : {
+            authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        }
+    })
+    if(res.data.status === 200){
+        reload()
+        onClose()
+    }
+}
+
+export async function deleteChamber(dId,cId,reload,onClose){
+    const res = await axios.put(`/api/doctor/deleteChamber/?dId=${dId}&cId=${cId}`,{},{
+        headers : {
+            authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        }
+    })
+    if(res.data.status === 200){
+        reload()
+        onClose()
+    }
+}

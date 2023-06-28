@@ -6,13 +6,13 @@ import {
     ModalFooter,
     ModalHeader,
     ModalOverlay,
+    Spinner,
 } from '@chakra-ui/react'
-import axios from "axios"
 import { useEffect, useRef, useState } from "react"
 import { AiOutlinePrinter } from "react-icons/ai"
 import { useReactToPrint } from "react-to-print"
+import { getAppointmentDetails, getAppointmentStatus } from '../utils/appoimtments_utils'
 import PrintHeader from "./PrintHeader"
-import { Spinner } from '@chakra-ui/react'
 
 export default function AppointmentDetails({id,isOpen, onOpen, onClose}){
     
@@ -21,41 +21,6 @@ export default function AppointmentDetails({id,isOpen, onOpen, onClose}){
     const [chamber,setChamber] = useState({})
     const [status,setStatus] = useState({})
     const [loading,setLoading] = useState(false)
-
-    async function getAppointmentDetails(id){
-        try{
-            const res = await axios.get(`/api/appointment/details/${id}`,{
-                headers : {
-                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            })
-            if(res.status === 200){
-                setAppointment(res.data.data)
-                setChamber(res?.data?.data?.doctor?.chambers.find(c => c.id === res.data?.data?.chamberId))
-            }
-        }catch(err){
-            console.log(err)
-        }
-    }
-
-    async function getAppointmentStatus(){
-        setLoading(true)
-        try {
-            const res = await axios.get(`/api/appointment/status?dId=${appointment?.doctor?._id}&date=${appointment?.appointmentDate}&aId=${appointment?._id}`,{
-                headers : {
-                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            })
-
-            if(res.data.status === 200){
-                setLoading(false)
-                setStatus(res.data)
-            }
-        } catch (error) {
-            setLoading(false)
-            console.log(error)
-        }
-    }
 
     function selectedDay(appoinmentDate){
         const date = new Date(appoinmentDate);
@@ -84,7 +49,7 @@ export default function AppointmentDetails({id,isOpen, onOpen, onClose}){
     })
 
     useEffect(()=>{
-        getAppointmentDetails(id)
+        getAppointmentDetails(id,setAppointment,setChamber)
     },[id])
 
     return(
@@ -188,7 +153,7 @@ export default function AppointmentDetails({id,isOpen, onOpen, onClose}){
                     </button>
                     <button
                         className={`px-4 py-2 text-white rounded-md ${status.message ? 'bg-yellow-500' : 'bg-green-500'}`}
-                        onClick={()=>getAppointmentStatus()}
+                        onClick={()=>getAppointmentStatus(appointment,setLoading,setStatus)}
                     >
                         {status?.message ? 'Check again' : 'Check status'}
                     </button>

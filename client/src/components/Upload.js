@@ -8,12 +8,12 @@ import {
     Spinner,
     useDisclosure,
 } from '@chakra-ui/react'
-import axios from "axios"
 import { useState } from "react"
 import { toast } from 'react-hot-toast'
 import { BiImageAdd } from "react-icons/bi"
 import { FiUploadCloud } from 'react-icons/fi'
 import useUserStore from "../features/userStore"
+import { uploadPhoto } from '../utils/users_utils'
 
 export default function Upload(props){
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -29,28 +29,7 @@ export default function Upload(props){
         }
         fileReader.readAsDataURL(e.target.files[0])
     }
-    async function uploadPhoto(){
-        setLoading(true)
-        try {
-            const formData = new FormData()
-            formData.append('file',file)
-            formData.append('filename',file?.name)
-            const res = await axios.post(`/api/auth/upload/${user?._id}`,formData,{
-                headers : {
-                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            })
-            if(res.data.success === true){
-                reload()
-                toast.success('Profile Photo uploaded successfully')
-                setLoading(false)
-            }
-        } catch (error) {
-            console.log(error)
-            toast.error('Profile Photo uploaded failed')
-            setLoading(false)
-        }
-    }
+
     return (
         <>
         <button 
@@ -78,7 +57,7 @@ export default function Upload(props){
                 </label>
                 <input type="file" id="image" onChange={(e)=>handleFile(e)} className='hidden'/>
                 {!loading && <div className="flex justify-center items-center py-2">
-                    <button onClick={()=>uploadPhoto()} className="flex items-center px-6 py-2 space-x-2 bg-green-400 text-white rounded-full hover:bg-green-500">
+                    <button onClick={()=>uploadPhoto(user,file,reload,setLoading,toast)} className="flex items-center px-6 py-2 space-x-2 bg-green-400 text-white rounded-full hover:bg-green-500">
                         <BiImageAdd size={20}/>
                         <span>UPLOAD</span>
                     </button>

@@ -1,8 +1,8 @@
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react"
-import axios from "axios"
 import { useState } from "react"
 import { AiFillEdit } from "react-icons/ai"
 import useUserStore from "../../features/userStore"
+import { updateChamber } from "../../utils/doctors_utils"
 import handleChange from "../../utils/handleChange"
 
 export default function UpdateChamber(props){
@@ -11,17 +11,7 @@ export default function UpdateChamber(props){
     const {doctor,chamber} = props
     const [value,setValue] = useState(chamber)
     
-    async function updateChamber(id,data,onClose){
-        const res = await axios.put(`/api/doctor/updateChamber/${id}`,data,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        if(res.data.status === 200){
-            reload()
-            onClose()
-        }
-    }
+ 
     return(
         <>
             <button 
@@ -80,7 +70,7 @@ export default function UpdateChamber(props){
                         Close
                     </button>
                     <button 
-                        onClick={()=>updateChamber(doctor._id,value,onClose)} 
+                        onClick={()=>updateChamber(doctor._id,value,reload,onClose)} 
                         className='py-2 px-6 bg-blue-500 text-white rounded-md'
                     >
                         Submit

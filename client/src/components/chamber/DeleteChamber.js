@@ -1,8 +1,8 @@
 import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from "@chakra-ui/react"
-import axios from "axios"
 import { useRef } from "react"
 import { AiFillDelete } from "react-icons/ai"
 import useUserStore from "../../features/userStore"
+import { deleteChamber } from "../../utils/doctors_utils"
 
 export default function DeleteChamber(props){
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -10,17 +10,6 @@ export default function DeleteChamber(props){
     const {reload} = useUserStore()
     const {doctor,chamber} = props
 
-    async function deleteChamber(dId,cId,onClose){
-        const res = await axios.put(`/api/doctor/deleteChamber/?dId=${dId}&cId=${cId}`,{},{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        if(res.data.status === 200){
-            reload()
-            onClose()
-        }
-    }
     return(
             <>
                 <button 
@@ -49,7 +38,7 @@ export default function DeleteChamber(props){
                       <Button ref={cancelRef} onClick={onClose}>
                         No
                       </Button>
-                      <Button colorScheme='red' ml={3} onClick={()=>deleteChamber(doctor._id,chamber.id,onClose)}>
+                      <Button colorScheme='red' ml={3} onClick={()=>deleteChamber(doctor._id,chamber.id,reload,onClose)}>
                         Yes
                       </Button>
                     </AlertDialogFooter>

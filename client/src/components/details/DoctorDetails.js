@@ -9,28 +9,11 @@ import {
     ModalOverlay,
     useDisclosure,
 } from '@chakra-ui/react'
+import { deleteDoctor } from '../../utils/doctors_utils'
 import DeleteDoctor from './DeleteDoctor'
-import axios from 'axios'
-import useUserStore from '../../features/userStore'
 
 export default function DoctorDetails({doctor}){
-    const {reload} = useUserStore()
     const { isOpen, onOpen, onClose } = useDisclosure()
-
-    async function deleteDoctor(id){
-        try {
-            const res = await axios.post(`/api/doctor/delete/${id}`,{},{
-                headers : {
-                    authorization : 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            })
-            if(res.data.status === 200){
-                reload()
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     return(
         <>

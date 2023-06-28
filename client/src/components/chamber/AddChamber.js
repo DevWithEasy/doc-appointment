@@ -1,10 +1,10 @@
-import axios from "axios"
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react"
 import { useState } from "react"
+import { IoMdAddCircleOutline } from "react-icons/io"
 import useUserStore from "../../features/userStore"
+import { addChamber } from "../../utils/doctors_utils"
 import handleChange from "../../utils/handleChange"
 import Input from "../Input"
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react"
-import { IoMdAddCircleOutline } from "react-icons/io"
 
 export default function AddChamber({id}){
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -16,18 +16,6 @@ export default function AddChamber({id}){
         from : '',
         to : ''
     })
-    async function addChamber(id,value,onClose){
-        const res = await axios.post(`/api/doctor/addChamber/${id}`,value,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-
-        if(res.data.status === 200){
-            reload()
-            onClose()
-        }
-    }
     return(
         <>
             <button 
@@ -83,7 +71,7 @@ export default function AddChamber({id}){
                         Close
                     </button>
                     <button 
-                        onClick={()=>addChamber(id,value,onClose)} 
+                        onClick={()=>addChamber(id,value,reload,onClose)} 
                         className='py-2 px-6 bg-blue-500 text-white rounded-md'
                     >
                         Submit

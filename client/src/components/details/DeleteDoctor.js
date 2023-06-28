@@ -9,10 +9,12 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React, { useRef } from 'react';
+import useUserStore from '../../features/userStore';
 
 
 const DeleteDoctor = ({children,id,deleteHandler}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const {reload} = useUserStore()
     const cancelRef = useRef()
     
     return (
@@ -44,7 +46,7 @@ const DeleteDoctor = ({children,id,deleteHandler}) => {
               </button>
               <button 
                     className='px-4 py-2 bg-red-500 text-white rounded-md'
-                    onClick={()=>deleteHandler(id)}
+                    onClick={()=>deleteHandler(id,reload)}
                 >
                     Delete
                 </button>
