@@ -50,18 +50,21 @@ export default function AppointmentSubmit(){
         if (doctor.chambers) selectedDay(selected,doctor,setChamber,toast)
     },[selected,doctor])
 
-    const data = {...value,chamberId : chamber.id,appointmentDay : chamber?.day,appointmentDate : dateGenerator(selected)}
-    
+    const data = {...value,chamberId : chamber._id,appointmentDay : chamber?.day,appointmentDate : dateGenerator(selected)}
+    console.log(doctor)
     return(
         <div>
             <h1 className="py-2 text-2xl font-bold text-center uppercase">Submit appointment</h1>
             <hr/>
             <div className='md:flex justify-between pb-10 md:gap-x-4'>
                 <div className='w-full md:w-7/12 pt-4 space-y-2'>
-                    <div className='p-4 pt-2 bg-white rounded'>
-                        <p className='text-xl font-bold'>{doctor?.firstName} {doctor?.lastName}</p>
-                        <p>{doctor?.education},{doctor?.specialization}</p>
-                        <p>{doctor?.experienceArea}</p>
+                    <div className='flex space-x-2 p-4 pt-2 bg-white rounded'>
+                        <img src={doctor?.user?.image?.url} alt="" className='h-20 rounded-md'/>
+                        <div>
+                            <p className='text-xl font-bold'>{doctor?.firstName} {doctor?.lastName}</p>
+                            <p>{doctor?.education},{doctor?.specialization}</p>
+                            <p>{doctor?.experienceArea}</p>
+                        </div>
                     </div>
                     {doctor.chambers && <ChamberList chambers={doctor.chambers}/>}
                 </div>
@@ -75,7 +78,7 @@ export default function AppointmentSubmit(){
             </div>
 
             {chamber.vanue && <div className='flex justify-center bg-gray-100 pb-5 rounded'>
-                    <div className='bg-blue-100 w-11/12 md:w-1/2 text-center rounded-md -mt-5 py-2'>
+                    <div className='bg-blue-200 w-11/12 md:w-1/2 text-center rounded-md -mt-5 py-2'>
                         <p className='text-2xl font-bold'>{chamber?.vanue}</p>
                         <p className=''>{chamber?.location}</p>
                         <p className=''>{chamber?.day} {chamber?.date}</p>

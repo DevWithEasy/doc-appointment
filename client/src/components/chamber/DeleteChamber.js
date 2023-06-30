@@ -17,7 +17,7 @@ export default function DeleteChamber(props){
                     className="flex items-center space-x-2 p-2 bg-red-400 text-white rounded hover:bg-red-500"
                 >
                     <AiFillDelete/>
-                    <span>Delete</span>
+                    {/* <span>Delete</span> */}
                 </button>
                 <AlertDialog
                   motionPreset='slideInBottom'
@@ -38,7 +38,7 @@ export default function DeleteChamber(props){
                       <Button ref={cancelRef} onClick={onClose}>
                         No
                       </Button>
-                      <Button colorScheme='red' ml={3} onClick={()=>deleteChamber(doctor._id,chamber.id,reload,onClose)}>
+                      <Button colorScheme='red' ml={3} onClick={()=>deleteChamber(doctor._id,chamber._id,reload,onClose)}>
                         Yes
                       </Button>
                     </AlertDialogFooter>

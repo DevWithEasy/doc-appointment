@@ -205,7 +205,7 @@ exports.deleteDoctor=async(req,res,next)=>{
 
 exports.findDoctor=async(req,res,next)=>{
     try {
-        const doctor = await Doctor.findOne({user : req.params.id})
+        const doctor = await Doctor.findOne({user : req.params.id}).populate('user', '-_id image')
 
         res.status(200).json({
             status: 200,
@@ -224,7 +224,7 @@ exports.findDoctor=async(req,res,next)=>{
 
 exports.find=async(req,res,next)=>{
     try {
-        const doctor = await Doctor.findOne({_id : req.params.id})
+        const doctor = await Doctor.findOne({_id : req.params.id}).populate('user', '-_id image')
 
         res.status(200).json({
             status: 200,
@@ -326,9 +326,10 @@ exports.addChamber=async(req,res,next)=>{
 exports.updateChamber=async(req,res,next)=>{
     const {userId,...data} = req.body
     try {
-        const doctor = await Doctor.findOneAndUpdate({_id : req.params.doctorId , "chambers.id" : data.id},{$set:{
+        const doctor = await Doctor.findOneAndUpdate({_id : req.params.doctorId , "chambers._id" : data._id},{$set:{
             'chambers.$.vanue' : data.vanue,
             'chambers.$.location' : data.location,
+            'chambers.$.appointment_limit' : data.appointment_limit,
             'chambers.$.day' : data.day,
             'chambers.$.from' : data.from,
             'chambers.$.to' : data.to
@@ -354,7 +355,7 @@ exports.updateChamber=async(req,res,next)=>{
 exports.removeChamber=async(req,res,next)=>{
     const {dId,cId} = req.query
     try {
-        const doctor = await Doctor.findOneAndUpdate({_id : dId},{$pull : {'chambers' : {'id' : cId}}},{new : true})
+        const doctor = await Doctor.findOneAndUpdate({_id : dId},{$pull : {'chambers' : {'_id' : cId}}},{new : true})
 
         res.status(200).json({
             status: 200,

@@ -16,7 +16,7 @@ export default function Profile(){
     useEffect(()=>{
         getUser(id,setUser,setAddress)
     },[id,random])
-
+    console.log(user)
     return(
         <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 md:gap-x-4">
@@ -43,9 +43,10 @@ export default function Profile(){
                             <input type='text' name='phone' value={user?.phone} onChange={(e)=>handleChange(e,user,setUser)}  className='w-full p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Phone number"/>
                         </div>
 
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2 relative">
                             <input type='text' name='gender' value={user?.gender} onChange={(e)=>handleChange(e,user,setUser)}  className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder="Gender"/>
-                            <input type='date' name='dob' value={dateGenerator(user?.dob)} onChange={(e)=>handleChange(e,user,setUser)}  className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300' placeholder=""/>
+                            <input type='text' name='' value={dateGenerator(user?.dob)} className='w-1/2 p-2 border-b focus:outline-none focus:border-blue-300'/>
+                            <input type='date' name='dob' onChange={(e)=>handleChange(e,user,setUser)}  className='absolute bottom-0 right-0 w-9 p-2 border-b focus:outline-none focus:border-blue-300' placeholder=""/>
                         </div>
 
                         <div className="flex items-center space-x-2">

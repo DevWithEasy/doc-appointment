@@ -11,7 +11,6 @@ export default function UpdateChamber(props){
     const {doctor,chamber} = props
     const [value,setValue] = useState(chamber)
     
- 
     return(
         <>
             <button 
@@ -19,7 +18,7 @@ export default function UpdateChamber(props){
                 className="flex items-center space-x-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             >
                 <AiFillEdit/>
-                <span>Update</span>
+                {/* <span>Update</span> */}
             </button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -33,6 +32,8 @@ export default function UpdateChamber(props){
                         <input type='text' name='vanue' value={value?.vanue} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                         <label>Location</label>
                         <input type='text' name='location' value={value?.location} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
+                        <label>Appointment Limit</label>
+                        <input type='number' name='appointment_limit' value={value?.appointment_limit} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                         <div className="space-y-2">
                             <div className="w-full space-y-1">
                                 <label className="block">Service Day and Time : </label>

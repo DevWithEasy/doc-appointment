@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const chamberSchema = mongoose.Schema({
   doctorId : {
     type: mongoose.Types.ObjectId,
-    required: true
+    required: 'Doctor'
   },
   location :{
     type : String,

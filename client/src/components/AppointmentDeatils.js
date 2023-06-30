@@ -51,7 +51,7 @@ export default function AppointmentDetails({id,isOpen, onOpen, onClose}){
     useEffect(()=>{
         getAppointmentDetails(id,setAppointment,setChamber)
     },[id])
-
+    console.log(appointment)
     return(
         <>
             <Modal isOpen={isOpen} size='xl' onClose={onClose}>

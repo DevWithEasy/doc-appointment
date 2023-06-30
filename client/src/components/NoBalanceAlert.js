@@ -36,7 +36,7 @@ const NoBalanceAlert = ({isOpen, onOpen, onClose,navigate}) => {
                     <Button ref={cancelRef} onClick={onClose}>
                         Cancel
                     </Button>
-                    <Button colorScheme='blue' onClick={()=>navigate('/add-balance')} ml={3}>
+                    <Button colorScheme='blue' onClick={()=>navigate('/payment/add')} ml={3}>
                         Add balance
                     </Button>
                     </AlertDialogFooter>

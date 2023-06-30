@@ -16,6 +16,9 @@ export default function ChamberList({doctor}){
                         <th scope="col" className="px-6 py-3">
                             Location
                         </th>
+                        <th scope="col" className="px-6 py-3">
+                            Limit
+                        </th>
                         <th scope="col" className="px-6 py-3 text-center">
                             Day
                         </th>
@@ -31,7 +34,7 @@ export default function ChamberList({doctor}){
                     </tr>
                 </thead>
                 <tbody>
-                    {doctor?.chambers.map((chamber,i)=> <tr key={chamber.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    {doctor?.chambers.map((chamber,i)=> <tr key={chamber._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td className="px-4 py-4">
                             {i+1}
                         </td>
@@ -40,6 +43,9 @@ export default function ChamberList({doctor}){
                         </td>
                         <td className="px-6 py-4">
                             {chamber.location}
+                        </td>
+                        <td className="px-6 py-4">
+                            {chamber.appointment_limit}
                         </td>
                         <td className="px-6 py-4">
                             {chamber.day}

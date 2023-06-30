@@ -97,7 +97,7 @@ export async function getAppointmentDetails(id,setAppointment,setChamber){
         })
         if(res.status === 200){
             setAppointment(res.data.data)
-            setChamber(res?.data?.data?.doctor?.chambers.find(c => c.id === res.data?.data?.chamberId))
+            setChamber(res?.data?.data?.doctor?.chambers.find(c => c._id === res.data?.data?.chamberId))
         }
     }catch(err){
         console.log(err)

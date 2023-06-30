@@ -13,8 +13,9 @@ export default function AddChamber({id}){
         vanue : '',
         location : '',
         day : '',
+        appointment_limit : 0,
         from : '',
-        to : ''
+        to : '', 
     })
     return(
         <>
@@ -35,6 +36,7 @@ export default function AddChamber({id}){
                     <div className="p-2 space-y-2">
                         <Input label='Hospital / Clinic /Diagnostic Name' type='text' name='vanue' value={value} setValue={setValue}/>
                         <Input label='Location' type='text' name='location' value={value} setValue={setValue}/>
+                        <Input label='Appointment Limit' type='number' name='appointment_limit' value={value} setValue={setValue}/>
                         <div className="space-y-2">
                             <div className="w-full space-y-1">
                                 <label className="block">Service Day and Time : </label>

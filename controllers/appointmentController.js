@@ -1,9 +1,10 @@
 const Appointment = require('../models/Appointment')
 const Doctor = require('../models/Doctor')
 const User = require('../models/User')
+const getObjectId = require('../utils/getObjectId')
 exports.addAppointment=async(req,res,next)=>{
     try {
-        const user = await User.findOne({_id : req.body.userId})
+        const user = await User.findById(req.body.userId)
 
         if(user.balance < 10) {
             return res.status(405).json({
@@ -12,16 +13,31 @@ exports.addAppointment=async(req,res,next)=>{
                 message : 'Unsufficient balance.'
             })
         }
+        const doctor = await Doctor.findOne({_id : req.body.doctor})
 
-        const all = await Appointment.find({appointmentDate : req.body.appointmentDate})
+        const chamber = doctor.chambers.find(chamber=> getObjectId(chamber._id) === req.body.chamberId)
+
+        const appointments = await Appointment.find(
+            {
+                appointmentDate : req.body.appointmentDate,
+                appointmentDay : req.body.appointmentDay,
+                chamberId : req.body.chamberId
+            }
+        ).countDocuments()
+
+        if(appointments >= chamber.appointment_limit){
+            return res.status(406).json({
+                status : 406,
+                success : false,
+                message : 'Appointment Completed. Please try another chamber or day'
+            })
+        }
 
         const newAppointment = new Appointment({
             ...req.body,
             user : req.body.userId,
-            appointmentId : all.length == 0 ? 1 : all.length+1
+            appointmentId : appointments == 0 ? 1 : appointments+1
         })
-
-        const doctor = await Doctor.findOne({_id : req.body.doctor})
 
         await User.findByIdAndUpdate(doctor.user,{
             $push : {
@@ -238,7 +254,7 @@ exports.getAllAppointment=async(req,res,next)=>{
 exports.getAppointmentDetails=async(req,res,next)=>{
     
     try {
-        const appointment = await Appointment.findById(req.params.id).populate('doctor').populate('user','name')
+        const appointment = await Appointment.findById(req.params.id).populate('doctor','firstName lastName feesPerConsultation chambers').populate('user','-_id name')
         
         res.status(200).json({
             status : 200,
