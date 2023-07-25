@@ -27,6 +27,7 @@ import AddBalance from './pages/payment/AddBalance';
 import Success from './pages/payment/Success';
 import Failure from './pages/payment/Failure';
 import NotFound from './pages/NotFound';
+import Payments from './pages/Payments';
 function App() {
   const routes = useRoutes(
     [
@@ -60,7 +61,9 @@ function App() {
           },
           {
             path : '/profile/:id',
-            element : <ProtectedRoute><Profile/></ProtectedRoute>
+            element : <ProtectedRoute>
+              <Profile/>
+            </ProtectedRoute>
           },
           {
             path : '/hospitals',
@@ -72,7 +75,9 @@ function App() {
           },
           {
             path : '/apply-doctor',
-            element : <ProtectedRoute><ApplyDoctor/></ProtectedRoute>
+            element : <ProtectedRoute>
+              <ApplyDoctor/>
+            </ProtectedRoute>
           },
           {
             path : '/hospital/:id',
@@ -84,47 +89,75 @@ function App() {
           },
           {
             path : '/appointment-submit/:id',
-            element : <ProtectedRoute><AppointmentSubmit/></ProtectedRoute>
+            element : <ProtectedRoute>
+              <AppointmentSubmit/>
+            </ProtectedRoute>
           },
           {
             path : '/appointments',
-            element : <ProtectedRoute><Appointments/></ProtectedRoute>
+            element : <ProtectedRoute>
+              <Appointments/>
+            </ProtectedRoute>
           },
           {
             path : '/notification',
-            element : <ProtectedRoute><Notification/></ProtectedRoute>,
+            element : <ProtectedRoute>
+              <Notification/>
+            </ProtectedRoute>,
           },
           {
             path : '/doctor/dashboard',
-            element : <ProtectedRoute><Dashboard/></ProtectedRoute>
+            element : <ProtectedRoute>
+              <Dashboard/>
+            </ProtectedRoute>
           },
           {
             path : '/doctor/allAppointments',
-            element : <ProtectedRoute><AppointmentsAllPatient/></ProtectedRoute>
+            element : <ProtectedRoute>
+              <AppointmentsAllPatient/>
+            </ProtectedRoute>
           },
           {
             path : '/doctor/allAppointments/search',
-            element : <ProtectedRoute><AppointmentsAllPatientSearch/></ProtectedRoute>
+            element : <ProtectedRoute>
+              <AppointmentsAllPatientSearch/>
+            </ProtectedRoute>
           },
           {
             path : '/admin',
-            element : <ProtectedRoute><Admin/></ProtectedRoute>,
+            element : <ProtectedRoute>
+              <Admin/>
+            </ProtectedRoute>,
           },
           {
             path : '/admin/users',
-            element : <ProtectedRoute><Users/></ProtectedRoute>,
+            element : <ProtectedRoute>
+              <Users/>
+            </ProtectedRoute>,
           },
           {
             path : '/admin/doctors',
-            element : <ProtectedRoute><AppliedDoctors/></ProtectedRoute>,
+            element : <ProtectedRoute>
+              <AppliedDoctors/>
+            </ProtectedRoute>,
           },
           {
             path : '/admin/hospitals',
-            element : <ProtectedRoute><AppliedHospital/></ProtectedRoute>,
+            element : <ProtectedRoute>
+              <AppliedHospital/>
+            </ProtectedRoute>,
+          },
+          {
+            path : '/payments/',
+            element : <ProtectedRoute>
+              <Payments/>
+            </ProtectedRoute>
           },
           {
             path : '/payment/add',
-            element : <ProtectedRoute><AddBalance/></ProtectedRoute>
+            element : <ProtectedRoute>
+              <AddBalance/>
+            </ProtectedRoute>
           },
           {
             path : '/payment/success',

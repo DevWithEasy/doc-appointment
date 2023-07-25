@@ -2,6 +2,7 @@ const Appointment = require('../models/Appointment')
 const Doctor = require('../models/Doctor')
 const User = require('../models/User')
 const getObjectId = require('../utils/getObjectId')
+
 exports.addAppointment=async(req,res,next)=>{
     try {
         const user = await User.findById(req.body.userId)
