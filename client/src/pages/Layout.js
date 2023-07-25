@@ -4,7 +4,7 @@ import Header from "../components/Header";
 
 export default function Layout(){
     return(
-        <div className="bg-[#F8F8F8] pt-16">
+        <div className="h-screen pt-16 bg-[#F8F8F8] overflow-y-auto">
             <Header/>
             <Outlet/>
             <Toaster/>

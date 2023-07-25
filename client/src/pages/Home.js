@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react"
 import { getAllActiveDoctors } from "../utils/doctors_utils"
+import { Link, useNavigate } from "react-router-dom"
+import { FaBookMedical } from "react-icons/fa"
 
 export default function Home(){
+    const navigate = useNavigate()
     const [doctors,setDoctors] = useState([])
 
     useEffect(()=>{
         getAllActiveDoctors(setDoctors)
     },[])
+
     console.log(doctors)
     return(
         <div>
@@ -100,9 +104,9 @@ export default function Home(){
                                         <img src={doctor?.user?.image?.url} alt="" className='w-20 h-20 rounded-full'/>
                                     </div>
                                     <div
-                                        className="space-y-2"
+                                        className="space-y-1 text-sm"
                                     >
-                                        <p className='text-xl font-bold'>{doctor?.firstName} {doctor?.lastName}</p>
+                                        <p className='text-lg font-semibold'>{doctor?.firstName} {doctor?.lastName}</p>
                                         <p>{doctor?.education}</p>
                                         <p>{doctor?.specialization}</p>
                                         <p>{doctor?.experienceArea}</p>
@@ -110,6 +114,16 @@ export default function Home(){
                                             doctor?.designation && doctor?.workedAt && <p>{doctor?.designation} of {doctor?.workedAt}</p>
                                         }
                                         <p>Fee - {doctor?.feesPerConsultation}</p>
+                                        <button
+                                            onClick={()=>navigate(`/appointment-submit/${doctor?._id}`)}
+                                            className="bg-red-500 text-white px-4 py-1 rounded-md"
+                                        >
+                                            Appointment
+                                        </button>
+                                        {/* <Link to={`/appointment-submit/${doctor?._id}`} className='flex justify-center items-center space-x-2 text-blue-500 px-4 py-1 rounded-full border border-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300'>
+                                            <FaBookMedical size={15}/>
+                                            <span>Appointment</span>
+                                        </Link> */}
                                     </div>
                                 </div>)
                             }

@@ -1,9 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body{
-    @apply bg-[#F8F8F8]
-}
+
 .active{
-    @apply bg-white
+    @apply bg-white text-blue-500
 }
