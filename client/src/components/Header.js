@@ -26,10 +26,13 @@ export default function Header(){
         localStorage.removeItem('accessToken')
     }
     return(
-        <div className="w-full fixed top-0 left-0 z-10">
+        <div className="w-full fixed top-0 left-0 z-10 bg-gray-500">
             <div className="w-10/12 mx-auto flex justify-between items-center p-2">
-                <div className="w-3/12">
-                    <Link className="flex items-center space-x-3">
+                <div className="w-3/12 text-white">
+                    <Link 
+                        to='/'
+                        className="flex items-center space-x-3"
+                    >
                         <AiOutlineMenu
                             size={25} 
                             onClick={()=>setMenu(!menu)}
@@ -39,14 +42,14 @@ export default function Header(){
                     </Link>
                 </div>
 
-                <div className="w-6/12 flex justify-center">
-                    <NavLink to="/doctors" className="p-2 hover:bg-white trasition-all duration-300 rounded">
+                <div className="w-6/12 flex justify-center space-x-4 text-white">
+                    <NavLink to="/doctors" className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded">
                         Doctors
                     </NavLink>
-                    <NavLink to="/hospitals" className="p-2 hover:bg-white trasition-all duration-300 rounded">
+                    <NavLink to="/hospitals" className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded">
                         Hospitals
                     </NavLink>
-                    <NavLink to="/ambulences" className="p-2 hover:bg-white trasition-all duration-300 rounded">
+                    <NavLink to="/ambulences" className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded">
                         Ambulances
                     </NavLink>
                 </div>
@@ -54,11 +57,13 @@ export default function Header(){
                 <div className="w-3/12 flex justify-end">
                     {
                         !isAuth ?
-                        <div>
-                            <NavLink to="/signup" className="p-2 hover:bg-white trasition-all duration-300 rounded">
-                                Create an account
+                        <div
+                            className="text-white space-x-3"
+                        >
+                            <NavLink to="/signup" className="px-4 py-2 bg-red-400 hover:bg-red-500 text-white trasition-all duration-300 rounded">
+                               Join now
                             </NavLink>
-                            <NavLink to="/signin" className="p-2 hover:bg-white trasition-all duration-300 rounded">
+                            <NavLink to="/signin" className="px-4 py-2 bg-green-400 hover:bg-green-500 text-white trasition-all duration-300 rounded">
                                 Login
                             </NavLink>
                         </div>
@@ -66,17 +71,21 @@ export default function Header(){
                         <div
                             className="flex justify-end items-center space-x-2"
                         >
-                            <NavLink to="/notification" className="relative p-2 hover:bg-white trasition-all duration-300 rounded">
+                            <NavLink to="/notification" className="relative p-2 text-white hover:text-black hover:bg-white trasition-all duration-300 rounded">
                                 <MdNotificationsNone size={25} className=""/>
                                 {user?.notifications?.length > 0 && <div className="absolute -right-1 -top-0 w-5 h-5 flex justify-center items-center bg-red-500 text-white text-xs rounded-full">
                                     <span>{user?.notifications.filter(notification=>notification.status === 'unread').length}</span>
                                 </div>}
                             </NavLink>
-                            <Menu>
+                            <Menu
+                                className='z-10'
+                            >
                                 <MenuButton>
-                                    <img src={user?.image?.url} alt="" className="w-6 h-6  rounded-full border"/>
+                                    <img src={user?.image?.url} alt="" className="w-7 h-7  rounded-full"/>
                                 </MenuButton>
-                                <MenuList>
+                                <MenuList
+                                    className="text-black"
+                                >
                                 <MenuGroup title='Profile'>
                                     <MenuItem
                                         onClick={()=>navigate(`/profile/${user._id}`)}
@@ -85,6 +94,7 @@ export default function Header(){
                                     </MenuItem>
                                     <MenuItem
                                         onClick={()=>navigate('/appointments')}
+                                        className="text-black"
                                     >
                                         Appointments
                                     </MenuItem>

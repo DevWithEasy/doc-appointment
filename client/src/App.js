@@ -28,6 +28,7 @@ import Success from './pages/payment/Success';
 import Failure from './pages/payment/Failure';
 import NotFound from './pages/NotFound';
 import Payments from './pages/Payments';
+import AppointmentFind from './pages/AppointmentFind';
 function App() {
   const routes = useRoutes(
     [
@@ -86,6 +87,10 @@ function App() {
           {
             path : '/appointment',
             element : <Appointment/>
+          },
+          {
+            path : '/appointment/find',
+            element : <AppointmentFind/>
           },
           {
             path : '/appointment-submit/:id',

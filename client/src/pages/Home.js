@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { getAllActiveDoctors } from "../utils/doctors_utils"
-import { Link, useNavigate } from "react-router-dom"
-import { FaBookMedical } from "react-icons/fa"
+import {BsSearch} from 'react-icons/bs'
 
 export default function Home(){
     const navigate = useNavigate()
     const [doctors,setDoctors] = useState([])
+    const [query,setQuery] = useState('')
+    const [specialization,setSpecialization] = useState('')
+    const [day,setDay] = useState('')
+
+    const daysOfWeek = ["Saturday","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
     useEffect(()=>{
         getAllActiveDoctors(setDoctors)
@@ -53,19 +58,37 @@ export default function Home(){
                     <div
                         className="w-4/12"
                     >
-                        <label>Search</label>
-                        <input
-                            type="Email address"
-                            onChange={()=>{}}
-                            placeholder="search by name"
-                            className="p-1 placeholder:text-sm border border-gray-400 bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
-                        />
-                        <div>
-                            <label>Find appointment </label>
+                        <div
+                            className="w-8/12 space-y-3 pt-5"
+                        >
+                        <div
+                            className="space-y-2"
+                        >
+                            <label className="font-semibold"> Search </label>
+                            <div
+                                className="flex items-center"
+                            >
+                                <input
+                                    type="Email address"
+                                    onChange={(e)=>setQuery(e.target.value)}
+                                    placeholder="search by name"
+                                    className="w-full p-1 border border-gray-400 placeholder:text-sm bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
+                                />
+                                <button
+                                    className="px-4 py-2 bg-black text-white border border-black"
+                                >
+                                    <BsSearch/>
+                                </button>
+                            </div>
+                        </div>
+                        <div
+                            className="space-y-2"
+                        >
+                            <label className="font-semibold">Find appointment </label>
                             <select
-                                onChange={()=>{}}
-                                className="p-1 text-sm border border-gray-400 bg-[#f8f8f8] focus:bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
-                                
+                                    onChange={(e)=>setSpecialization(e.target.value)}
+                                    className="w-full py-1.5 text-sm  border border-gray-400  bg-[#f8f8f8] focus:bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
+                                    
                             >
                                 <option>
                                     Select specialization
@@ -81,30 +104,51 @@ export default function Home(){
                                     </option>)
                                 }
                             </select>
+                            <select
+                                    onChange={(e)=>setDay(e.target.value)}
+                                    className="w-full py-1.5 text-sm  border border-gray-400  bg-[#f8f8f8] focus:bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
+                                    
+                            >
+                                <option>
+                                    Select day
+                                </option>
+                                {
+                                    daysOfWeek && 
+                                    daysOfWeek.map(day=> day)
+                                    .map((day,i)=><option
+                                        key={i}
+                                        value={day}
+                                    >
+                                        {day}
+                                    </option>)
+                                }
+                            </select>
                             <button
-                                className="px-4 py-1 bg-red-500 text-white"
+                                onClick={()=>navigate(`/appointment/find?specialization=${specialization}&day=${day}`)}
+                                className="px-6 py-1 bg-black text-white border border-black"
                             >
                                 Find
                             </button>
+                        </div>
                         </div>
                     </div>
                     <div
                         className="w-8/12 border-l overflow-y"
                     >
                         <div
-                            className="w-full p-2 grid grid-cols-3 gap-2"
+                            className="w-full grid grid-cols-3"
                         >
                             {
                                 doctors && 
-                                doctors.map(doctor=><div
+                                doctors.filter(doctor=> doctor.firstName.toLowerCase().includes(query)).map(doctor=><div
                                     key={doctor?._id}
-                                    className="w-full p-2 text-center bg-white border rounded space-y-5"
+                                    className="w-full p-4 text-center border-r border-b space-y-5 hover:shadow-md group hover:bg-black hover:rounded-md transition-all duration-500"
                                 >
-                                    <div className='w-20 h-20 mx-auto flex justify-center rounded-full border'>
-                                        <img src={doctor?.user?.image?.url} alt="" className='w-20 h-20 rounded-full'/>
+                                    <div className='w-[82px] h-[82px] mx-auto flex justify-center items-center rounded-full bg-blue-500 group-hover:bg-white'>
+                                        <img src={doctor?.user?.image?.url} alt="" className='w-20 h-20 rounded-full border-4'/>
                                     </div>
                                     <div
-                                        className="space-y-1 text-sm"
+                                        className="space-y-1 text-sm group-hover:text-white"
                                     >
                                         <p className='text-lg font-semibold'>{doctor?.firstName} {doctor?.lastName}</p>
                                         <p>{doctor?.education}</p>
@@ -116,14 +160,11 @@ export default function Home(){
                                         <p>Fee - {doctor?.feesPerConsultation}</p>
                                         <button
                                             onClick={()=>navigate(`/appointment-submit/${doctor?._id}`)}
-                                            className="bg-red-500 text-white px-4 py-1 rounded-md"
+                                            className="bg-black text-white px-4 py-1 rounded group-hover:bg-white group-hover:text-black"
                                         >
                                             Appointment
                                         </button>
-                                        {/* <Link to={`/appointment-submit/${doctor?._id}`} className='flex justify-center items-center space-x-2 text-blue-500 px-4 py-1 rounded-full border border-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300'>
-                                            <FaBookMedical size={15}/>
-                                            <span>Appointment</span>
-                                        </Link> */}
+                                        
                                     </div>
                                 </div>)
                             }
