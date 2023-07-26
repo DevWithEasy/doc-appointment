@@ -17,9 +17,13 @@ export async function handleApplyDoctor(value,toast){
     }
 }
 
-export async function getAllActiveDoctors(setDoctors){
-    const res = await axios.get('/api/doctor/allApprovedDoctors')
-    setDoctors(res.data.data)
+export async function getAllActiveDoctors(addDoctors){
+    try {
+        const res = await axios.get('/api/doctor/allApprovedDoctors')
+        addDoctors(res.data.data)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export async function getSpecialist(setSpecialist){

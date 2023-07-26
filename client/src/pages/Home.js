@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getAllActiveDoctors } from "../utils/doctors_utils"
 import {BsSearch} from 'react-icons/bs'
+import Doctor from "../components/Doctor"
+import useUserStore from "../features/userStore"
 
 export default function Home(){
     const navigate = useNavigate()
-    const [doctors,setDoctors] = useState([])
+    const {doctors,addDoctors} = useUserStore()
     const [query,setQuery] = useState('')
     const [specialization,setSpecialization] = useState('')
     const [day,setDay] = useState('')
@@ -13,8 +15,8 @@ export default function Home(){
     const daysOfWeek = ["Saturday","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
     useEffect(()=>{
-        getAllActiveDoctors(setDoctors)
-    },[])
+        getAllActiveDoctors(addDoctors)
+    },[addDoctors])
 
     console.log(doctors)
     return(
@@ -33,13 +35,13 @@ export default function Home(){
                         type="Email address"
                         onChange={()=>{}}
                         placeholder="Email address"
-                        className="p-1 placeholder:text-sm border border-gray-400 bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
+                        className="p-1 placeholder:text-sm border border-gray-400 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500"
                     />
                     <input
                         type="Email address"
                         onChange={()=>{}}
                         placeholder="Email address"
-                        className="p-1 placeholder:text-sm border border-gray-400 bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
+                        className="p-1 placeholder:text-sm border border-gray-400 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500"
                     />
                     <button
                         className="px-6 py-1 bg-red-500 text-white border border-red-500"
@@ -69,10 +71,10 @@ export default function Home(){
                                 className="flex items-center"
                             >
                                 <input
-                                    type="Email address"
+                                    type="text"
                                     onChange={(e)=>setQuery(e.target.value)}
                                     placeholder="search by name"
-                                    className="w-full p-1 border border-gray-400 placeholder:text-sm bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
+                                    className="w-full p-1 border border-gray-400 placeholder:text-sm bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500"
                                 />
                                 <button
                                     className="px-4 py-2 bg-black text-white border border-black"
@@ -140,33 +142,8 @@ export default function Home(){
                         >
                             {
                                 doctors && 
-                                doctors.filter(doctor=> doctor.firstName.toLowerCase().includes(query)).map(doctor=><div
-                                    key={doctor?._id}
-                                    className="w-full p-4 text-center border-r border-b space-y-5 hover:shadow-md group hover:bg-black hover:rounded-md transition-all duration-500"
-                                >
-                                    <div className='w-[82px] h-[82px] mx-auto flex justify-center items-center rounded-full bg-blue-500 group-hover:bg-white'>
-                                        <img src={doctor?.user?.image?.url} alt="" className='w-20 h-20 rounded-full border-4'/>
-                                    </div>
-                                    <div
-                                        className="space-y-1 text-sm group-hover:text-white"
-                                    >
-                                        <p className='text-lg font-semibold'>{doctor?.firstName} {doctor?.lastName}</p>
-                                        <p>{doctor?.education}</p>
-                                        <p>{doctor?.specialization}</p>
-                                        <p>{doctor?.experienceArea}</p>
-                                        {
-                                            doctor?.designation && doctor?.workedAt && <p>{doctor?.designation} of {doctor?.workedAt}</p>
-                                        }
-                                        <p>Fee - {doctor?.feesPerConsultation}</p>
-                                        <button
-                                            onClick={()=>navigate(`/appointment-submit/${doctor?._id}`)}
-                                            className="bg-black text-white px-4 py-1 rounded group-hover:bg-white group-hover:text-black"
-                                        >
-                                            Appointment
-                                        </button>
-                                        
-                                    </div>
-                                </div>)
+                                doctors.filter(doctor=> doctor.firstName.toLowerCase().includes(query))
+                                .map(doctor=><Doctor key={doctor?._id} {...{doctor}}/>)
                             }
                         </div>
                     </div>

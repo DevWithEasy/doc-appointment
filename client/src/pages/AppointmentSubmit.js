@@ -1,5 +1,4 @@
 import { useDisclosure } from '@chakra-ui/react';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
@@ -16,9 +15,9 @@ import { selectedDay } from '../utils/selectedDay';
 export default function AppointmentSubmit(){
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate()
-    const {user} =useUserStore()
+    const {user,doctors} =useUserStore()
     const {id} = useParams()
-    const [doctor,setDoctor] = useState({})
+    const [doctor] = useState(doctors.find(doctor=> doctor._id === id))
     const [chamber,setChamber] = useState({})
     const [selected, setSelected] = useState()
     const [value, setValue] = useState({
@@ -33,27 +32,29 @@ export default function AppointmentSubmit(){
         appointmentDate : '',
     })
 
-    async function getDoctor(id){
-        const res = await axios.get(`/api/doctor/${id}`,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        setDoctor(res.data.data)
-    }
+    // async function getDoctor(id){
+    //     const res = await axios.get(`/api/doctor/${id}`,{
+    //         headers : {
+    //             authorization : 'Bearer ' + localStorage.getItem('accessToken')
+    //         }
+    //     })
+    //     setDoctor(res.data.data)
+    // }
+
+    // useEffect(()=>{
+    //     getDoctor(id)
+    // },[id])
 
     useEffect(()=>{
-        getDoctor(id)
-    },[id])
-
-    useEffect(()=>{
-        if (doctor.chambers) selectedDay(selected,doctor,setChamber,toast)
+        if (doctor?.chambers) selectedDay(selected,doctor,setChamber,toast)
     },[selected,doctor])
 
     const data = {...value,chamberId : chamber._id,appointmentDay : chamber?.day,appointmentDate : dateGenerator(selected)}
     console.log(doctor)
     return(
-        <div>
+        <div
+            className='w-10/12 mx-auto'
+        >
             <h1 className="py-2 text-2xl font-bold text-center uppercase">Submit appointment</h1>
             <hr/>
             <div className='md:flex justify-between pb-10 md:gap-x-4'>
@@ -66,7 +67,7 @@ export default function AppointmentSubmit(){
                             <p>{doctor?.experienceArea}</p>
                         </div>
                     </div>
-                    {doctor.chambers && <ChamberList chambers={doctor.chambers}/>}
+                    {doctor?.chambers && <ChamberList chambers={doctor.chambers}/>}
                 </div>
                 <div className='w-full md:w-5/12 mt-4 flex flex-col items-center justify-center bg-white rounded-md'>
                     <DayPicker

@@ -18,7 +18,7 @@ export default function Profile(){
     },[id,random])
     console.log(user)
     return(
-        <div>
+        <div className='w-10/12 mx-auto'>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 md:gap-x-4">
                 <div className="bg-white p-4 rounded-2xl shadow">
                     <img src={user?.image?.url}  alt="user" className='h-64 mx-auto rounded-md'/>

@@ -4,7 +4,9 @@ import Hospital from "../components/Hospital";
 export default function Hospitals(){
     const [hospital,setHospital] = useState('')
     return(
-        <div>
+        <div
+            className="w-10/12 mx-auto"
+        >
             <h1 className="p-2 text-2xl font-bold text-center uppercase">Hospitals</h1>
             <div className="flex justify-end py-2">
                 <select onChange={(e)=>setHospital(e.target.value)} className='p-2 border rounded shadow focus:outline-none focus:ring-2'>

@@ -1,27 +1,31 @@
-import { Link } from'react-router-dom'
-import {FaBookMedical} from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 export default function Doctor({doctor}){
+    const navigate = useNavigate()
     return(
-        <div className="flex border bg-white rounded p-6 md:p-3">
-            <div className='flex justify-center '>
-                <img src={doctor?.user?.image?.url} alt="" className='w-20 h-20 rounded-full'/>
+        <div
+            className="w-full p-4 flex flex-col items-center text-center border-r border-b space-y-5 hover:shadow-md group hover:bg-black hover:rounded-md transition-all duration-500"
+        >
+            <div className='w-[82px] h-[82px] mx-auto flex justify-center items-center rounded-full bg-blue-500 group-hover:bg-white'>
+                <img src={doctor?.user?.image?.url} alt="" className='w-20 h-20 rounded-full border-4'/>
             </div>
-            <div className='pl-4 space-y-2'>
-                <p className='text-xl font-bold'>{doctor?.firstName} {doctor?.lastName}</p>
+            <div
+                className="space-y-1 text-sm group-hover:text-white flex-1"
+            >
+                <p className='text-lg font-semibold'>{doctor?.firstName} {doctor?.lastName}</p>
                 <p>{doctor?.education}</p>
                 <p>{doctor?.specialization}</p>
                 <p>{doctor?.experienceArea}</p>
                 {
                     doctor?.designation && doctor?.workedAt && <p>{doctor?.designation} of {doctor?.workedAt}</p>
                 }
-                <p>Fee - {doctor?.feesPerConsultation}</p>
-                <p className='flex justify-center'>
-                    <Link to={`/appointment-submit/${doctor?._id}`} className='flex items-center space-x-2 text-green-500 px-4 py-1 rounded-full border border-green-500 hover:bg-green-500 hover:text-white transition-all duration-300'>
-                        <FaBookMedical size={15}/>
-                        <span>Appointment</span>
-                    </Link>
-                </p>
+                <p>Fee - {doctor?.feesPerConsultation}</p>                  
             </div>
+            <button
+                onClick={()=>navigate(`/appointment-submit/${doctor?._id}`)}
+                className="w-32 py-1 bg-black text-white rounded group-hover:bg-white group-hover:text-black"
+            >
+                Appointment
+            </button>
         </div>
     )
 }

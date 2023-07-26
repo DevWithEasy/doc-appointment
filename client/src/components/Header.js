@@ -1,9 +1,3 @@
-import { useState } from "react";
-import { AiOutlineMenu } from "react-icons/ai";
-import { MdNotificationsNone } from 'react-icons/md';
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import useUserStore from "../features/userStore";
-// import Menu from "./Menu";
 import {
     Menu,
     MenuButton,
@@ -12,6 +6,12 @@ import {
     MenuItem,
     MenuList
 } from '@chakra-ui/react';
+import { useState } from "react";
+import { AiOutlineMenu } from "react-icons/ai";
+import { MdNotificationsNone } from 'react-icons/md';
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import icon from '../assets/images/cardiogram.png';
+import useUserStore from "../features/userStore";
 
 export default function Header(){
     const [menu,setMenu] = useState(false)
@@ -38,19 +38,21 @@ export default function Header(){
                             onClick={()=>setMenu(!menu)}
                             className="md:hidden"
                         />
-                        <span className="text-lg font-bold">AmaderDoctor</span>
+                        <span className="text-lg font-bold">
+                            আমাদের ডাক্তার
+                        </span>
                     </Link>
                 </div>
 
                 <div className="w-6/12 flex justify-center space-x-4 text-white">
                     <NavLink to="/doctors" className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded">
-                        Doctors
+                        ডাক্তার
                     </NavLink>
                     <NavLink to="/hospitals" className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded">
-                        Hospitals
+                        হাসপাতাল
                     </NavLink>
                     <NavLink to="/ambulences" className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded">
-                        Ambulances
+                        এম্বুল্যান্স
                     </NavLink>
                 </div>
 
@@ -61,10 +63,10 @@ export default function Header(){
                             className="text-white space-x-3"
                         >
                             <NavLink to="/signup" className="px-4 py-2 bg-red-400 hover:bg-red-500 text-white trasition-all duration-300 rounded">
-                               Join now
+                               একাউন্ট করুন
                             </NavLink>
                             <NavLink to="/signin" className="px-4 py-2 bg-green-400 hover:bg-green-500 text-white trasition-all duration-300 rounded">
-                                Login
+                                প্রবেশ করুন
                             </NavLink>
                         </div>
                         :
@@ -81,7 +83,7 @@ export default function Header(){
                                 className='z-10'
                             >
                                 <MenuButton>
-                                    <img src={user?.image?.url} alt="" className="w-7 h-7  rounded-full"/>
+                                    <img src={user?.image?.url} alt="" className="w-7 h-7 rounded-full"/>
                                 </MenuButton>
                                 <MenuList
                                     className="text-black"
@@ -90,27 +92,27 @@ export default function Header(){
                                     <MenuItem
                                         onClick={()=>navigate(`/profile/${user._id}`)}
                                     >
-                                        My Account
+                                        আমার প্রোফাইল
                                     </MenuItem>
                                     <MenuItem
                                         onClick={()=>navigate('/appointments')}
                                         className="text-black"
                                     >
-                                        Appointments
+                                        অ্যাপয়েন্টমেন্ট সমুহ
                                     </MenuItem>
                                     <MenuItem
                                         onClick={()=>navigate('/payments')}
                                     >
-                                        Payments
+                                        পেমেন্টস সমুহ
                                     </MenuItem>
                                 </MenuGroup>
                                 <MenuDivider />
                                 <MenuGroup title='Help'>
                                     <MenuItem>
-                                        Docs
+                                        আমাদের সম্পর্কে
                                     </MenuItem>
                                     <MenuItem>
-                                        FAQ
+                                        আপনার
                                     </MenuItem>
                                     <MenuItem
                                         onClick={()=>handleLogout()}

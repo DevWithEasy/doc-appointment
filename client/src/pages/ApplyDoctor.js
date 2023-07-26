@@ -21,7 +21,7 @@ export default function ApplyDoctor(){
     })
 
     return(
-        <div className="space-y-2">
+        <div className="w-10/12 mx-auto space-y-2">
             <h1 className="text-2xl font-bold text-center uppercase">Apply as a Doctor</h1>
             <div className="grid md:grid-cols-2 gap-2">
                 <Input 
