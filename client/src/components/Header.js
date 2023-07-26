@@ -26,7 +26,7 @@ export default function Header(){
         localStorage.removeItem('accessToken')
     }
     return(
-        <div className="w-full fixed top-0 left-0 z-10 bg-gray-500">
+        <div className="w-full fixed top-0 left-0 z-10 bg-gray-500 ">
             <div className="w-10/12 mx-auto flex justify-between items-center p-2">
                 <div className="w-3/12 text-white">
                     <Link 

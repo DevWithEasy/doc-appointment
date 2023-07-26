@@ -22,7 +22,7 @@ export default function Doctor({doctor}){
             </div>
             <button
                 onClick={()=>navigate(`/appointment-submit/${doctor?._id}`)}
-                className="w-32 py-1 bg-black text-white rounded group-hover:bg-white group-hover:text-black"
+                className="w-32 py-1 bg-black text-white text-sm rounded group-hover:bg-white group-hover:text-black"
             >
                 Appointment
             </button>

@@ -23,30 +23,33 @@ export default function Home(){
         <div>
             <div className="text-center space-y-2 mb-5">
                 <h1 className="text-3xl font-semibold">
-                    Search Doctors,Make an appointment
+                    ডাক্তার খুঁজুন , এপয়েন্টমেন্ট নিন
                 </h1>
                 <p className="text-gray-500">
-                    Discover the best doctors,hospitals and ambulances
+                    ঠাকুরগাঁও জেলার সকল উপজেলার
+                </p>
+                <p className="text-gray-500">
+                    সকল ডাক্তার হাসপাতাল এবং এম্বুলেন্স খুঁজুন
                 </p>
                 <div
                     className="pt-5 space-x-2"
                 >
                     <input
-                        type="Email address"
+                        type="email"
                         onChange={()=>{}}
-                        placeholder="Email address"
+                        placeholder="ইমেইল অ্যাড্রেস"
                         className="p-1 placeholder:text-sm border border-gray-400 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500"
                     />
                     <input
-                        type="Email address"
+                        type="password"
                         onChange={()=>{}}
-                        placeholder="Email address"
+                        placeholder="পাসওয়ার্ড"
                         className="p-1 placeholder:text-sm border border-gray-400 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500"
                     />
                     <button
                         className="px-6 py-1 bg-red-500 text-white border border-red-500"
                     >
-                        Login
+                        প্রবেশ করুন
                     </button>
                 </div>
             </div>
@@ -66,14 +69,14 @@ export default function Home(){
                         <div
                             className="space-y-2"
                         >
-                            <label className="font-semibold"> Search </label>
+                            <label className="font-semibold"> খুঁজুন </label>
                             <div
                                 className="flex items-center"
                             >
                                 <input
                                     type="text"
                                     onChange={(e)=>setQuery(e.target.value)}
-                                    placeholder="search by name"
+                                    placeholder="নাম দিয়ে খুঁজুন"
                                     className="w-full p-1 border border-gray-400 placeholder:text-sm bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500"
                                 />
                                 <button
@@ -86,14 +89,14 @@ export default function Home(){
                         <div
                             className="space-y-2"
                         >
-                            <label className="font-semibold">Find appointment </label>
+                            <label className="font-semibold">এপয়েন্টমেন্ট খুঁজুন</label>
                             <select
                                     onChange={(e)=>setSpecialization(e.target.value)}
                                     className="w-full py-1.5 text-sm  border border-gray-400  bg-[#f8f8f8] focus:bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
                                     
                             >
                                 <option>
-                                    Select specialization
+                                    অভিজ্ঞতা বাছাই করুন
                                 </option>
                                 {
                                     doctors && 
@@ -112,7 +115,7 @@ export default function Home(){
                                     
                             >
                                 <option>
-                                    Select day
+                                    বার বাছাই করুন
                                 </option>
                                 {
                                     daysOfWeek && 
@@ -129,7 +132,7 @@ export default function Home(){
                                 onClick={()=>navigate(`/appointment/find?specialization=${specialization}&day=${day}`)}
                                 className="px-6 py-1 bg-black text-white border border-black"
                             >
-                                Find
+                                খুঁজুন
                             </button>
                         </div>
                         </div>
