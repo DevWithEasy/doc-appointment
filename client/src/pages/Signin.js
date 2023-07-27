@@ -20,18 +20,28 @@ export default function Signin(){
 
 
     return(
-        <div className="w-full md:w-5/12 mx-auto px-4 py-2 border rounded space-y-2 bg-white">
-            <h1 className="text-2xl font-bold text-center uppercase border-b py-2">Log in</h1>
+        <div className="w-10/12 md:w-5/12 mx-auto px-4 py-2 border rounded space-y-2 bg-white/50">
+            <h1 className="text-2xl font-bold text-center uppercase border-b py-2">প্রবেশ করুন</h1>
             <div className=" space-y-1">
-                <label>Email : </label>
-                <input type='email' name='email' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
+                <label>আপনার ই-মেইল অথবা নাম্বার লিখুন : </label>
+                <input 
+                    type='email' 
+                    name='email' 
+                    onChange={(e)=>handleChange(e,value,setValue)} 
+                    className='w-full p-2 rounded placeholder:text-sm border bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500'
+                />
             </div>
 
             <div className="relative space-y-1">
-                <label>Password : </label>
-                <input type={type} name='password' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
-                <button onClick={()=>passwordView(type,setType)} className='absolute right-2 bottom-2 text-gray-600'>
-                    {type === 'password' ? <BsEyeSlash size={25}/> : <BsEye size={25}/>}
+                <label>আপনার পাসওয়ার্ড লিখুন : </label>
+                <input 
+                    type={type} 
+                    name='password' 
+                    onChange={(e)=>handleChange(e,value,setValue)} 
+                    className='w-full p-2 rounded placeholder:text-sm border bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500'
+                />
+                <button onClick={()=>passwordView(type,setType)} className='absolute right-2 bottom-3 text-gray-600'>
+                    {type === 'password' ? <BsEyeSlash size={20}/> : <BsEye size={20}/>}
                 </button>
             </div>
 
@@ -39,12 +49,12 @@ export default function Signin(){
                 onClick={()=>handleSignIn(value,addUser,setLoading,navigate,location,toast)} 
                 className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300"
             >
-                {loading ? 'Please wait...' : 'Sign in'}
+                {loading ? 'অপেক্ষা করুন...' : 'প্রবেশ করুন'}
             </button>
 
             <div className="p-2 flex justify-between text-blue-500">
-                <NavLink to='/forget-password' className=''>Forget password?</NavLink>
-                <NavLink to='/signup' className=''>Create an account</NavLink>
+                <NavLink to='/forget_password' className=''>পাসওয়ার্ড ভুলে গেছেন?</NavLink>
+                <NavLink to='/signup' className=''>নতুন একাউন্ট করুন</NavLink>
             </div>
         </div>
     )

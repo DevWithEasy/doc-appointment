@@ -4,6 +4,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@200;300;400&display=swap');
 
+@font-face {
+    font-family: 'SolaimanLipi';
+    src: url('./assets/fonts/SolaimanLipi.ttf');
+}
 
 .active{
     @apply bg-white text-blue-500

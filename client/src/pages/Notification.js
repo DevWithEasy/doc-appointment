@@ -9,20 +9,22 @@ export default function Notification(){
     const [readState,setReadState] = useState(false)
 
     return(
-        <div>
+        <div
+            className='w-10/12 mx-auto'
+        >
             <div className="flex justify-between border-b">
                 <div className='flex items-center space-x-2'>
-                    <button onClick={()=>setReadState(!readState)} className={!readState ? 'p-2 border-b-2 border-blue-500 hover:text-blue-500' : 'p-2 border-b-2 border-white hover:text-blue-500'}>Unread</button>
-                    <button onClick={()=>setReadState(!readState)} className={readState ? 'p-2 border-b-2 border-blue-500 hover:text-blue-500' : 'p-2 border-b-2 border-white hover:text-blue-500'}>Read</button>
+                    <button onClick={()=>setReadState(!readState)} className={!readState ? 'p-2 border-b-2 border-blue-500 hover:text-blue-500' : 'p-2 border-b-2 border-white hover:text-blue-500'}>অপঠিত বার্তা</button>
+                    <button onClick={()=>setReadState(!readState)} className={readState ? 'p-2 border-b-2 border-blue-500 hover:text-blue-500' : 'p-2 border-b-2 border-white hover:text-blue-500'}>পঠিত বার্তা</button>
                 </div>
                 <div className='flex items-center space-x-2'>
                     {!readState && <button onClick={()=>seenAllNotification(addUser)} className='flex items-center space-x-1 px-2 py-1 hover:bg-green-500 hover:text-white transition-all duration-300 rounded-md'>
                         <BsCheck2All/>
-                        <span>Mark as all read</span>
+                        <span>সকল বার্তা পঠিত</span>
                     </button>}
                     {readState && <button onClick={()=>deleteAllNotification(addUser)} className='flex items-center space-x-1 px-2 py-1 hover:bg-red-500 hover:text-white transition-all duration-300 rounded-md'>
                         <BsTrash/>
-                        <span>Delete All</span>
+                        <span>সকল বার্তা মুছুন</span>
                     </button>}
                 </div>
             </div>

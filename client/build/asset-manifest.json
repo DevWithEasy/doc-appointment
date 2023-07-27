@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "/static/css/main.93eb771d.css",
-    "main.js": "/static/js/main.d41c6da2.js",
+    "main.css": "/static/css/main.676c7311.css",
+    "main.js": "/static/js/main.529c4a47.js",
     "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
+    "static/media/SolaimanLipi.ttf": "/static/media/SolaimanLipi.8cc66b491fb0095ab5de.ttf",
     "static/media/icon.png": "/static/media/icon.194ca85d1fc0275eaa73.png",
     "static/media/payment_failed.png": "/static/media/payment_failed.0132b51b5e762cafab5e.png",
     "static/media/verified.png": "/static/media/verified.b52c076afe0efc99916c.png",
@@ -10,12 +11,12 @@
     "static/media/add_balance.png": "/static/media/add_balance.050a11d07fe24caebb81.png",
     "static/media/hospital2.png": "/static/media/hospital2.c8fe69e5ce149f1a07f2.png",
     "index.html": "/index.html",
-    "main.93eb771d.css.map": "/static/css/main.93eb771d.css.map",
-    "main.d41c6da2.js.map": "/static/js/main.d41c6da2.js.map",
+    "main.676c7311.css.map": "/static/css/main.676c7311.css.map",
+    "main.529c4a47.js.map": "/static/js/main.529c4a47.js.map",
     "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.93eb771d.css",
-    "static/js/main.d41c6da2.js"
+    "static/css/main.676c7311.css",
+    "static/js/main.529c4a47.js"
   ]
 }

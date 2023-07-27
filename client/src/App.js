@@ -49,11 +49,11 @@ function App() {
             element : <Signin/>
           },
           {
-            path : '/forget-password',
+            path : '/forget_password',
             element : <ForgetPassword/>
           },
           {
-            path : '/password-reset',
+            path : '/password_reset',
             element : <ResetPassword/>
           },
           {
@@ -75,7 +75,7 @@ function App() {
             element : <Doctors/>
           },
           {
-            path : '/apply-doctor',
+            path : '/apply_doctor',
             element : <ProtectedRoute>
               <ApplyDoctor/>
             </ProtectedRoute>
@@ -93,7 +93,7 @@ function App() {
             element : <AppointmentFind/>
           },
           {
-            path : '/appointment-submit/:id',
+            path : '/appointment_submit/:id',
             element : <ProtectedRoute>
               <AppointmentSubmit/>
             </ProtectedRoute>

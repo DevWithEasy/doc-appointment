@@ -92,7 +92,7 @@ export async function uploadPhoto(user,file,reload,setLoading,toast){
 
 export async function handleVerify(code,navigate,setLoading,setVerified,toast){
     if(!code){
-        return toast.error('Please enter verification code')
+        return toast.error('অনুগ্রহ পূর্বক যাচাইকরন কোড টি লিখুন')
     }
     try {
         setLoading(true)
@@ -136,7 +136,7 @@ export async function handleSendCodeAgain(toast){
 
 export async function handlefind(email,setUser,setEmail,setFinding,setLoading,toast){
     if(!email){
-        return toast.error('Please enter email address')
+        return toast.error('অনুগ্রহ পূর্বক ই-মেইল অথবা মোবাইল নাম্বার টি লিখুন')
     }
     setLoading(true)
     try {
