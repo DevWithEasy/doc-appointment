@@ -53,7 +53,6 @@ export async function getDoctor(id,setDoctor){
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
     })
-    console.log(res.data);
     setDoctor(res.data.data)
 }
 

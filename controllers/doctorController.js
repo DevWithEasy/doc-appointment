@@ -139,8 +139,7 @@ exports.cancelDoctor=async(req,res,next)=>{
 exports.updateDoctor=async(req,res,next)=>{
     try {
         await Doctor.updateOne({_id : req.params.id},{$set : {
-            firstName : req.body.firstName,
-            lastName : req.body.lastName,
+            name : req.body.name,
             phone : req.body.phone,
             email : req.body.email,
             website : req.body.website,

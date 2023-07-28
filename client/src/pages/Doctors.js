@@ -14,13 +14,13 @@ export default function Doctors() {
   console.log(specialization);
   return (
     <div className="mx-2 md:w-10/12 md:mx-auto">
-      <h1 className="p-2 text-2xl font-bold text-center uppercase">Doctors</h1>
+      <h1 className="p-2 text-2xl font-bold text-center uppercase">সকল ডাক্তারগণ</h1>
       <div className="flex justify-end py-2">
         <select
           onChange={(e) => setSpecilaization(e.target.value.toLowerCase())}
           className="p-2 border rounded shadow focus:outline-none focus:ring-2"
         >
-          <option value="">All specialization</option>
+          <option value="">সকল অভিজ্ঞতা</option>
           {doctors.map((doctor) => (
             <option key={doctor._id} value={doctor?.specialization}>
               {doctor.specialization}
@@ -28,7 +28,7 @@ export default function Doctors() {
           ))}
         </select>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 border">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 border">
         {doctors
           .filter((doctor) =>
             doctor.specialization.toLowerCase().includes(specialization)

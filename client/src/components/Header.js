@@ -21,17 +21,17 @@ export default function Header() {
     removeUser();
     localStorage.removeItem("accessToken");
   }
-  console.log(user);
+  
   return (
     <div className="w-full fixed top-0 left-0 z-10 bg-gray-500">
       <div className="md:w-10/12 md:mx-auto flex justify-between items-center p-2">
-        <div className="w-3/12 text-white">
+        <div className="w-6/12 md:w-3/12 text-white">
           <Link to="/" className="flex items-center space-x-3">
             <span className="text-lg font-bold">আমাদের ডাক্তার</span>
           </Link>
         </div>
 
-        <div className="w-6/12 flex justify-center md:space-x-4 text-white">
+        <div className="w-6/12 md:flex justify-center md:space-x-4 text-white hidden">
           <NavLink
             to="/doctors"
             className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded"
@@ -52,7 +52,7 @@ export default function Header() {
           </NavLink>
         </div>
 
-        <div className="w-3/12 flex justify-end">
+        <div className="w-6/12 md:w-3/12 flex justify-end">
           {!isAuth ? (
             <div className="text-white space-x-3">
               <NavLink
@@ -152,9 +152,27 @@ export default function Header() {
             </div>
           )}
         </div>
-
-        {/* {menu && <Menu menu={menu} setMenu={setMenu}/>} */}
       </div>
+      <div className="w-full flex justify-center md:hidden md:space-x-4 text-white -mt-2 pb-2">
+          <NavLink
+            to="/doctors"
+            className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded"
+          >
+            ডাক্তার
+          </NavLink>
+          <NavLink
+            to="/hospitals"
+            className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded"
+          >
+            হাসপাতাল
+          </NavLink>
+          <NavLink
+            to="/ambulences"
+            className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded"
+          >
+            অ্যাম্বুল্যান্স
+          </NavLink>
+        </div>
     </div>
   );
 }

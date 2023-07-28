@@ -26,12 +26,12 @@ export default function Home() {
     getAllActiveDoctors(addDoctors);
   }, [addDoctors]);
 
-  console.log(doctors);
+  
   return (
     <div>
       <div className="text-center space-y-2 mb-5">
         <h1 className="text-3xl font-semibold">
-          ডাক্তার খুঁজুন , এপয়েন্টমেন্ট নিন
+          ডাক্তার খুঁজুন , অ্যাপয়েন্টমেন্ট নিন
         </h1>
         <p className="text-gray-600">ঠাকুরগাঁও জেলার সকল উপজেলার</p>
         <p className="text-gray-600">
@@ -77,7 +77,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="font-semibold">এপয়েন্টমেন্ট খুঁজুন</label>
+                <label className="font-semibold">অ্যাপয়েন্টমেন্ট খুঁজুন</label>
                 <select
                   onChange={(e) => setSpecialization(e.target.value)}
                   className="w-full p-2 text-sm  border border-gray-400  bg-[#f8f8f8] focus:bg-[#f8f8f8] focus:outline-none focus:border-blue-500"
@@ -120,11 +120,11 @@ export default function Home() {
             </div>
           </div>
           <div className="w-full md:w-8/12 mt-5 md:mt-0 border-l overflow-y">
-            <div className="w-full grid grid-cols-2 md:grid-cols-3 border-t md:border-none">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 border-t md:border-none">
               {doctors &&
                 doctors
                   .filter((doctor) =>
-                    doctor.firstName.toLowerCase().includes(query)
+                    doctor.name.toLowerCase().includes(query)
                   )
                   .map((doctor) => (
                     <Doctor key={doctor?._id} {...{ doctor }} />

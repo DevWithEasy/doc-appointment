@@ -11,20 +11,20 @@ export default function Doctor({doctor}){
             <div
                 className="space-y-1 text-sm group-hover:text-white flex-1"
             >
-                <p className='text-lg font-semibold'>{doctor?.firstName} {doctor?.lastName}</p>
+                <p className='text-lg font-semibold'>{doctor?.name}</p>
                 <p>{doctor?.education}</p>
                 <p>{doctor?.specialization}</p>
                 <p>{doctor?.experienceArea}</p>
                 {
-                    doctor?.designation && doctor?.workedAt && <p>{doctor?.designation} of {doctor?.workedAt}</p>
+                    doctor?.designation && doctor?.workedAt && <p>{doctor?.designation} , {doctor?.workedAt}</p>
                 }
-                <p>Fee - {doctor?.feesPerConsultation}</p>                  
+                <p>সার্ভিস চার্জ - {doctor?.feesPerConsultation}</p>                  
             </div>
             <button
                 onClick={()=>navigate(`/appointment-submit/${doctor?._id}`)}
                 className="w-32 py-1 bg-black text-white text-sm rounded group-hover:bg-white group-hover:text-black"
             >
-                Appointment
+                অ্যাপয়েন্টমেন্ট নিন
             </button>
         </div>
     )

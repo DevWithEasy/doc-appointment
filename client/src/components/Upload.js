@@ -34,10 +34,10 @@ export default function Upload(props){
         <>
         <button 
             onClick={onOpen}
-            className="flex items-center px-6 py-2 space-x-2 bg-green-400 text-white rounded-full hover:bg-green-500"
+            className="flex items-center px-6 py-1 space-x-2 bg-green-400 text-white rounded-full hover:bg-green-500"
         >
             <BiImageAdd size={20}/>
-            <span>UPLOAD</span>
+            <span>ছবি পরিবর্তন</span>
         </button>
 
         <Modal isOpen={isOpen} onClose={onClose}>

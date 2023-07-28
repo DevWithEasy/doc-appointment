@@ -5,8 +5,7 @@ import { handleApplyDoctor } from "../utils/doctors_utils"
 
 export default function ApplyDoctor(){
     const [value,setValue] = useState({
-        firstName : '',
-        lastName : '',
+        name : '',
         phone : '',
         email : '',
         website : '',
@@ -25,16 +24,9 @@ export default function ApplyDoctor(){
             <h1 className="text-2xl font-bold text-center uppercase">Apply as a Doctor</h1>
             <div className="grid md:grid-cols-2 gap-2">
                 <Input 
-                    label='First name' 
+                    label='Name' 
                     type='text' 
-                    name='firstName' 
-                    value={value} 
-                    setValue={setValue} 
-                />
-                <Input 
-                    label='Last Name' 
-                    type='text' 
-                    name='lastName' 
+                    name='name' 
                     value={value} 
                     setValue={setValue} 
                 />
