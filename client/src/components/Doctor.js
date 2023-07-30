@@ -21,7 +21,7 @@ export default function Doctor({doctor}){
                 <p>সার্ভিস চার্জ - {doctor?.feesPerConsultation}</p>                  
             </div>
             <button
-                onClick={()=>navigate(`/appointment-submit/${doctor?._id}`)}
+                onClick={()=>navigate(`/appointment_submit/${doctor?._id}`)}
                 className="w-32 py-1 bg-black text-white text-sm rounded group-hover:bg-white group-hover:text-black"
             >
                 অ্যাপয়েন্টমেন্ট নিন

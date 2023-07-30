@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.11cd5f69.css",
-    "main.js": "/static/js/main.f2cda536.js",
+    "main.css": "/static/css/main.d850bf76.css",
+    "main.js": "/static/js/main.4ecffd36.js",
     "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
     "static/media/SolaimanLipi.ttf": "/static/media/SolaimanLipi.8cc66b491fb0095ab5de.ttf",
     "static/media/icon.png": "/static/media/icon.194ca85d1fc0275eaa73.png",
@@ -11,12 +11,12 @@
     "static/media/add_balance.png": "/static/media/add_balance.050a11d07fe24caebb81.png",
     "static/media/hospital2.png": "/static/media/hospital2.c8fe69e5ce149f1a07f2.png",
     "index.html": "/index.html",
-    "main.11cd5f69.css.map": "/static/css/main.11cd5f69.css.map",
-    "main.f2cda536.js.map": "/static/js/main.f2cda536.js.map",
+    "main.d850bf76.css.map": "/static/css/main.d850bf76.css.map",
+    "main.4ecffd36.js.map": "/static/js/main.4ecffd36.js.map",
     "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.11cd5f69.css",
-    "static/js/main.f2cda536.js"
+    "static/css/main.d850bf76.css",
+    "static/js/main.4ecffd36.js"
   ]
 }

@@ -4,7 +4,7 @@ import Header from "../components/Header";
 
 export default function Layout(){
     return(
-        <div className="h-screen md:pt-20 pt-24  bg-[#F8F8F8] overflow-y-auto font-bangla">
+        <div className="h-screen pt-20  bg-[#F8F8F8] overflow-y-auto font-bangla">
             <Header/>
             <Outlet/>
             <Toaster/>

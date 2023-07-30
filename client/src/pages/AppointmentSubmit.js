@@ -32,19 +32,6 @@ export default function AppointmentSubmit(){
         appointmentDate : '',
     })
 
-    // async function getDoctor(id){
-    //     const res = await axios.get(`/api/doctor/${id}`,{
-    //         headers : {
-    //             authorization : 'Bearer ' + localStorage.getItem('accessToken')
-    //         }
-    //     })
-    //     setDoctor(res.data.data)
-    // }
-
-    // useEffect(()=>{
-    //     getDoctor(id)
-    // },[id])
-
     useEffect(()=>{
         if (doctor?.chambers) selectedDay(selected,doctor,setChamber,toast)
     },[selected,doctor])
@@ -53,18 +40,19 @@ export default function AppointmentSubmit(){
     console.log(doctor)
     return(
         <div
-            className='w-10/12 mx-auto'
+            className='w-full md:w-10/12 md:mx-auto px-2 pb-5'
         >
             <h1 className="py-2 text-2xl font-bold text-center uppercase">Submit appointment</h1>
             <hr/>
             <div className='md:flex justify-between pb-10 md:gap-x-4'>
                 <div className='w-full md:w-7/12 pt-4 space-y-2'>
                     <div className='flex space-x-2 p-4 pt-2 bg-white rounded'>
-                        <img src={doctor?.user?.image?.url} alt="" className='h-20 rounded-md'/>
+                        <img src={doctor?.user?.image?.url} alt="" className='h-20 w-20 mt-2 rounded-md'/>
                         <div>
-                            <p className='text-xl font-bold'>{doctor?.firstName} {doctor?.lastName}</p>
+                            <p className='font-bold'>{doctor?.name}</p>
                             <p>{doctor?.education},{doctor?.specialization}</p>
                             <p>{doctor?.experienceArea}</p>
+                            <p>সার্ভিস চার্জ - {doctor?.feesPerConsultation}</p> 
                         </div>
                     </div>
                     {doctor?.chambers && <ChamberList chambers={doctor.chambers}/>}
@@ -86,33 +74,36 @@ export default function AppointmentSubmit(){
                     </div>
             </div>}
 
-            <div className='mb-2 grid md:grid-cols-2 md:gap-2'>
+            <div className='p-2 bg-white/50 space-y-2'>
+                <div className='mb-2 grid md:grid-cols-2 md:gap-2 space-y-2 md:space-y-0'>
                 <div className="space-y-1">
-                    <label>Patient Name : </label>
+                    <label>রোগীর নামঃ  </label>
                     <input type='text' name='patientName' value={value?.patientName} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
                 <div className=" space-y-1">
-                    <label>Patient Age : </label>
+                    <label>রোগীর বয়সঃ  </label>
                     <input type='number' name='age' value={value?.age} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
                 <div>
-                    <label className='block'>Patient Gender:</label>
+                    <label className='block'>রোগীর লিঙ্গঃ  </label>
                     <select name='gender' value={value?.gender} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Others">Others</option>
+                        <option value="Male">পুরুষ</option>
+                        <option value="Female">মহিলা</option>
+                        <option value="Others">অন্যান্য</option>
                     </select>
                 </div>
                 <div className=" space-y-1">
-                    <label>Patient Mobile No : </label>
+                    <label>রোগীর মোবাইল নাম্বারঃ </label>
                     <input type='text' name='patientPhone' value={value?.patientPhone} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
                 <div className=" space-y-1">
-                    <label>Patient Address : </label>
+                    <label>রোগীর ঠিকানাঃ </label>
                     <input type='text' name='address' value={value?.address} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
+                </div>
+                <button onClick={()=>addAppointment(data,toast,navigate,onOpen)} className='px-4 py-1 bg-green-500 text-white rounded-md'>অ্যাপয়েন্টম্যান্ট নিশ্চিত করুন </button>
+            
             </div>
-            <button onClick={()=>addAppointment(data,toast,navigate,onOpen)} className='p-2 bg-green-500 text-white rounded-md'>Booking Confirm</button>
             <NoBalanceAlert {...{isOpen, onOpen, onClose,navigate}}/>
         </div>
     )

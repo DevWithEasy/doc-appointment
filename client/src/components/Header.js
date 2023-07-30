@@ -1,14 +1,15 @@
 import {
-    Menu,
-    MenuButton,
-    MenuDivider,
-    MenuGroup,
-    MenuItem,
-    MenuList,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
 import { MdNotificationsNone } from "react-icons/md";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useUserStore from "../features/userStore";
+import { AiOutlineMenu } from "react-icons/ai";
 
 export default function Header() {
   const isAuth = useUserStore((state) => state.isAuth);
@@ -21,7 +22,7 @@ export default function Header() {
     removeUser();
     localStorage.removeItem("accessToken");
   }
-  
+
   return (
     <div className="w-full fixed top-0 left-0 z-10 bg-gray-500">
       <div className="md:w-10/12 md:mx-auto flex justify-between items-center p-2">
@@ -52,127 +53,138 @@ export default function Header() {
           </NavLink>
         </div>
 
-        <div className="w-6/12 md:w-3/12 flex justify-end">
-          {!isAuth ? (
-            <div className="text-white space-x-3">
-              <NavLink
-                to="/signup"
-                className="px-4 py-2 bg-red-400 hover:bg-red-500 text-white trasition-all duration-300 rounded"
-              >
-                একাউন্ট করুন
-              </NavLink>
-              <NavLink
-                to="/signin"
-                className="px-4 py-2 bg-green-400 hover:bg-green-500 text-white trasition-all duration-300 rounded"
-              >
-                প্রবেশ করুন
-              </NavLink>
-            </div>
-          ) : (
+        <div className="w-6/12 md:w-3/12 flex justify-end items-center space-x-3">
+          {isAuth && 
             <div className="flex justify-end items-center space-x-2">
-              <NavLink
-                to="/notification"
-                className="relative p-2 text-white hover:text-black hover:bg-white trasition-all duration-300 rounded"
-              >
-                <MdNotificationsNone size={20} className="" />
-                {user?.notifications?.length > 0 && (
-                  <div className="absolute -right-1 -top-0 w-5 h-5 flex justify-center items-center bg-red-500 text-white text-xs rounded-full">
-                    <span>
-                      {
-                        user?.notifications.filter(
-                          (notification) => notification.status === "unread"
-                        ).length
-                      }
-                    </span>
-                  </div>
-                )}
-              </NavLink>
-              <Menu className="z-10">
-                <MenuButton>
-                  <img
-                    src={user?.image?.url}
-                    alt=""
-                    className="w-7 h-7 rounded-full"
-                  />
-                </MenuButton>
-                <MenuList className="text-black px-2">
-                  <MenuGroup title="প্রোফাইল">
-                    <MenuItem onClick={() => navigate(`/profile/${user._id}`)}>
-                      আমার প্রোফাইল
-                    </MenuItem>
-                    {user?.isAdmin && (
-                      <MenuItem
-                        onClick={() => navigate("/admin")}
-                        className="text-black"
-                      >
-                        এডমিন ড্যাশবোর্ড
-                      </MenuItem>
-                    )}
-                    {user?.isDoctor ? (
-                      <MenuItem
-                        onClick={() => navigate("/doctor/dashboard")}
-                        className="text-black"
-                      >
-                        ডাক্তার ড্যাশবোর্ড
-                      </MenuItem>
-                    ) : (
-                      <MenuItem
-                        onClick={() => navigate("/apply_doctor")}
-                        className="text-black"
-                      >
-                        ডাক্তার প্রোফাইলের আবেদন
-                      </MenuItem>
-                    )}
+            <NavLink
+              to="/notification"
+              className="relative p-2 text-white hover:text-black hover:bg-white trasition-all duration-300 rounded"
+            >
+              <MdNotificationsNone size={20} className="" />
+              {user?.notifications?.length > 0 && (
+                <div className="absolute -right-1 -top-0 w-5 h-5 flex justify-center items-center bg-red-500 text-white text-xs rounded-full">
+                  <span>
+                    {
+                      user?.notifications.filter(
+                        (notification) => notification.status === "unread"
+                      ).length
+                    }
+                  </span>
+                </div>
+              )}
+            </NavLink>
+            <Menu>
+              <MenuButton>
+                <img
+                  src={user?.image?.url}
+                  alt=""
+                  className="w-6 h-6 rounded-full"
+                />
+              </MenuButton>
+              <MenuList className="text-black px-2">
+                <MenuGroup title="প্রোফাইল">
+                  <MenuItem onClick={() => navigate(`/profile/${user._id}`)}>
+                    আমার প্রোফাইল
+                  </MenuItem>
+                  {user?.isAdmin && (
                     <MenuItem
-                      onClick={() => navigate("/appointments")}
+                      onClick={() => navigate("/admin")}
                       className="text-black"
                     >
-                      অ্যাপয়েন্টমেন্ট সমুহ
+                      এডমিন ড্যাশবোর্ড
                     </MenuItem>
-                    <MenuItem onClick={() => navigate("/payment/add")}>
-                      ব্যালেন্স যোগ করুন
-                    </MenuItem>
-                    <MenuItem onClick={() => navigate("/payments")}>
-                      পেমেন্টস সমুহ
-                    </MenuItem>
-                  </MenuGroup>
-                  <MenuDivider />
-                  <MenuGroup title="সাহায্য">
-                    <MenuItem>আমাদের সম্পর্কে</MenuItem>
-                    <MenuItem>আপনার জিজ্ঞাসা</MenuItem>
+                  )}
+                  {user?.isDoctor ? (
                     <MenuItem
-                      onClick={() => handleLogout()}
-                      className="hover:bg-red-500 hover:text-white"
+                      onClick={() => navigate("/doctor/dashboard")}
+                      className="text-black"
                     >
-                      বাহির হন
+                      ডাক্তার ড্যাশবোর্ড
                     </MenuItem>
-                  </MenuGroup>
-                </MenuList>
-              </Menu>
-            </div>
-          )}
+                  ) : (
+                    <MenuItem
+                      onClick={() => navigate("/apply_doctor")}
+                      className="text-black"
+                    >
+                      ডাক্তার প্রোফাইলের আবেদন
+                    </MenuItem>
+                  )}
+                  <MenuItem
+                    onClick={() => navigate("/appointments")}
+                    className="text-black"
+                  >
+                    অ্যাপয়েন্টমেন্ট সমুহ
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate("/payment/add")}>
+                    ব্যালেন্স যোগ করুন
+                  </MenuItem>
+                  <MenuItem onClick={() => navigate("/payments")}>
+                    পেমেন্টস সমুহ
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => handleLogout()}
+                    className="hover:bg-red-500 hover:text-white"
+                  >
+                    বাহির হন
+                  </MenuItem>
+                </MenuGroup>
+              </MenuList>
+            </Menu>
+          </div>
+          }
+          {!isAuth && 
+            <div className="hidden md:block text-white space-x-3">
+            <NavLink
+              to="/signup"
+              className="px-4 py-2 bg-red-400 hover:bg-red-500 text-white trasition-all duration-300 rounded"
+            >
+              একাউন্ট করুন
+            </NavLink>
+            <NavLink
+              to="/signin"
+              className="px-4 py-2 bg-green-400 hover:bg-green-500 text-white trasition-all duration-300 rounded"
+            >
+              প্রবেশ করুন
+            </NavLink>
+          </div>
+          }
+          <Menu>
+            <MenuButton>
+              <AiOutlineMenu size={25} className="md:hidden text-white" />
+            </MenuButton>
+            <MenuList className="text-black px-2">
+              <MenuGroup title="সেবা">
+                <MenuItem onClick={() => navigate(`/doctors`)}>
+                  সকল ডাক্তারগণ
+                </MenuItem>
+                <MenuItem
+                  onClick={() => navigate("/appointments")}
+                  className="text-black"
+                >
+                  সকল হাস্পাতাল / ক্লিনিক
+                </MenuItem>
+                <MenuItem onClick={() => navigate("/payment/add")}>
+                  এম্বুল্যান্স ভাড়া
+                </MenuItem>
+                <MenuItem onClick={() => navigate("/payments")}>
+                  রক্ত ব্যাংক
+                </MenuItem>
+              </MenuGroup>
+              <MenuDivider />
+              {!isAuth && 
+                <MenuGroup title="আমার তথ্য ">
+                <MenuItem>প্রবেশ করুন</MenuItem>
+                <MenuItem>নতুন একাউন্ট করুন</MenuItem>
+              </MenuGroup>
+              }
+              <MenuGroup title="সাহায্য">
+                <MenuItem>আমাদের সম্পর্কে</MenuItem>
+                <MenuItem>আপনার জিজ্ঞাসা</MenuItem>
+              </MenuGroup>
+            </MenuList>
+          </Menu>
         </div>
       </div>
-      <div className="w-full flex justify-center md:hidden md:space-x-4 text-white -mt-2 pb-2">
-          <NavLink
-            to="/doctors"
-            className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded"
-          >
-            ডাক্তার
-          </NavLink>
-          <NavLink
-            to="/hospitals"
-            className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded"
-          >
-            হাসপাতাল
-          </NavLink>
-          <NavLink
-            to="/ambulences"
-            className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded"
-          >
-            অ্যাম্বুল্যান্স
-          </NavLink>
-        </div>
     </div>
   );
 }

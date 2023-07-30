@@ -4,10 +4,11 @@ import { getAllActiveDoctors } from "../utils/doctors_utils";
 import { BsSearch } from "react-icons/bs";
 import Doctor from "../components/Doctor";
 import useUserStore from "../features/userStore";
+import dayNameBangla from "../utils/dayNameBangla";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { isAuth,doctors, addDoctors } = useUserStore();
+  const {doctors, addDoctors } = useUserStore();
   const [query, setQuery] = useState("");
   const [specialization, setSpecialization] = useState("");
   const [day, setDay] = useState("");
@@ -37,25 +38,6 @@ export default function Home() {
         <p className="text-gray-600">
           সকল ডাক্তার হাসপাতাল এবং এম্বুলেন্স খুঁজুন
         </p>
-        {!isAuth &&
-          <div className="pt-5 space-x-2">
-            <input
-              type="email"
-              onChange={() => {}}
-              placeholder="ইমেইল অ্যাড্রেস"
-              className="p-1 border border-gray-400 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500"
-            />
-            <input
-              type="password"
-              onChange={() => {}}
-              placeholder="পাসওয়ার্ড"
-              className="p-1 border border-gray-400 bg-[#f8f8f8] focus:bg-white focus:outline-none focus:border-blue-500"
-            />
-            <button className="px-6 py-1 bg-red-500 text-white border border-red-500">
-              প্রবেশ করুন
-            </button>
-          </div>
-        }
       </div>
       <hr />
       <div className="mx-2 md:w-10/12 md:mx-auto">
@@ -102,7 +84,7 @@ export default function Home() {
                       .map((day) => day)
                       .map((day, i) => (
                         <option key={i} value={day}>
-                          {day}
+                          {dayNameBangla(day)}
                         </option>
                       ))}
                 </select>

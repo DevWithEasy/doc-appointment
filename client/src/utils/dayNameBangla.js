@@ -12,10 +12,10 @@ function dayNameBangla(day) {
     case "Tuesday":
       return "মঙ্গলবার";
 
-    case "WednesDay":
+    case "Wednesday":
       return "বুধবার";
 
-    case "Thusday":
+    case "Thursday":
       return "বৃহস্পতিবার";
 
     case "Friday":
