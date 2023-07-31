@@ -79,8 +79,8 @@ export default function AddChamber({ id }) {
                     <option value="Sunday">রবিবার</option>
                     <option value="Monday">সোমবার</option>
                     <option value="Tuesday">মঙ্গলবার</option>
-                    <option value="WednesDay">বুধবার</option>
-                    <option value="Thusday">বৃহস্পতিবার</option>
+                    <option value="Wednesday">বুধবার</option>
+                    <option value="Thursday">বৃহস্পতিবার</option>
                     <option value="Friday">শুক্রবার</option>
                   </select>
                 </div>

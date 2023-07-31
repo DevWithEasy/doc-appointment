@@ -23,21 +23,21 @@ const NoBalanceAlert = ({isOpen, onOpen, onClose,navigate}) => {
                 <AlertDialogOverlay>
                 <AlertDialogContent>
                     <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                        Non Sufficient Balance !
+                        ব্যালান্স শেষ !
                     </AlertDialogHeader>
 
                     <AlertDialogBody>
-                        Sorry you have no sufficient balance in your account.
+                        আন্তরিকভাবে দুঃখিত,আপনার একাউন্টে পর্যাপ্ত পরিমান টাকা নেই।
                         <br/>
-                        Please add balance to make appointment.
+                        অ্যাপয়েন্টমেন্ট করার পুর্বে টাকা যোগ করে নিন।
                     </AlertDialogBody>
 
                     <AlertDialogFooter>
                     <Button ref={cancelRef} onClick={onClose}>
-                        Cancel
+                        বাতিল
                     </Button>
                     <Button colorScheme='blue' onClick={()=>navigate('/payment/add')} ml={3}>
-                        Add balance
+                        টাকা যোগ করুন
                     </Button>
                     </AlertDialogFooter>
                 </AlertDialogContent>

@@ -20,88 +20,90 @@ export default function ApplyDoctor(){
     })
 
     return(
-        <div className="w-10/12 mx-auto space-y-2">
-            <h1 className="text-2xl font-bold text-center uppercase">Apply as a Doctor</h1>
-            <div className="grid md:grid-cols-2 gap-2">
+        <div className="w-10/12 mx-auto space-y-2 pb-5">
+            <h1 className="text-2xl font-bold text-center uppercase">ডাক্তার প্রোফাইলের আবেদন</h1>
+            <div className="grid md:grid-cols-2 gap-2 bg-white/50 p-2 rounded-md">
                 <Input 
-                    label='Name' 
+                    label='নাম ' 
                     type='text' 
                     name='name' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Phone' 
+                    label='মোবাইল নম্বর ' 
                     type='text' 
                     name='phone' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Email' 
+                    label='ই-মেইল ' 
                     type='email' 
                     name='email' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Website' 
+                    label='ওয়েবসাইট ' 
                     type='text' 
                     name='website' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Worked At (Organiazation)' 
+                    label='কর্মরত আছেন (প্রতিষ্ঠানের নাম)' 
                     type='text' 
                     name='workedAt' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Designation (Organiazation)' 
+                    label='পদবী ' 
                     type='text' 
                     name='designation' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Education (All degrees)' 
+                    label='শিক্ষাগত যোগ্যতা (সকল ডিগ্রী)' 
                     type='text' 
                     name='education' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Specialization' 
+                    label='অভিজ্ঞতার বিষয়' 
                     type='text' 
                     name='specialization' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Experience Year' 
+                    label='মোট অভিজ্ঞতার বয়স' 
                     type='text' 
                     name='experience' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Experience Area' 
+                    label='অভিজ্ঞতার ক্ষেত্রসমূহ ' 
                     type='text' 
                     name='experienceArea' 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
-                    label='Fee Per Consultation' 
+                    label='সার্ভিস চার্জ ' 
                     type='text' 
                     name='feesPerConsultation' 
                     value={value} 
                     setValue={setValue} 
                 />
             </div>
-            <button onClick={()=>handleApplyDoctor(value,toast)} className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">Send Apply</button>
+            <button onClick={()=>handleApplyDoctor(value,toast)} className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300">
+                আবেদন জমা দিন
+            </button>
         </div>
     )
 }

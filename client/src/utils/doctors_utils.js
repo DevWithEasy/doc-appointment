@@ -35,8 +35,8 @@ export async function getSpecialist(setSpecialist){
     setSpecialist(res.data.data);
 }
 
-export async function getFindDoctors(value,setDoctors){
-    const res = await axios.get(`/api/doctor/find/specialist?specialist=${value}`,{
+export async function getFindDoctors(specialization,day,setDoctors){
+    const res = await axios.get(`/api/doctor/find/specialist?specialist=${specialization}&day=${day}`,{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }

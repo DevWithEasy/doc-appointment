@@ -28,7 +28,7 @@ export default function Header() {
       <div className="md:w-10/12 md:mx-auto flex justify-between items-center p-2">
         <div className="w-6/12 md:w-3/12 text-white">
           <Link to="/" className="flex items-center space-x-3">
-            <span className="text-lg font-bold">আমাদের ডাক্তার</span>
+            <span className="text-xl font-bold">আমাদের ডাক্তার</span>
           </Link>
         </div>
 
@@ -158,23 +158,23 @@ export default function Header() {
                   সকল ডাক্তারগণ
                 </MenuItem>
                 <MenuItem
-                  onClick={() => navigate("/appointments")}
+                  onClick={() => navigate("/hospitals")}
                   className="text-black"
                 >
                   সকল হাস্পাতাল / ক্লিনিক
                 </MenuItem>
-                <MenuItem onClick={() => navigate("/payment/add")}>
+                <MenuItem onClick={() => navigate("/amblulances")}>
                   এম্বুল্যান্স ভাড়া
                 </MenuItem>
-                <MenuItem onClick={() => navigate("/payments")}>
+                <MenuItem onClick={() => navigate("/blood_bank")}>
                   রক্ত ব্যাংক
                 </MenuItem>
               </MenuGroup>
               <MenuDivider />
               {!isAuth && 
                 <MenuGroup title="আমার তথ্য ">
-                <MenuItem>প্রবেশ করুন</MenuItem>
-                <MenuItem>নতুন একাউন্ট করুন</MenuItem>
+                <MenuItem onClick={() => navigate("/signin")}>প্রবেশ করুন</MenuItem>
+                <MenuItem onClick={() => navigate("/signup")}>নতুন একাউন্ট করুন</MenuItem>
               </MenuGroup>
               }
               <MenuGroup title="সাহায্য">

@@ -255,7 +255,7 @@ exports.getAllAppointment=async(req,res,next)=>{
 exports.getAppointmentDetails=async(req,res,next)=>{
     
     try {
-        const appointment = await Appointment.findById(req.params.id).populate('doctor','firstName lastName feesPerConsultation chambers').populate('user','-_id name')
+        const appointment = await Appointment.findById(req.params.id).populate('doctor','name feesPerConsultation chambers').populate('user','-_id name')
         
         res.status(200).json({
             status : 200,
