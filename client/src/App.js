@@ -177,7 +177,8 @@ function App() {
             element : <NotFound/>
           }
         ]
-      }
+      },
+
     ]
   )
   return routes

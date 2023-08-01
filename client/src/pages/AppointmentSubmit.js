@@ -74,7 +74,7 @@ export default function AppointmentSubmit(){
                     </div>
             </div>}
 
-            <div className='p-2 bg-white/50 space-y-2'>
+            <div className='p-2 bg-white space-y-2 rounded-md'>
                 <div className='mb-2 grid md:grid-cols-2 md:gap-2 space-y-2 md:space-y-0'>
                 <div className="space-y-1">
                     <label>রোগীর নামঃ  </label>

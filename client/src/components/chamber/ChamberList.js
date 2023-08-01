@@ -30,7 +30,7 @@ export default function ChamberList({ doctor }) {
               শেষ
             </th>
             <th scope="col" className="px-6 py-3 text-center">
-              পদক্ষেপ নিন
+              পদক্ষেপ
             </th>
           </tr>
         </thead>

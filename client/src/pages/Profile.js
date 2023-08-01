@@ -29,7 +29,7 @@ export default function Profile() {
           <div className="flex justify-center items-center py-2">
             <Upload />
           </div>
-          <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 ma:gap-2">
+          <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-2">
             <div>
               <label>নামঃ</label>
               <input
