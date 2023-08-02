@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom';
-import Admin from './pages/Admin';
+import Admin from './pages/Admin/Admin';
 import AppliedDoctors from './pages/Admin/Doctors';
 import AppliedHospital from './pages/Admin/Hospitals';
 import Users from './pages/Admin/Users';
@@ -29,6 +29,7 @@ import Failure from './pages/payment/Failure';
 import NotFound from './pages/NotFound';
 import Payments from './pages/Payments';
 import AppointmentFind from './pages/AppointmentFind';
+import AdminDashboard from './pages/Admin/AdminDashboard';
 function App() {
   const routes = useRoutes(
     [
@@ -131,25 +132,33 @@ function App() {
           {
             path : '/admin',
             element : <ProtectedRoute>
-              <Admin/>
+              <Admin>
+                <AdminDashboard/>
+              </Admin>
             </ProtectedRoute>,
           },
           {
             path : '/admin/users',
             element : <ProtectedRoute>
+              <Admin>
               <Users/>
+              </Admin>
             </ProtectedRoute>,
           },
           {
             path : '/admin/doctors',
             element : <ProtectedRoute>
+              <Admin>
               <AppliedDoctors/>
+              </Admin>
             </ProtectedRoute>,
           },
           {
             path : '/admin/hospitals',
             element : <ProtectedRoute>
+              <Admin>
               <AppliedHospital/>
+              </Admin>
             </ProtectedRoute>,
           },
           {

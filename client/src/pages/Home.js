@@ -28,7 +28,7 @@ export default function Home() {
   console.log(doctors.slice(0,3))
   return (
     <div>
-      <div className="text-center space-y-2 mb-5">
+      <div className="text-center space-y-2 pt-4 mb-5">
         <h1 className="text-3xl font-semibold">
           ডাক্তার খুঁজুন , অ্যাপয়েন্টমেন্ট নিন
         </h1>

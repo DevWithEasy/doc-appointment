@@ -1,6 +1,7 @@
-import axios from "axios"
+  import axios from "axios"
 import { useEffect, useState } from "react"
 import UserDetails from "../../components/details/UserDetails"
+import {toBengaliNumber} from 'bengali-number'
 
 export default function Users(){
     const [users,setUsers] = useState([])
@@ -24,30 +25,38 @@ export default function Users(){
     
     return(
         <div>
-            <h1 className="text-2xl text-center">All Users</h1>
+            <div
+                className="flex justify-end mb-2"
+            >
+                <input
+                    onChange={()=>{}}
+                    className="w-full md:w-4/12 p-1 border rounded focus:outline-none focus:border-blue-500"
+                    placeholder="সার্চ করুন - নাম /ইমেইল /মোবাইল /ধরন"
+                />
+            </div>
             <table className="w-full">
                 <thead className="bg-gray-300">
-                    <tr className="text-center font-bold font-xl">
-                        <td className="p-2">Sl</td>
-                        <td className="p-2">Name</td>
-                        <td className="p-2">Email</td>
-                        <td className="p-2">Phone</td>
-                        <td className="p-2">Status</td>
-                        <td className="p-2">Actions</td>
+                    <tr className="text-center">
+                        <td className="p-1">নং</td>
+                        <td className="p-1">নাম </td>
+                        <td className="p-1">ই-মেইল </td>
+                        <td className="p-1">মোবাইল </td>
+                        <td className="p-1">ধরণ </td>
+                        <td className="p-1">পদক্ষেপ</td>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         users && users.map((user,i)=>
                             <tr key={i} className='border-b'>
-                                <td className="p-2 text-center">{i+1}</td>
-                                <td className="p-2 ">{user?.name}</td>
-                                <td className="p-2 text-center">{user?.email}</td>
-                                <td className="p-2 text-center">{user?.phone}</td>
-                                <td className="p-2 text-center">
-                                    {user?.isAdmin ? 'Admin' : user?.isDoctor ? 'Doctor' : user?.isHospital ? 'Hospital' : 'User'}
+                                <td className="p-1 text-center">{toBengaliNumber(i+1)}</td>
+                                <td className="p-1 ">{user?.name}</td>
+                                <td className="p-1 text-center">{user?.email}</td>
+                                <td className="p-1 text-center">{toBengaliNumber(user?.phone)}</td>
+                                <td className="p-1 text-center">
+                                    {user?.isAdmin ? 'এডমিন' : user?.isDoctor ? 'ডাক্তার' : user?.isHospital ? 'হাসপাতাল' : 'ব্যবহারকারী'}
                                 </td>
-                                <td className="p-2 text-center space-x-2">
+                                <td className="p-1 text-center space-x-2">
                                     <UserDetails {...{user}}/>
                                 </td>
                             </tr>)
