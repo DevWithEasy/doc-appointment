@@ -66,34 +66,34 @@ export default function AddHospital(props){
     return(
 
 <>
-    <button onClick={onOpen} className="p-2 flex items-center space-x-1 bg-green-400 text-white rounded-md">
+    <button onClick={onOpen} className="px-2 py-1 flex items-center space-x-1 bg-green-400 text-white rounded-md">
         <IoMdAddCircleOutline size={22}/>
-        <span>Add Hospitals</span>
+        <span>যোগ করুন </span>
     </button>
 
 <Modal isOpen={isOpen} onClose={onClose}>
     <ModalOverlay />
     <ModalContent>
-    <ModalHeader>Add new Hospital</ModalHeader>
+    <ModalHeader className='font-bangla'>নতুন সেবা প্রতিষ্ঠান যোগ করুন</ModalHeader>
     <ModalCloseButton />
     <ModalBody>
-    <div className="p-2 space-y-2">
-                    <Input label='Hospital / Clinic /Diagnostic Name' type='text' name='name' value={value} setValue={setValue}/>
-                    <Input label='Location' type='text' name='location' value={value} setValue={setValue}/>
+    <div className="p-2 space-y-2 font-bangla">
+                    <Input label='প্রতিষ্ঠানের নাম ' type='text' name='name' value={value} setValue={setValue}/>
+                    <Input label='ঠিকানা ' type='text' name='location' value={value} setValue={setValue}/>
                     <div className="w-full space-y-1">
-                            <label className="block">Organisation Type : </label>
+                            <label className="block">প্রতিষ্ঠানের ধরণ  : </label>
                             <select name='type' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'>
-                                <option value="">Select type</option>
-                                <option value="Hospital">Hospital</option>
-                                <option value="Dainogostic Center">Dainogostic Center</option>
-                                <option value="Clinic">Clinic</option>
-                                <option value="Personal Chember">Personal Chember</option>
+                                <option value="">বাছাই করুন </option>
+                                <option value="Hospital">হাসপাতাল </option>
+                                <option value="Dainogostic Center">ডায়নোগষ্টিক সেন্টার </option>
+                                <option value="Clinic">ক্লিনিক</option>
+                                <option value="Personal Chember">পার্সোনাল চেম্বার</option>
                             </select>
                     </div>
                     
                     <div className="space-y-2">
                         <div className="space-y-2">
-                            <label>Hospital Image :</label>
+                            <label>প্রতিষ্ঠানের ছবি  :</label>
                             <input type='file' onChange={(e)=>handleFile(e)} className="w-full border p-1 rounded-md"/>
                             <div className="w-full flex items-center space-x-2">
                                 <div className=" space-y-1">
@@ -107,11 +107,11 @@ export default function AddHospital(props){
                             </div>
                             <div className="w-full flex items-center space-x-2">
                                 <div className=" space-y-1">
-                                    <label>Start Time :</label>
+                                    <label>খোলার সময়  :</label>
                                     <input type="time" name='open' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-1.5 border rounded focus:outline-none focus:ring-2'/>
                                 </div>
                                 <div className=" space-y-1">
-                                    <label>End Time :</label>
+                                    <label>বন্ধের সময় :</label>
                                     <input type="time" name='close' onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-1.5 border rounded focus:outline-none focus:ring-2'/>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@ export default function AddHospital(props){
     </ModalBody>
 
     <ModalFooter className='space-x-2'>
-        <button onClick={()=>addHospital()} className='py-2 px-6 bg-green-400 text-white rounded-md'>Submit</button>
+        <button onClick={()=>addHospital()} className='py-2 px-6 bg-green-400 text-white rounded-md'>নিশ্চিত করুন</button>
     </ModalFooter>
     </ModalContent>
 </Modal>

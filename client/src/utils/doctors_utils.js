@@ -1,4 +1,5 @@
 import axios from "axios"
+import { toBengaliNumber } from "bengali-number"
 
 export async function handleApplyDoctor(value,toast){
     try {
@@ -35,13 +36,26 @@ export async function getSpecialist(setSpecialist){
     setSpecialist(res.data.data);
 }
 
-export async function getFindDoctors(specialization,day,setDoctors){
-    const res = await axios.get(`/api/doctor/find/specialist?specialist=${specialization}&day=${day}`,{
-        headers : {
-            authorization : 'Bearer ' + localStorage.getItem('accessToken')
+export async function getFindDoctors(specialization,day,setDoctors,setLoading,setMsg){
+    setLoading(true)
+    try {
+        const res = await axios.get(`/api/doctor/find/specialist?specialist=${specialization}&day=${day}`,{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        });
+        if(res.status === 200){
+            setDoctors(res.data.data);
+            setLoading(false)
+            if(res.data.data.length > 0){
+                setMsg(`${toBengaliNumber(res.data.data.length)} জন ডাক্তার খুজে পাওয়া গেছে`)
+            }else{
+                setMsg(`কোন ডাক্তার খুজে পাওয়া যায়নি। বার পরিবর্তন করে আবার খুজুন।`)
+            }
         }
-    });
-    setDoctors(res.data.data);
+    } catch (error) {
+        setLoading(false)
+    }
 }
 
 

@@ -1,3 +1,4 @@
+import { toBengaliNumber } from "bengali-number";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -42,7 +43,7 @@ export default function Profile() {
               />
             </div>
             <div>
-              <label>ই-মেইলঃ</label> 
+              <label>ই-মেইলঃ</label>
               <input
                 type="email"
                 name="email"
@@ -66,14 +67,16 @@ export default function Profile() {
             </div>
             <div>
               <label>লিঙ্গঃ</label>
-              <input
-                type="text"
+              <select
                 name="gender"
                 value={user?.gender}
                 onChange={(e) => handleChange(e, user, setUser)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="লিঙ্গ"
-              />
+                className="w-full px-2 py-[10px] border-b focus:outline-none focus:border-blue-300"
+              >
+                <option value="Male">পুরুষ</option>
+                <option value="Female">মহিলা</option>
+                <option value="Others">অন্যান্য</option>
+              </select>
             </div>
             <div className="relative">
               <label>জন্ম তারিখঃ </label>
@@ -162,14 +165,14 @@ export default function Profile() {
         </div>
         <div className="">
           <div className="bg-white/50 p-4 rounded-2xl shadow space-y-2">
-          <p>সদস্য হয়েছেন - {moment(user?.createdAt).fromNow()}</p>
+            <p>সদস্য হয়েছেন - {moment(user?.createdAt).fromNow()}</p>
             <p className="flex justify-between">
               <span className="">বর্তমান ব্যালেন্সঃ</span>
-              <span>{user?.balance} -টাকা </span>
+              <span>{toBengaliNumber(user?.balance)} টাকা </span>
             </p>
             <p className="flex justify-between">
               <span className="">মোট অ্যাপয়েন্টমেন্টঃ </span>
-              <span>{user?.appointments}</span>
+              <span>{toBengaliNumber(user?.appointments)}</span>
             </p>
           </div>
         </div>

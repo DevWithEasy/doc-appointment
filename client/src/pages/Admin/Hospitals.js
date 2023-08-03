@@ -4,6 +4,7 @@ import AddHospital from "../../components/hospital/AddHospital"
 import DeleteHospital from "../../components/hospital/DeleteHospital"
 import UpdateHospital from "../../components/hospital/UpdateHospital"
 import useUserStore from "../../features/userStore"
+import { toBengaliNumber } from "bengali-number"
 
 export default function AppliedHospital(){
     const [hospitals,setHospitals] = useState([])
@@ -22,30 +23,39 @@ export default function AppliedHospital(){
     
     return(
         <div className="space-y-2">
-            <h1 className="text-3xl text-center">All Hospitals</h1>
-            <hr/>
-            <div className="flex justify-end">
+            <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">
+            <input
+                    onChange={()=>{}}
+                    className="w-full md:w-4/12 p-1 border rounded focus:outline-none focus:border-blue-500"
+                    placeholder="সার্চ করুন - নাম /ঠিকানা /ধরণ "
+                />
                 <AddHospital/>
             </div>
             <table className="w-full">
                 <thead className="bg-gray-300">
-                    <tr className="text-center font-bold font-xl">
-                        <td className="p-2">Sl</td>
-                        <td className="p-2">Name</td>
-                        <td className="p-2">Location</td>
-                        <td className="p-2">Type</td>
-                        <td className="p-2">Actions</td>
+                    <tr className="text-center">
+                        <td className="p-1">নং </td>
+                        <td className="p-1">নাম</td>
+                        <td className="p-1">ঠিকানা</td>
+                        <td className="p-1">ধরণ </td>
+                        <td className="p-1">পদক্ষেপ</td>
                     </tr>
                 </thead>
                 <tbody className="bg-white">
                     {
                         hospitals && hospitals.map((hospital,i)=>
                             <tr key={i} className='border-b'>
-                                <td className="p-2 text-center">{i+1}</td>
-                                <td className="p-2 ">{hospital?.name}</td>
-                                <td className="p-2 text-center">{hospital?.location}</td>
-                                <td className="p-2 text-center">{hospital?.type}</td>
-                                <td className="flex items-center justify-center p-2 text-center space-x-2">
+                                <td className="p-1 text-center">{toBengaliNumber(i+1)}</td>
+                                <td className="p-1 ">{hospital?.name}</td>
+                                <td className="p-1 text-center">{hospital?.location}</td>
+                                <td className="p-1 text-center">
+                                {
+                                    hospital?.type === 'Hospital' ? 'হাসপাতাল' : 
+                                    hospital?.type === 'Dainogostic Center' ? 'ডায়নোগষ্টিক সেন্টার ' : 
+                                    hospital?.type === 'Clinic' ? 'ক্লিনিক ' : 'নিজস্ব চেম্বার'
+                                }
+                                </td>
+                                <td className="flex items-center justify-center p-1 text-center space-x-2">
                                     <UpdateHospital {...{hospital}}/>
                                     <DeleteHospital {...{hospital}}/>
                                 </td>

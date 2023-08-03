@@ -107,14 +107,11 @@ export default function Home() {
         </div>
       </div>
       <section class="mx-2 md:w-10/12 md:mx-auto text-gray-600 body-font bg-white/50 rounded-md my-5">
-        <div class="container px-5 py-10 mx-auto flex items-center md:flex-row flex-col">
+        <div class="container px-5 py-5 mx-auto flex items-center md:flex-row flex-col">
           <div class="flex flex-col md:pr-10 md:mb-0 mb-6 pr-0 w-full md:w-auto md:text-left text-center">
-            <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">
-              ROOF PARTY POLAROID
+            <h2 class="text-indigo-500  title-font mb-1">
+              আমাদের সেবা ব্যবহার করতে পারবেন 
             </h2>
-            <h1 class="md:text-3xl text-2xl font-medium title-font text-gray-900">
-              Master Cleanse Reliac Heirloom
-            </h1>
           </div>
           <div class="flex md:ml-auto md:mr-0 mx-auto items-center flex-shrink-0 space-x-4">
             <button class="bg-gray-100 inline-flex py-3 px-5 rounded-lg items-center hover:bg-gray-200 focus:outline-none">
@@ -127,8 +124,8 @@ export default function Home() {
                 <path d="M99.617 8.057a50.191 50.191 0 00-38.815-6.713l230.932 230.933 74.846-74.846L99.617 8.057zM32.139 20.116c-6.441 8.563-10.148 19.077-10.148 30.199v411.358c0 11.123 3.708 21.636 10.148 30.199l235.877-235.877L32.139 20.116zM464.261 212.087l-67.266-37.637-81.544 81.544 81.548 81.548 67.273-37.64c16.117-9.03 25.738-25.442 25.738-43.908s-9.621-34.877-25.749-43.907zM291.733 279.711L60.815 510.629c3.786.891 7.639 1.371 11.492 1.371a50.275 50.275 0 0027.31-8.07l266.965-149.372-74.849-74.847z"></path>
               </svg>
               <span class="ml-4 flex items-start flex-col leading-none">
-                <span class="text-xs text-gray-600 mb-1">GET IT ON</span>
-                <span class="title-font font-medium">Google Play</span>
+                <span class="text-xs text-gray-600 mb-1">ডাউনলোড করুন</span>
+                <span class="title-font font-medium">প্লে-স্টোর</span>
               </span>
             </button>
             <button class="bg-gray-100 inline-flex py-3 px-5 rounded-lg items-center hover:bg-gray-200 focus:outline-none">
@@ -142,8 +139,8 @@ export default function Home() {
                 <path d="M212.1 0c-15.76.64-34.67 10.35-45.97 23.58-9.6 11.13-19 29.68-16.52 48.38a2.5 2.5 0 002.29 2.17c1.06.08 2.15.12 3.23.12 15.41 0 32.04-8.52 43.4-22.25 11.94-14.5 17.99-33.1 16.16-49.77A2.52 2.52 0 00212.1 0z"></path>
               </svg>
               <span class="ml-4 flex items-start flex-col leading-none">
-                <span class="text-xs text-gray-600 mb-1">Download on the</span>
-                <span class="title-font font-medium">App Store</span>
+                <span class="text-xs text-gray-600 mb-1">ডাউনলোড করুন</span>
+                <span class="title-font font-medium">অ্যাপল স্টোর</span>
               </span>
             </button>
           </div>

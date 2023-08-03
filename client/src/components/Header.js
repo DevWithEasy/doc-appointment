@@ -51,6 +51,12 @@ export default function Header() {
           >
             এম্বুল্যান্স
           </NavLink>
+          <NavLink
+            to="/blood_bank"
+            className="px-4 py-2 hover:bg-white hover:text-black trasition-all duration-300 rounded"
+          >
+            ব্লাড ব্যাংক
+          </NavLink>
         </div>
 
         <div className="w-6/12 md:w-3/12 flex justify-end items-center space-x-3">

@@ -3,12 +3,12 @@ import axios from "axios"
 export async function handleSignUp(value,navigate,toast){
     try {
         const res = await axios.post('/api/auth/signup',value)
-        toast.success('Account created successfully')
+        toast.success('আপনার একাউন্টটি সফল ভাবে তৈরি হয়েছে')
         localStorage.setItem('accessToken', res.data.token)
         navigate('/verify')
     } catch (error) {
         console.log(error)
-        toast.error('Account created Failed')
+        toast.error('আপনার একাউন্ট তৈরিতে ব্যর্থ হয়েছে')
     }
 }
 
@@ -22,7 +22,6 @@ export async function handleSignIn(value,addUser,setLoading,navigate,location,to
                 localStorage.setItem('accessToken', res.data.data.token)
                 navigate('/verify')
             }else{
-                toast.success('Successfully signed in')
                 localStorage.setItem('accessToken', res.data.data.token)
                 addUser((res.data.data))
                 if(location.state?.from){
@@ -37,7 +36,7 @@ export async function handleSignIn(value,addUser,setLoading,navigate,location,to
         if(error.response.data.message){
             toast.error(error.response.data.message)
         }else{
-            toast.error('Something went wrong')
+            toast.error('প্রবেশ করতে সমস্যা হচ্ছে')
         }
     }
 }

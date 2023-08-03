@@ -30,9 +30,8 @@ export default function DeleteHospital({hospital}){
     }
     return(
         <>
-        <button onClick={onOpen} className="flex items-center space-x-2 p-2 bg-red-400 text-white rounded hover:bg-red-500">
+        <button onClick={onOpen} className="flex items-center space-x-2 p-1 bg-red-400 text-white rounded hover:bg-red-500">
             <AiFillDelete/>
-            <span>Delete</span>
         </button>
         <AlertDialog
           motionPreset='slideInBottom'
@@ -44,16 +43,16 @@ export default function DeleteHospital({hospital}){
           <AlertDialogOverlay />
   
           <AlertDialogContent>
-            <AlertDialogHeader>Delete This Chamber?</AlertDialogHeader>
+            <AlertDialogHeader className="font-bangla">চেম্বার মুছে ফেলুন ?</AlertDialogHeader>
             <AlertDialogCloseButton />
-            <AlertDialogBody>
-                You cant back this data.It will parmanently delete from your database.
+            <AlertDialogBody className="font-bangla">
+                মুছে ফেললে এটা ডাটাবেস থেকে চিরতরে মুছে যাবে আর ফিরিয়ে আনতে পারবেন না। 
             </AlertDialogBody>
-            <AlertDialogFooter className="space-x-2">
+            <AlertDialogFooter className="space-x-2 font-bangla">
               <button ref={cancelRef} onClick={onClose} className='py-2 px-6 bg-gray-400 text-white rounded-md'>
-                No
+              নিশ্চিত না
               </button>
-              <button onClick={()=>deleteChamber()} className='py-2 px-6 bg-red-400 text-white rounded-md'>Delete</button>
+              <button onClick={()=>deleteChamber()} className='py-2 px-6 bg-red-400 text-white rounded-md'>নিশ্চিত</button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

@@ -10,10 +10,12 @@ const AppointmentFind = () => {
     const [doctors,setDoctors] = useState([])
     const [specialization, setSpecialization] = useState(searchParams.get('specialization'));
     const [day, setDay] = useState(searchParams.get('day'));
+    const [loading,setLoading] = useState(false)
+    const [msg,setMsg] = useState('')
 
     useEffect(()=>{
         getSpecialist(setSpecialist)
-        getFindDoctors(specialization,day,setDoctors)
+        getFindDoctors(specialization,day,setDoctors,setLoading,setMsg)
     },[specialization,day])
     console.log(doctors)
     return (
@@ -45,13 +47,25 @@ const AppointmentFind = () => {
                 <option value="Friday">শুক্রবার</option>
               </select>
             
-            <button onClick={()=>getFindDoctors(specialization,day,setDoctors)}  className="px-6 py-1 md:py-0 bg-blue-400 text-white rounded-md">খুজুন</button>
+            <button onClick={()=>getFindDoctors(specialization,day,setDoctors,setLoading,setMsg)}  className="px-6 py-1 md:py-0 bg-blue-400 text-white rounded-md">খুজুন</button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border">
-            {
-              doctors &&  doctors.map(doctor=><Doctor key={doctor._id} doctor={doctor}/>)
-            }
-        </div>
+        {
+            loading && <div>
+                <p className='text-center text-2xl animate-pulse'>অপেক্ষা করুন ডাক্তার খোঁজা হচ্ছে... </p>
+            </div> 
+        }
+        {
+            msg.length > 0 && <p>{msg} </p>
+        }
+        {
+            doctors.length > 0 &&
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border">
+                {
+                doctors.map(doctor=><Doctor key={doctor._id} doctor={doctor}/>)
+                }
+            </div>
+        }
+        
     </div>
     );
 };

@@ -26,12 +26,14 @@ export default function DoctorDetails({ doctor }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
+          <ModalHeader
+            className='font-bangla'
+          >
             About {doctor?.firstName} {doctor?.lastName}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <div className="p-2 space-y-2">
+            <div className="p-2 space-y-2 font-bangla">
               <img
                 src={doctor?.user?.image?.url}
                 alt="doctor_image"
