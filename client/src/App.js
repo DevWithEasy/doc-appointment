@@ -9,7 +9,7 @@ import AppointmentSubmit from './pages/AppointmentSubmit';
 import Appointments from './pages/Appointments';
 import AppointmentsAllPatient from './pages/AppointmentsAllPatient';
 import AppointmentsAllPatientSearch from './pages/AppointmentsAllPatientSearch';
-import Dashboard from './pages/Dashboard';
+import Doctor from './pages/Doctor';
 import Doctors from './pages/Doctors';
 import ForgetPassword from './pages/ForgetPassword';
 import Home from './pages/Home';
@@ -112,9 +112,9 @@ function App() {
             </ProtectedRoute>,
           },
           {
-            path : '/doctor/dashboard',
+            path : '/doctor/',
             element : <ProtectedRoute>
-              <Dashboard/>
+              <Doctor/>
             </ProtectedRoute>
           },
           {

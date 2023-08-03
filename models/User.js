@@ -28,6 +28,17 @@ const userSchema = mongoose.Schema({
     dob:{
       type : Date
     },
+    donar : {
+      type : String,
+      enum : ['yes','no']
+    },
+    bloodGroup : {
+      type : String,
+      enum : ['A+','A-','B+','B-','AB+','AB-','O+','O-'],
+    },
+    donateDate : {
+      type : Date
+    },
     balance : {
       type : Number,
       required : true,

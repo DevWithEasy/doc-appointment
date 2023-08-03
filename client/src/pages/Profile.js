@@ -49,9 +49,9 @@ export default function Profile() {
                 name="email"
                 value={user?.email}
                 onChange={(e) => handleChange(e, user, setUser)}
-                className="w-full p-2 bg-gray-200/50"
+                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
                 placeholder="ই-মেইল"
-                disabled
+                readOnly
               />
             </div>
             <div>
@@ -82,13 +82,63 @@ export default function Profile() {
               <label>জন্ম তারিখঃ </label>
               <input
                 type="text"
-                name=""
+                name="dob"
                 value={dateGenerator(user?.dob)}
                 className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
+                readOnly
               />
               <input
                 type="date"
                 name="dob"
+                onChange={(e) => handleChange(e, user, setUser)}
+                className="absolute bottom-0 right-0 w-9 px-2 p-1 border-b focus:outline-none focus:border-blue-300"
+                placeholder=""
+              />
+            </div>
+            <div>
+              <label>রক্তদানে ইচ্ছুকঃ </label>
+              <select
+                name="donar"
+                value={user?.donar}
+                onChange={(e) => handleChange(e, user, setUser)}
+                className="w-full px-2 py-[10px] border-b focus:outline-none focus:border-blue-300"
+              >
+                <option value="">বাছাই করুন </option>
+                <option value="no">না </option>
+                <option value="yes">হ্যাঁ </option>
+              </select>
+            </div>
+            <div>
+              <label>রক্তের গ্রুপঃ </label>
+              <select
+                name="bloodGroup"
+                value={user?.bloodGroup}
+                onChange={(e) => handleChange(e, user, setUser)}
+                className="w-full px-2 py-[10px] border-b focus:outline-none focus:border-blue-300"
+              >
+                <option value="">বাছাই করুন </option>
+                <option value="A+">A+ </option>
+                <option value="A-">A- </option>
+                <option value="B">B+ </option>
+                <option value="B-">B- </option>
+                <option value="AB+">AB+ </option>
+                <option value="AB-">AB- </option>
+                <option value="O+">O+ </option>
+                <option value="O-">O- </option>
+              </select>
+            </div>
+            <div className="relative">
+              <label>রক্তদানের তারিখঃ </label>
+              <input
+                type="text"
+                name=""
+                value={dateGenerator(user?.donateDate)}
+                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
+                readOnly
+              />
+              <input
+                type="date"
+                name="donateDate"
                 onChange={(e) => handleChange(e, user, setUser)}
                 className="absolute bottom-0 right-0 w-9 px-2 p-1 border-b focus:outline-none focus:border-blue-300"
                 placeholder=""
