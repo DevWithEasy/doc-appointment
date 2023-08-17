@@ -7,6 +7,7 @@ import {
     ModalHeader,
     ModalOverlay,
     Spinner,
+    useDisclosure,
 } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from "react"
 import { AiOutlinePrinter } from "react-icons/ai"
@@ -14,8 +15,8 @@ import { useReactToPrint } from "react-to-print"
 import { getAppointmentDetails, getAppointmentStatus } from '../utils/appoimtments_utils'
 import PrintHeader from "./PrintHeader"
 
-export default function AppointmentDetails({ id, isOpen, onOpen, onClose }) {
-
+export default function AppointmentDetails({ id, open, setOpen}) {
+    const {onClose} = useDisclosure()
     const printRef = useRef()
     const [appointment, setAppointment] = useState({})
     const [chamber, setChamber] = useState({})
@@ -51,10 +52,10 @@ export default function AppointmentDetails({ id, isOpen, onOpen, onClose }) {
     useEffect(() => {
         getAppointmentDetails(id, setAppointment, setChamber)
     }, [id])
-    console.log(appointment)
+    
     return (
         <>
-            <Modal isOpen={isOpen} size='xl' onClose={onClose}>
+            <Modal isOpen={open} size='xl' onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader
@@ -62,7 +63,10 @@ export default function AppointmentDetails({ id, isOpen, onOpen, onClose }) {
                     >
                         অ্যাপয়েন্টম্যান্টের বিস্তারিত
                     </ModalHeader>
-                    <ModalCloseButton onClick={() => setStatus({})} />
+                    <ModalCloseButton onClick={() => {
+                        setOpen(!open)
+                        setStatus({})
+                    }} />
                     <ModalBody
                         className='font-bangla'
                     >

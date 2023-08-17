@@ -82,7 +82,7 @@ export default function AppointmentSubmit(){
                 </div>
                 <div className=" space-y-1">
                     <label>রোগীর বয়সঃ  </label>
-                    <input type='number' name='age' value={value?.age} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
+                    <input type='text' name='age' value={value?.age} onChange={(e)=>handleChange(e,value,setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'/>
                 </div>
                 <div>
                     <label className='block'>রোগীর লিঙ্গঃ  </label>

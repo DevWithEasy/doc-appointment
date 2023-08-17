@@ -6,10 +6,10 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
+import { AiOutlineMenu } from "react-icons/ai";
 import { MdNotificationsNone } from "react-icons/md";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useUserStore from "../features/userStore";
-import { AiOutlineMenu } from "react-icons/ai";
 
 export default function Header() {
   const isAuth = useUserStore((state) => state.isAuth);
@@ -102,7 +102,7 @@ export default function Header() {
                   )}
                   {user?.isDoctor ? (
                     <MenuItem
-                      onClick={() => navigate("/doctor/dashboard")}
+                      onClick={() => navigate("/doctor")}
                       className="text-black"
                     >
                       ডাক্তার ড্যাশবোর্ড

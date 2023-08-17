@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily : {
-        'bangla' : ['SolaimanLipi','sans-serif']
+        // 'bangla' : ['SolaimanLipi','sans-serif']
+        bangla : ['Noto Serif Bengali','serif']
       }
     },
   },

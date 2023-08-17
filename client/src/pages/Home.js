@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllActiveDoctors } from "../utils/doctors_utils";
-
 import Doctor from "../components/Doctor";
 import useUserStore from "../features/userStore";
 import dayNameBangla from "../utils/dayNameBangla";
+import {toast} from 'react-hot-toast';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -22,10 +22,20 @@ export default function Home() {
     "Friday",
   ];
 
+  const handleFind=()=>{
+    if(specialization===""||day===""){
+      toast.error("কোন অভিজ্ঞতা এবং বার নির্বাচন করেন নি।")
+    }else{
+      navigate(
+        `/appointment/find?specialization=${specialization}&day=${day}`
+      )
+    }
+  }
+
   useEffect(() => {
     getAllActiveDoctors(addDoctors);
   }, [addDoctors]);
-  console.log(doctors.slice(0,3))
+  
   return (
     <div>
       <div className="text-center space-y-2 pt-4 mb-5">
@@ -73,11 +83,7 @@ export default function Home() {
                       ))}
                 </select>
                 <button
-                  onClick={() =>
-                    navigate(
-                      `/appointment/find?specialization=${specialization}&day=${day}`
-                    )
-                  }
+                  onClick={() =>handleFind()}
                   className="px-6 py-1 bg-black text-white border border-black"
                 >
                   খুঁজুন
