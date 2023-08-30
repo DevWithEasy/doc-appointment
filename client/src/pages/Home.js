@@ -4,11 +4,15 @@ import { getAllActiveDoctors } from "../utils/doctors_utils";
 import Doctor from "../components/Doctor";
 import useUserStore from "../features/userStore";
 import dayNameBangla from "../utils/dayNameBangla";
-import {toast} from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
+import { io } from 'socket.io-client'
+
+const socket = io(process.env.NODE_ENV === 'production' ? 'https://amaderdoctor.vercel.app' : 'http://localhost:8080')
+
 
 export default function Home() {
   const navigate = useNavigate();
-  const { doctors, addDoctors } = useUserStore();
+  const { isAuth, user, doctors, addDoctors } = useUserStore();
   const [specialization, setSpecialization] = useState("");
   const [day, setDay] = useState("");
 
@@ -22,10 +26,10 @@ export default function Home() {
     "Friday",
   ];
 
-  const handleFind=()=>{
-    if(specialization===""||day===""){
+  const handleFind = () => {
+    if (specialization === "" || day === "") {
       toast.error("কোন অভিজ্ঞতা এবং বার নির্বাচন করেন নি।")
-    }else{
+    } else {
       navigate(
         `/appointment/find?specialization=${specialization}&day=${day}`
       )
@@ -34,8 +38,9 @@ export default function Home() {
 
   useEffect(() => {
     getAllActiveDoctors(addDoctors);
-  }, [addDoctors]);
-  
+    isAuth && socket.emit('join_chat', { id: user._id })
+  }, [addDoctors, isAuth, user._id]);
+
   return (
     <div>
       <div className="text-center space-y-2 pt-4 mb-5">
@@ -83,7 +88,7 @@ export default function Home() {
                       ))}
                 </select>
                 <button
-                  onClick={() =>handleFind()}
+                  onClick={() => handleFind()}
                   className="px-6 py-1 bg-black text-white border border-black"
                 >
                   খুঁজুন
@@ -94,7 +99,7 @@ export default function Home() {
           <div className="w-full md:w-8/12 mt-5 md:mt-0 overflow-y">
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 border-t md:border-none">
               {doctors &&
-                doctors.slice(0,6)
+                doctors.slice(0, 6)
                   .map((doctor) => (
                     <Doctor key={doctor?._id} {...{ doctor }} />
                   ))}
@@ -103,7 +108,7 @@ export default function Home() {
               className='flex justify-center items-center py-2'
             >
               <button
-                onClick={()=>navigate('/doctors')}
+                onClick={() => navigate('/doctors')}
                 className="px-6 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
               >
                 আরো ডাক্তার দেখুন
@@ -116,7 +121,7 @@ export default function Home() {
         <div class="container px-5 py-5 mx-auto flex items-center md:flex-row flex-col">
           <div class="flex flex-col md:pr-10 md:mb-0 mb-6 pr-0 w-full md:w-auto md:text-left text-center">
             <h2 class="text-indigo-500  title-font mb-1">
-              আমাদের সেবা ব্যবহার করতে পারবেন 
+              আমাদের সেবা ব্যবহার করতে পারবেন
             </h2>
           </div>
           <div class="flex md:ml-auto md:mr-0 mx-auto items-center flex-shrink-0 space-x-4">

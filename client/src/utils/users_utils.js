@@ -12,7 +12,7 @@ export async function handleSignUp(value,navigate,toast){
     }
 }
 
-export async function handleSignIn(value,addUser,setLoading,navigate,location,toast){
+export async function handleSignIn(value,addUser,setLoading,navigate,location,toast,socket){
     try {
         setLoading(true)
         const res = await axios.post('/api/auth/signin',value)
@@ -24,6 +24,7 @@ export async function handleSignIn(value,addUser,setLoading,navigate,location,to
             }else{
                 localStorage.setItem('accessToken', res.data.data.token)
                 addUser((res.data.data))
+                socket.emit('join_chat', { id: res.data.data._id })
                 if(location.state?.from){
                     navigate(location.state.from)
                 }else{

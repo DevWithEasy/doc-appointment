@@ -1,12 +1,15 @@
 const express = require('express');
 const morgan = require('morgan')
 const cors = require('cors')
+const path = require('path')
 
 const middlewares = [
     express.urlencoded({ extended: false }),
     express.json(),
     cors(),
-    morgan('dev')
+    morgan('dev'),
+    express.static(path.join(__dirname,'./client/build')),
+    express.static('public')
 ]
 
 const applyMidleware = (app) =>{

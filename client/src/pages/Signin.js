@@ -6,6 +6,9 @@ import useUserStore from "../features/userStore"
 import handleChange from "../utils/handleChange"
 import passwordView from "../utils/passwordView"
 import { handleSignIn } from "../utils/users_utils"
+import { io } from 'socket.io-client'
+
+const socket = io(process.env.NODE_ENV === 'production' ? 'https://amaderdoctor.vercel.app' : 'http://localhost:8080')
 
 export default function Signin(){
     const addUser = useUserStore(state=>state.addUser)
@@ -46,7 +49,7 @@ export default function Signin(){
             </div>
 
             <button 
-                onClick={()=>handleSignIn(value,addUser,setLoading,navigate,location,toast)} 
+                onClick={()=>handleSignIn(value,addUser,setLoading,navigate,location,toast,socket)} 
                 className="w-full p-2 bg-blue-400 text-white rounded hover:bg-blue-500 hover:transition-all hover:duration-300"
             >
                 {loading ? 'অপেক্ষা করুন...' : 'প্রবেশ করুন'}

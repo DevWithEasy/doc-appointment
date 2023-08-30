@@ -1,35 +1,6 @@
 import { useRoutes } from 'react-router-dom';
-import Admin from './pages/Admin/Admin';
-import AppliedDoctors from './pages/Admin/Doctors';
-import AppliedHospital from './pages/Admin/Hospitals';
-import Users from './pages/Admin/Users';
-import ApplyDoctor from './pages/ApplyDoctor';
-import Appointment from './pages/Appointment';
-import AppointmentSubmit from './pages/AppointmentSubmit';
-import Appointments from './pages/Appointments';
-import AppointmentsAllPatient from './pages/AppointmentsAllPatient';
-import AppointmentsAllPatientSearch from './pages/AppointmentsAllPatientSearch';
-import Doctor from './pages/Doctor';
-import Doctors from './pages/Doctors';
-import ForgetPassword from './pages/ForgetPassword';
-import Home from './pages/Home';
-import HospitalDetails from './pages/HospitalDetails';
-import Hospitals from './pages/Hospitals';
-import Layout from './pages/Layout';
-import Notification from './pages/Notification';
-import Profile from './pages/Profile';
-import ProtectedRoute from './pages/ProtectedRoute';
-import ResetPassword from './pages/ResetPassword';
-import Signin from './pages/Signin';
-import Signup from './pages/Signup';
-import VerifyAccount from './pages/VerifyAccount';
-import AddBalance from './pages/payment/AddBalance';
-import Success from './pages/payment/Success';
-import Failure from './pages/payment/Failure';
-import NotFound from './pages/NotFound';
-import Payments from './pages/Payments';
-import AppointmentFind from './pages/AppointmentFind';
-import AdminDashboard from './pages/Admin/AdminDashboard';
+import {Admin,AppliedDoctors,AppointmentsAllPatient,AppliedHospital,Users,ApplyDoctor,Appointment,AppointmentSubmit,Appointments,AppointmentsAllPatientSearch,Doctor,Doctors,ForgetPassword,Home,HospitalDetails,Hospitals,Layout,Notification,Profile,ProtectedRoute,ResetPassword,Signin,Signup,VerifyAccount,AddBalance,Success,Failure,NotFound,Payments,AppointmentFind,AdminDashboard} from './pages/Index'
+
 function App() {
   const routes = useRoutes(
     [
