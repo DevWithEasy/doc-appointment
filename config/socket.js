@@ -13,6 +13,10 @@ const initSocket=(server)=>{
             socket.join(data.id)
             console.log(data.id)
         })
+
+        socket.on('create_appointment',data=>{
+            socket.to(data.doctor).emit('create_appointment_notifiaction',data.notification)
+        })
     })
 }
 

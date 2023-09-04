@@ -37,7 +37,7 @@ export default function AppointmentSubmit(){
     },[selected,doctor])
 
     const data = {...value,chamberId : chamber._id,appointmentDay : chamber?.day,appointmentDate : dateGenerator(selected)}
-    console.log(doctor)
+    
     return(
         <div
             className='w-full md:w-10/12 md:mx-auto px-2 pb-5'

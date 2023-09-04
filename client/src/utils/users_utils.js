@@ -1,8 +1,8 @@
 import axios from "axios"
 
-export async function handleSignUp(value,navigate,toast){
+export async function handleSignUp(value, navigate, toast) {
     try {
-        const res = await axios.post('/api/auth/signup',value)
+        const res = await axios.post('/api/auth/signup', value)
         toast.success('আপনার একাউন্টটি সফল ভাবে তৈরি হয়েছে')
         localStorage.setItem('accessToken', res.data.token)
         navigate('/verify')
@@ -12,73 +12,73 @@ export async function handleSignUp(value,navigate,toast){
     }
 }
 
-export async function handleSignIn(value,addUser,setLoading,navigate,location,toast,socket){
+export async function handleSignIn(value, addUser, setLoading, navigate, location, toast, socket) {
     try {
         setLoading(true)
-        const res = await axios.post('/api/auth/signin',value)
-        if(res.data.status === 200){
+        const res = await axios.post('/api/auth/signin', value)
+        if (res.data.status === 200) {
             setLoading(false)
-            if(!res.data.data.isVerified){
+            if (!res.data.data.isVerified) {
                 localStorage.setItem('accessToken', res.data.data.token)
                 navigate('/verify')
-            }else{
+            } else {
                 localStorage.setItem('accessToken', res.data.data.token)
                 addUser((res.data.data))
                 socket.emit('join_chat', { id: res.data.data._id })
-                if(location.state?.from){
+                if (location.state?.from) {
                     navigate(location.state.from)
-                }else{
+                } else {
                     navigate('/')
                 }
             }
         }
     } catch (error) {
         setLoading(false)
-        if(error.response.data.message){
+        if (error.response.data.message) {
             toast.error(error.response.data.message)
-        }else{
+        } else {
             toast.error('প্রবেশ করতে সমস্যা হচ্ছে')
         }
     }
 }
 
-export async function getUser(id,setUser,setAddress){
-    const res = await axios.get(`/api/auth/user/${id}`,{
-        headers : {
-            authorization : 'Bearer ' + localStorage.getItem('accessToken')
+export async function getUser(id, setUser, setAddress) {
+    const res = await axios.get(`/api/auth/user/${id}`, {
+        headers: {
+            authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
     })
     setUser(res.data.data)
     setAddress(res.data.data.address)
 }
 
-export async function updateUser(id,user,address,setUser,addUser,toast){
+export async function updateUser(id, user, address, setUser, addUser, toast) {
     const res = await axios.put(`/api/auth/user/update/${id}`,
-    {...user,address},
-    {
-        headers : {
-            authorization : 'Bearer ' + localStorage.getItem('accessToken')
-        }
-    })
-    if(res.data.status === 200){
+        { ...user, address },
+        {
+            headers: {
+                authorization: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+    if (res.data.status === 200) {
         setUser(res.data.data)
         addUser((res.data.data))
         toast.success('User updated successfully')
     }
 }
 
-export async function uploadPhoto(user,file,reload,setLoading,toast){
+export async function uploadPhoto(user, file, reload, setLoading, toast) {
     setLoading(true)
     try {
         const formData = new FormData()
-        formData.append('file',file)
-        formData.append('filename',file?.name)
-        const res = await axios.post(`/api/auth/upload/${user?._id}`,formData,{
-            headers : {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+        formData.append('file', file)
+        formData.append('filename', file?.name)
+        const res = await axios.post(`/api/auth/upload/${user?._id}`, formData, {
+            headers: {
+                authorization: 'Bearer ' + localStorage.getItem('accessToken')
             }
         })
-        if(res.data.success === true){
+        if (res.data.success === true) {
             reload()
             toast.success('Profile Photo uploaded successfully')
             setLoading(false)
@@ -90,23 +90,23 @@ export async function uploadPhoto(user,file,reload,setLoading,toast){
     }
 }
 
-export async function handleVerify(code,navigate,setLoading,setVerified,toast){
-    if(!code){
+export async function handleVerify(code, navigate, setLoading, setVerified, toast) {
+    if (!code) {
         return toast.error('অনুগ্রহ পূর্বক যাচাইকরন কোড টি লিখুন')
     }
     try {
         setLoading(true)
-        const res = await axios.post('/api/auth/verify',{code},{
+        const res = await axios.post('/api/auth/verify', { code }, {
             headers: {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                authorization: 'Bearer ' + localStorage.getItem('accessToken')
             }
         })
-        if(res.data.status === 200){
+        if (res.data.status === 200) {
             setLoading(false)
             setVerified(true)
-            setTimeout(()=>{
+            setTimeout(() => {
                 navigate('/signin')
-            },2000)
+            }, 2000)
         }
     } catch (error) {
         setLoading(false)
@@ -115,18 +115,18 @@ export async function handleVerify(code,navigate,setLoading,setVerified,toast){
 
 }
 
-export async function handleSendCodeAgain(toast){
-    if(!localStorage.getItem('accessToken')){
+export async function handleSendCodeAgain(toast) {
+    if (!localStorage.getItem('accessToken')) {
         return toast.error('Please signin first time')
     }
     try {
-        const res = await axios.post('/api/auth/sent-code-again',{},{
+        const res = await axios.post('/api/auth/sent-code-again', {}, {
             headers: {
-                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+                authorization: 'Bearer ' + localStorage.getItem('accessToken')
             }
         })
-        if(res.data.status === 200){
-             toast.success('Code send successfully.')
+        if (res.data.status === 200) {
+            toast.success('Code send successfully.')
         }
     } catch (error) {
         toast.error('Verification Failed')
@@ -134,14 +134,14 @@ export async function handleSendCodeAgain(toast){
 
 }
 
-export async function handlefind(email,setUser,setEmail,setFinding,setLoading,toast){
-    if(!email){
+export async function handlefind(email, setUser, setEmail, setFinding, setLoading, toast) {
+    if (!email) {
         return toast.error('অনুগ্রহ পূর্বক ই-মেইল অথবা মোবাইল নাম্বার টি লিখুন')
     }
     setLoading(true)
     try {
         const res = await axios.get(`/api/auth/find?email=${email}`)
-        if(res.data.status === 200){
+        if (res.data.status === 200) {
             setUser(res.data)
             setEmail('')
             setFinding(res.data.find)
@@ -153,11 +153,12 @@ export async function handlefind(email,setUser,setEmail,setFinding,setLoading,to
     }
 
 }
-export async function handleSendForget(user,setLoading,setSending){
+
+export async function handleSendForget(user, setLoading, setSending) {
     try {
         setLoading(true)
         const res = await axios.post(`/api/auth/forget-password?email=${user.data.email}`)
-        if(res.data.status === 200){
+        if (res.data.status === 200) {
             setLoading(false)
             setSending(true)
         }
@@ -172,34 +173,37 @@ export async function handleSendForget(user,setLoading,setSending){
 
 //---------------notifications--------------------
 
-export async function seenNotification(data,addUser){
-    const res = await axios.post('/api/auth/user/seenNotification',data,{
-        headers :{
-            authorization : 'Bearer ' + localStorage.getItem('accessToken')
+export async function seenNotification(data, addUser ,readSingleNotification) {
+    const res = await axios.post('/api/auth/user/seenNotification', data, {
+        headers: {
+            authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
     })
-    if(res.data.status === 200){
+    if (res.data.status === 200) {
         addUser(res.data.data)
+        readSingleNotification(data.id)
     }
 }
-export async function seenAllNotification(addUser){
-    const res = await axios.post('/api/auth/user/seenAllNotification',{},{
-        headers :{
-            authorization : 'Bearer ' + localStorage.getItem('accessToken')
+export async function seenAllNotification(addUser,readAllNotifications) {
+    const res = await axios.post('/api/auth/user/seenAllNotification', {}, {
+        headers: {
+            authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
     })
-    if(res.data.status === 200){
+    if (res.data.status === 200) {
         addUser(res.data.data)
+        readAllNotifications()
     }
 }
 
-export async function deleteAllNotification(addUser){
-    const res = await axios.post('/api/auth/user/deleteAllNotification',{},{
-        headers :{
-            authorization : 'Bearer ' + localStorage.getItem('accessToken')
+export async function deleteAllNotification(addUser,deleteAllNotifications) {
+    const res = await axios.post('/api/auth/user/deleteAllNotification', {}, {
+        headers: {
+            authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
     })
-    if(res.data.status === 200){
+    if (res.data.status === 200) {
         addUser(res.data.data)
+        deleteAllNotifications()
     }
 }

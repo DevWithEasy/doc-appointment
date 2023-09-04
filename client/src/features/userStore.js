@@ -1,39 +1,69 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-const userStore = (set)=>({
-    isAuth : false,
-    user : {},
-    doctors : [],
-    hospital : {},
-    random : 0,
-    addUser : (user)=>{
-        set((state)=>({
-          isAuth : true,
-          user : user,
+const userStore = (set) => ({
+    isAuth: false,
+    user: {},
+    notifications : [],
+    doctors: [],
+    hospital: {},
+    random: 0,
+    addUser: (user) => {
+        set((state) => ({
+            isAuth: true,
+            user: user,
+            notifications : user.notifications
         }))
     },
-    addDoctors : (doctors)=>{
-        set((state)=>({
-          doctors : doctors
+    addDoctors: (doctors) => {
+        set((state) => ({
+            doctors: doctors
         }))
     },
-    removeUser : ()=>{
-        set((state)=>({
-          isAuth : false,
-          user : {},
+    addNewNotification: (notification) => {
+        set((state) => ({
+            notifications : state.notifications.find(n => n.id === notification.id) ? [...state.notifications] : [...state.notifications,notification]
         }))
     },
-    reload : ()=>{
-        set((state)=>({
-            random : Math.random()
+    readSingleNotification: (id) => {
+        set((state) => ({
+            notifications: state.notifications.map(notification=>{
+                if(notification.id === id){
+                    return {...notification ,status : 'read' }
+                }else{
+                    return notification
+                }
+            })
+        }))
+    },
+    readAllNotifications: () => {
+        set((state) => ({
+            notifications: state.notifications.map(notification=>{
+                return {...notification, status : 'read'}
+            })
+        }))
+    },
+    deleteAllNotifications: () => {
+        set((state) => ({
+            notifications: []
+        }))
+    },
+    removeUser: () => {
+        set((state) => ({
+            isAuth: false,
+            user: {},
+        }))
+    },
+    reload: () => {
+        set((state) => ({
+            random: Math.random()
         }))
     }
 })
-const useUserStore =create(
+const useUserStore = create(
     devtools(
-        persist(userStore,{
-            name : "user"
+        persist(userStore, {
+            name: "user"
         })
     )
 )

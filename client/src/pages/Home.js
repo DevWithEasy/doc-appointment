@@ -5,14 +5,10 @@ import Doctor from "../components/Doctor";
 import useUserStore from "../features/userStore";
 import dayNameBangla from "../utils/dayNameBangla";
 import { toast } from 'react-hot-toast';
-import { io } from 'socket.io-client'
-
-const socket = io(process.env.NODE_ENV === 'production' ? 'https://amaderdoctor.vercel.app' : 'http://localhost:8080')
-
 
 export default function Home() {
   const navigate = useNavigate();
-  const { isAuth, user, doctors, addDoctors } = useUserStore();
+  const { doctors, addDoctors } = useUserStore();
   const [specialization, setSpecialization] = useState("");
   const [day, setDay] = useState("");
 
@@ -38,8 +34,7 @@ export default function Home() {
 
   useEffect(() => {
     getAllActiveDoctors(addDoctors);
-    isAuth && socket.emit('join_chat', { id: user._id })
-  }, [addDoctors, isAuth, user._id]);
+  }, [addDoctors]);
 
   return (
     <div>

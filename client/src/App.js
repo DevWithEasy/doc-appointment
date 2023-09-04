@@ -1,5 +1,8 @@
 import { useRoutes } from 'react-router-dom';
 import {Admin,AppliedDoctors,AppointmentsAllPatient,AppliedHospital,Users,ApplyDoctor,Appointment,AppointmentSubmit,Appointments,AppointmentsAllPatientSearch,Doctor,Doctors,ForgetPassword,Home,HospitalDetails,Hospitals,Layout,Notification,Profile,ProtectedRoute,ResetPassword,Signin,Signup,VerifyAccount,AddBalance,Success,Failure,NotFound,Payments,AppointmentFind,AdminDashboard} from './pages/Index'
+import { io } from 'socket.io-client'
+
+const socket = io(process.env.NODE_ENV === 'production' ? 'https://amaderdoctor.vercel.app' : 'http://localhost:8080')
 
 function App() {
   const routes = useRoutes(

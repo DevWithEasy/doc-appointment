@@ -6,15 +6,17 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdNotificationsNone } from "react-icons/md";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useUserStore from "../features/userStore";
+import { io } from 'socket.io-client'
+
+const socket = io(process.env.NODE_ENV === 'production' ? 'https://amaderdoctor.vercel.app' : 'http://localhost:8080')
 
 export default function Header() {
-  const isAuth = useUserStore((state) => state.isAuth);
-  const user = useUserStore((state) => state.user);
-  const removeUser = useUserStore((state) => state.removeUser);
+  const {isAuth,user,removeUser , notifications} = useUserStore();
 
   const navigate = useNavigate();
 
@@ -23,6 +25,12 @@ export default function Header() {
     localStorage.removeItem("accessToken");
   }
 
+
+  useEffect(() => {
+    isAuth && socket.emit('join_chat', { id: user._id })
+    
+  });
+  
   return (
     <div className="w-full fixed top-0 left-0 z-10 bg-gray-500">
       <div className="md:w-10/12 md:mx-auto flex justify-between items-center p-2">
@@ -67,11 +75,11 @@ export default function Header() {
               className="relative p-2 text-white hover:text-black hover:bg-white trasition-all duration-300 rounded"
             >
               <MdNotificationsNone size={20} className="" />
-              {user?.notifications?.length > 0 && (
+              {notifications?.length > 0 && (
                 <div className="absolute -right-1 -top-0 w-5 h-5 flex justify-center items-center bg-red-500 text-white text-xs rounded-full">
                   <span>
                     {
-                      user?.notifications.filter(
+                      notifications.filter(
                         (notification) => notification.status === "unread"
                       ).length
                     }

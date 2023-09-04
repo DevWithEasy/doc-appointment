@@ -17,7 +17,7 @@ exports.addAppointment=async(req,res,next)=>{
         const doctor = await Doctor.findOne({_id : req.body.doctor})
 
         const chamber = doctor.chambers.find(chamber=> getObjectId(chamber._id) === req.body.chamberId)
-
+        
         const appointments = await Appointment.find(
             {
                 appointmentDate : req.body.appointmentDate,
@@ -40,19 +40,21 @@ exports.addAppointment=async(req,res,next)=>{
             appointmentId : appointments == 0 ? 1 : appointments+1
         })
 
-        await User.findByIdAndUpdate(doctor.user,{
+        const notification = {
+            id : Date.now(),
+            name : req.body.patientName,
+            message : `${req.body.patientName} has been applied for appointments.`,
+            day : req.body.appointmentDay,
+            date : req.body.appointmentDate,
+            onClickPath : `/doctor/allAppointments/search?day=${req.body.appointmentDay}&date=${req.body.appointmentDate}`,
+            status : 'unread'
+        }
+
+        const doctorUserProfile = await User.findByIdAndUpdate(doctor.user,{
             $push : {
-                notifications : {
-                    id : Date.now(),
-                    name : req.body.patientName,
-                    message : `${req.body.patientName} has been applied for appointments.`,
-                    day : req.body.appointmentDay,
-                    date : req.body.appointmentDate,
-                    onClickPath : `/doctor/allAppointments/search?day=${req.body.appointmentDay}&date=${req.body.appointmentDate}`,
-                    status : 'unread'
-                }
+                notifications : notification
             }
-        })
+        },{new : true})
 
         await User.findByIdAndUpdate(req.body.userId,{
             $inc : {
@@ -64,7 +66,11 @@ exports.addAppointment=async(req,res,next)=>{
         res.status(200).json({
             status : 200,
             success : true,
-            message : 'Successfully applied'
+            message : 'Successfully applied',
+            data : {
+                doctor : doctorUserProfile._id,
+                notification
+            }
         })
 
     } catch (error) {

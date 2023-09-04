@@ -1,4 +1,6 @@
 import axios from "axios";
+import socket from '../utils/socket'
+
 
 export async function addAppointment(data,toast,navigate,onOpen){
     try {
@@ -9,7 +11,8 @@ export async function addAppointment(data,toast,navigate,onOpen){
         })
         if(res.data.status === 200){
             toast.success('Appointment added successfully')
-            navigate('/appointments')
+            // navigate('/appointments')
+            socket.emit('create_appointment',res.data.data)
         }
     } catch (error) {
         if(error.response.data.status === 405){
