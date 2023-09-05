@@ -90,18 +90,24 @@ exports.confirmAppointment=async(req,res,next)=>{
         await Appointment.updateOne({_id:req.params.id}, {$set:{
             status : 'Confirmed'
         }})
-        user.notifications.push({
+        const notification = {
             id : Date.now(),
             name : user?.name,
             message : `${doctor?.firstName} ${doctor?.lastName} has been confirmed your appointments.`,
             onClickPath : `/appointments`,
             status : 'unread'
-        })
+        }
+        user.notifications.push(notification)
         user.save()
+
         res.status(200).json({
             status : 200,
             success : true,
-            message : 'Appointment has been confirmed'
+            message : 'Appointment has been confirmed',
+            data : {
+                user : user._id,
+                notification
+            }
         })
         
     } catch (error) {

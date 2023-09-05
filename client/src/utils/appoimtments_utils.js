@@ -66,6 +66,7 @@ export async function confirmAppointment(id,day,date){
     });
     if(res.data.status === 200){
         getAppointments(day,date)
+        socket.emit('action_appointment',res.data.data)
     };
 }
 

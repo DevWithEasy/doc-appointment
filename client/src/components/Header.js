@@ -6,14 +6,10 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdNotificationsNone } from "react-icons/md";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useUserStore from "../features/userStore";
-import { io } from 'socket.io-client'
-
-const socket = io(process.env.NODE_ENV === 'production' ? 'https://amaderdoctor.vercel.app' : 'http://localhost:8080')
 
 export default function Header() {
   const {isAuth,user,removeUser , notifications} = useUserStore();
@@ -24,12 +20,6 @@ export default function Header() {
     removeUser();
     localStorage.removeItem("accessToken");
   }
-
-
-  useEffect(() => {
-    isAuth && socket.emit('join_chat', { id: user._id })
-    
-  });
   
   return (
     <div className="w-full fixed top-0 left-0 z-10 bg-gray-500">
@@ -123,11 +113,19 @@ export default function Header() {
                       ডাক্তার প্রোফাইলের আবেদন
                     </MenuItem>
                   )}
+                  {user?.isDoctor &&
+                    <MenuItem
+                      onClick={() => navigate("/doctor/allAppointments")}
+                      className="text-black"
+                    >
+                      অ্যাপয়েন্টমেন্ট সমুহ
+                    </MenuItem>
+                  }
                   <MenuItem
                     onClick={() => navigate("/appointments")}
                     className="text-black"
                   >
-                    অ্যাপয়েন্টমেন্ট সমুহ
+                    আপনার অ্যাপয়েন্টমেন্ট সমুহ
                   </MenuItem>
                   <MenuItem onClick={() => navigate("/payment/add")}>
                     ব্যালেন্স যোগ করুন

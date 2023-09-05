@@ -17,6 +17,10 @@ const initSocket=(server)=>{
         socket.on('create_appointment',data=>{
             socket.to(data.doctor).emit('create_appointment_notifiaction',data.notification)
         })
+
+        socket.on('action_appointment',data=>{
+            socket.to(data.user).emit('action_appointment_recieved',data.notification)
+        })
     })
 }
 
