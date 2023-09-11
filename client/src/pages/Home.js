@@ -112,7 +112,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <section class="mx-2 md:w-10/12 md:mx-auto text-gray-600 body-font bg-white/50 rounded-md my-5">
+      {/* <section class="mx-2 md:w-10/12 md:mx-auto text-gray-600 body-font bg-white/50 rounded-md my-5">
         <div class="container px-5 py-5 mx-auto flex items-center md:flex-row flex-col">
           <div class="flex flex-col md:pr-10 md:mb-0 mb-6 pr-0 w-full md:w-auto md:text-left text-center">
             <h2 class="text-indigo-500  title-font mb-1">
@@ -151,7 +151,7 @@ export default function Home() {
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

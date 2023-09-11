@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.dd84f870.css",
-    "main.js": "/static/js/main.c65f4f58.js",
+    "main.js": "/static/js/main.a069f0f1.js",
     "static/js/787.c4e7f8f9.chunk.js": "/static/js/787.c4e7f8f9.chunk.js",
     "static/media/SolaimanLipi.ttf": "/static/media/SolaimanLipi.8cc66b491fb0095ab5de.ttf",
     "static/media/icon.png": "/static/media/icon.194ca85d1fc0275eaa73.png",
@@ -12,11 +12,11 @@
     "static/media/hospital2.png": "/static/media/hospital2.c8fe69e5ce149f1a07f2.png",
     "index.html": "/index.html",
     "main.dd84f870.css.map": "/static/css/main.dd84f870.css.map",
-    "main.c65f4f58.js.map": "/static/js/main.c65f4f58.js.map",
+    "main.a069f0f1.js.map": "/static/js/main.a069f0f1.js.map",
     "787.c4e7f8f9.chunk.js.map": "/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.dd84f870.css",
-    "static/js/main.c65f4f58.js"
+    "static/js/main.a069f0f1.js"
   ]
 }
