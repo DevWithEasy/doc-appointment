@@ -8,7 +8,7 @@ import dayNameBangla from '../../utils/dayNameBangla';
 import statusColor from '../../utils/statusColor';
 import AppointmentDetails from '../AppointmentDeatils';
 
-const AppointmentsTableView = ({ appointments }) => {
+const AppointmentsTableView = ({ appointments,setAppointments }) => {
     const [open,setOpen] = useState(false)
     const [id,setId] = useState('')
     const { user } = useUserStore()
@@ -61,11 +61,11 @@ const AppointmentsTableView = ({ appointments }) => {
                         <td className="flex space-x-2 justify-center px-6 py-2">
                             <button
                                 onClick={() => { setId(appointment?._id); setOpen(!open) }}
-                                className="px-2 py-1 bg-green-400 text-white rounded hover:bg-green-500"
+                                className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-500"
                             >
                                 বিস্তারিত
                             </button>
-                            <button onClick={() => cancelAppointment(appointment._id, user, toast)} className="px-2 py-1 bg-red-400 text-white rounded hover:bg-red-500">বাতিল</button>
+                            <button onClick={() => cancelAppointment(appointment._id, user, toast,setAppointments)} className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-500">বাতিল</button>
                         </td>
                     </tr>)}
                 </tbody>

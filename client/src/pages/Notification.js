@@ -30,13 +30,19 @@ export default function Notification(){
             </div>
             <div className='py-2 space-y-1'>
                 {
-                    notifications && !readState && notifications.filter(notification=>notification.status === 'unread').map(notification=><Link to={notification?.onClickPath} key={notification.id} onClick={()=>seenNotification(notification,addUser,readSingleNotification)} className='block w-full p-1 border rounded'>
+                    notifications && !readState && 
+                    notifications.filter(notification=>notification.status === 'unread')
+                    .sort((a,b)=>  b.id - a.id)
+                    .map(notification=><Link to={notification?.onClickPath} key={notification.id} onClick={()=>seenNotification(notification,addUser,readSingleNotification)} className='block w-full p-1 border rounded'>
                         {notification?.message}
                     </Link>)
                 }
 
                 {
-                    notifications && readState && notifications.filter(notification=>notification.status === 'read').map(notification=><Link to={notification?.onClickPath} key={notification.id} className='block w-full p-1 border rounded'>
+                    notifications && readState && 
+                    notifications.filter(notification=>notification.status === 'read')
+                    .sort((a,b)=>  b.id - a.id)
+                    .map(notification=><Link to={notification?.onClickPath} key={notification.id} className='block w-full p-1 border rounded'>
                         {notification?.message}
                     </Link>)
                 }

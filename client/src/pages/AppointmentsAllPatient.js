@@ -136,7 +136,7 @@ export default function AppointmentsAllPatient() {
                         </MenuItem>
                         <MenuItem
                           onClick={() =>
-                            confirmAppointment(appointment?._id, day, date)
+                            confirmAppointment(appointment?._id, day, date,setAppointments)
                           }
                           className="p-2 rounded hover:bg-green-500 hover:text-white transition-all duration-300"
                         >
@@ -144,7 +144,7 @@ export default function AppointmentsAllPatient() {
                         </MenuItem>
                         <MenuItem
                           onClick={() =>
-                            completeAppointment(appointment?._id, day, date)
+                            completeAppointment(appointment?._id, day, date,setAppointments)
                           }
                           className="p-2 rounded hover:bg-blue-500 hover:text-white transition-all duration-300"
                         >
@@ -152,7 +152,7 @@ export default function AppointmentsAllPatient() {
                         </MenuItem>
                         <MenuItem
                           onClick={() =>
-                            rejectAppointment(appointment?._id, day, date)
+                            rejectAppointment(appointment?._id, day, date,setAppointments)
                           }
                           className="p-2 rounded hover:bg-red-500 hover:text-white transition-all duration-300"
                         >

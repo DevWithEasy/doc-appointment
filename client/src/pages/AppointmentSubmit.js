@@ -11,6 +11,8 @@ import { addAppointment } from '../utils/appoimtments_utils';
 import dateGenerator from '../utils/dateGenerator';
 import handleChange from '../utils/handleChange';
 import { selectedDay } from '../utils/selectedDay';
+import dayNameBangla from '../utils/dayNameBangla';
+import { toBengaliNumber } from 'bengali-number';
 
 export default function AppointmentSubmit(){
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -70,7 +72,7 @@ export default function AppointmentSubmit(){
                     <div className='bg-blue-200 w-11/12 md:w-1/2 text-center rounded-md -mt-5 py-2'>
                         <p className='text-2xl font-bold'>{chamber?.vanue}</p>
                         <p className=''>{chamber?.location}</p>
-                        <p className=''>{chamber?.day} {chamber?.date}</p>
+                        <p className=''>{dayNameBangla(chamber?.day)} {toBengaliNumber(chamber?.date)}</p>
                     </div>
             </div>}
 

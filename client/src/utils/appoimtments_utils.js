@@ -31,7 +31,7 @@ export async function getAllAppointments(id,setAppointments){
     setAppointments(res.data.data);
 }
 
-export async function cancelAppointment(id,user,toast){
+export async function cancelAppointment(id,user,toast,setAppointments){
     try {
         const res = await axios.put(`/api/appointment/cancel/${id}`,{},{
             headers : {
@@ -39,7 +39,7 @@ export async function cancelAppointment(id,user,toast){
             }
         });
         if(res.data.status === 200){
-            getAllAppointments(user?._id)
+            getAllAppointments(user?._id,setAppointments)
         }
     } catch (error) {
         if(error){
@@ -58,37 +58,38 @@ export async function getAppointments(day,date,setAppointments){
     setAppointments(res.data.data);
 }
 
-export async function confirmAppointment(id,day,date){
+export async function confirmAppointment(id,day,date,setAppointments){
     const res = await axios.put(`/api/appointment/confirm/${id}`,{},{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
     });
     if(res.data.status === 200){
-        getAppointments(day,date)
+        getAppointments(day,date,setAppointments)
         socket.emit('action_appointment',res.data.data)
     };
 }
 
-export async function completeAppointment(id,day,date){
+export async function completeAppointment(id,day,date,setAppointments){
     const res = await axios.put(`/api/appointment/complete/${id}`,{},{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
     });
     if(res.data.status === 200){
-        getAppointments(day,date)
+        getAppointments(day,date,setAppointments)
     };
 }
 
-export async function rejectAppointment(id,day,date){
+export async function rejectAppointment(id,day,date,setAppointments){
     const res = await axios.put(`/api/appointment/reject/${id}`,{},{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
     });
     if(res.data.status === 200){
-        getAppointments(day,date)
+        getAppointments(day,date,setAppointments)
+        socket.emit('action_appointment',res.data.data)
     };
 }
 

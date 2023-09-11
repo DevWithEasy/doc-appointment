@@ -18,7 +18,7 @@ export default function Layout() {
 
     useEffect(() => {
         isAuth && socket.emit('join_chat', { id: user._id })
-    },[socket])
+    })
 
     return (
         <div className="h-screen pt-16 pb-5  bg-[#F8F8F8] overflow-y-auto font-bangla">

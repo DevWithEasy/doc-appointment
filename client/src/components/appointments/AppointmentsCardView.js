@@ -7,7 +7,7 @@ import { cancelAppointment } from '../../utils/appoimtments_utils';
 import dayNameBangla from '../../utils/dayNameBangla';
 import AppointmentDetails from '../AppointmentDeatils';
 
-const AppointmentsCardView = ({ appointments}) => {
+const AppointmentsCardView = ({ appointments,setAppointments}) => {
     const [open,setOpen] = useState(false)
     const [id,setId] = useState('')
     const { user } = useUserStore()
@@ -85,7 +85,7 @@ const AppointmentsCardView = ({ appointments}) => {
                             >
                                 বিস্তারিত
                             </button>
-                            <button onClick={() => cancelAppointment(appointment._id, user, toast)} className="px-2 py-1 bg-red-400 text-white rounded hover:bg-red-500">বাতিল</button>
+                            <button onClick={() => cancelAppointment(appointment._id, user, toast,setAppointments)} className="px-2 py-1 bg-red-400 text-white rounded hover:bg-red-500">বাতিল</button>
                         </div>
                     </div>
                 )

@@ -20,10 +20,12 @@ export default function Appointments(){
             <h1 className="text-2xl font-bold text-center uppercase">আপনার অ্যাপয়েন্টমেন্ট গুলো</h1>
             <hr/>
             <AppointmentsTableView {...{
-                appointments
+                appointments,
+                setAppointments
             }}/>
             <AppointmentsCardView {...{
-                appointments
+                appointments,
+                setAppointments
             }}/>
             <AppointmentDetails {...{
                 isOpen, 
