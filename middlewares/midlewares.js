@@ -8,8 +8,6 @@ const middlewares = [
     express.json(),
     cors(),
     morgan('dev'),
-    express.static(path.join(__dirname,'public')),
-    express.static(path.join(__dirname, './client/dist')),
 ]
 
 const applyMidleware = (app) =>{
