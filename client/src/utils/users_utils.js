@@ -1,8 +1,9 @@
 import axios from "axios"
+import api_url from "./apiUrl"
 
 export async function handleSignUp(value, navigate, toast) {
     try {
-        const res = await axios.post('/api/auth/signup', value)
+        const res = await axios.post(`${api_url}/api/auth/signup`, value)
         toast.success('আপনার একাউন্টটি সফল ভাবে তৈরি হয়েছে')
         localStorage.setItem('accessToken', res.data.token)
         navigate('/verify')
@@ -15,7 +16,7 @@ export async function handleSignUp(value, navigate, toast) {
 export async function handleSignIn(value, addUser, setLoading, navigate, location, toast, socket) {
     try {
         setLoading(true)
-        const res = await axios.post('/api/auth/signin', value)
+        const res = await axios.post(`${api_url}/api/auth/signin`, value)
         if (res.data.status === 200) {
             setLoading(false)
             if (!res.data.data.isVerified) {
@@ -43,7 +44,7 @@ export async function handleSignIn(value, addUser, setLoading, navigate, locatio
 }
 
 export async function getUser(id, setUser, setAddress) {
-    const res = await axios.get(`/api/auth/user/${id}`, {
+    const res = await axios.get(`${api_url}/api/auth/user/${id}`, {
         headers: {
             authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -53,7 +54,7 @@ export async function getUser(id, setUser, setAddress) {
 }
 
 export async function updateUser(id, user, address, setUser, addUser, toast) {
-    const res = await axios.put(`/api/auth/user/update/${id}`,
+    const res = await axios.put(`${api_url}/api/auth/user/update/${id}`,
         { ...user, address },
         {
             headers: {
@@ -73,7 +74,7 @@ export async function uploadPhoto(user, file, reload, setLoading, toast) {
         const formData = new FormData()
         formData.append('file', file)
         formData.append('filename', file?.name)
-        const res = await axios.post(`/api/auth/upload/${user?._id}`, formData, {
+        const res = await axios.post(`${api_url}/api/auth/upload/${user?._id}`, formData, {
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -96,7 +97,7 @@ export async function handleVerify(code, navigate, setLoading, setVerified, toas
     }
     try {
         setLoading(true)
-        const res = await axios.post('/api/auth/verify', { code }, {
+        const res = await axios.post(`${api_url}/api/auth/verify`, { code }, {
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -120,7 +121,7 @@ export async function handleSendCodeAgain(toast) {
         return toast.error('Please signin first time')
     }
     try {
-        const res = await axios.post('/api/auth/sent-code-again', {}, {
+        const res = await axios.post(`${api_url}/api/auth/sent-code-again`, {}, {
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -140,7 +141,7 @@ export async function handlefind(email, setUser, setEmail, setFinding, setLoadin
     }
     setLoading(true)
     try {
-        const res = await axios.get(`/api/auth/find?email=${email}`)
+        const res = await axios.get(`${api_url}/api/auth/find?email=${email}`)
         if (res.data.status === 200) {
             setUser(res.data)
             setEmail('')
@@ -157,7 +158,7 @@ export async function handlefind(email, setUser, setEmail, setFinding, setLoadin
 export async function handleSendForget(user, setLoading, setSending) {
     try {
         setLoading(true)
-        const res = await axios.post(`/api/auth/forget-password?email=${user.data.email}`)
+        const res = await axios.post(`${api_url}/api/auth/forget-password?email=${user.data.email}`)
         if (res.data.status === 200) {
             setLoading(false)
             setSending(true)
@@ -174,7 +175,7 @@ export async function handleSendForget(user, setLoading, setSending) {
 //---------------notifications--------------------
 
 export async function seenNotification(data, addUser ,readSingleNotification) {
-    const res = await axios.post('/api/auth/user/seenNotification', data, {
+    const res = await axios.post(`${api_url}/api/auth/user/seenNotification`, data, {
         headers: {
             authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -185,7 +186,7 @@ export async function seenNotification(data, addUser ,readSingleNotification) {
     }
 }
 export async function seenAllNotification(addUser,readAllNotifications) {
-    const res = await axios.post('/api/auth/user/seenAllNotification', {}, {
+    const res = await axios.post(`${api_url}/api/auth/user/seenAllNotification`, {}, {
         headers: {
             authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -197,7 +198,7 @@ export async function seenAllNotification(addUser,readAllNotifications) {
 }
 
 export async function deleteAllNotification(addUser,deleteAllNotifications) {
-    const res = await axios.post('/api/auth/user/deleteAllNotification', {}, {
+    const res = await axios.post(`${api_url}/api/auth/user/deleteAllNotification`, {}, {
         headers: {
             authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }

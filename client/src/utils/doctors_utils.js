@@ -1,9 +1,10 @@
 import axios from "axios"
 import { toBengaliNumber } from "bengali-number"
+import api_url from "./apiUrl"
 
 export async function handleApplyDoctor(value,toast){
     try {
-        const res = await axios.post('/api/doctor/apply',value,{
+        const res = await axios.post(`${api_url}/api/doctor/apply`,value,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -20,7 +21,7 @@ export async function handleApplyDoctor(value,toast){
 
 export async function getAllActiveDoctors(addDoctors){
     try {
-        const res = await axios.get('/api/doctor/allApprovedDoctors')
+        const res = await axios.get(`${api_url}/api/doctor/allApprovedDoctors`)
         addDoctors(res.data.data)
     } catch (error) {
         console.log(error)
@@ -28,7 +29,7 @@ export async function getAllActiveDoctors(addDoctors){
 }
 
 export async function getSpecialist(setSpecialist){
-    const res = await axios.get(`/api/doctor/specialist`,{
+    const res = await axios.get(`${api_url}/api/doctor/specialist`,{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -39,7 +40,7 @@ export async function getSpecialist(setSpecialist){
 export async function getFindDoctors(specialization,day,setDoctors,setLoading,setMsg){
     setLoading(true)
     try {
-        const res = await axios.get(`/api/doctor/find/specialist?specialist=${specialization}&day=${day}`,{
+        const res = await axios.get(`${api_url}/api/doctor/find/specialist?specialist=${specialization}&day=${day}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -62,7 +63,7 @@ export async function getFindDoctors(specialization,day,setDoctors,setLoading,se
 //-----------------single doctor----------------------
 
 export async function getDoctor(id,setDoctor){
-    const res = await axios.get(`/api/doctor/find/${id}`,{
+    const res = await axios.get(`${api_url}/api/doctor/find/${id}`,{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -71,7 +72,7 @@ export async function getDoctor(id,setDoctor){
 }
 
 export async function updateDoctor(doctor,setDoctor,toast){
-    const res = await axios.put(`/api/doctor/update/${doctor?._id}`,{...doctor},{
+    const res = await axios.put(`${api_url}/api/doctor/update/${doctor?._id}`,{...doctor},{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -84,7 +85,7 @@ export async function updateDoctor(doctor,setDoctor,toast){
 
 export async function deleteDoctor(id,reload){
     try {
-        const res = await axios.post(`/api/doctor/delete/${id}`,{},{
+        const res = await axios.post(`${api_url}/api/doctor/delete/${id}`,{},{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -100,7 +101,7 @@ export async function deleteDoctor(id,reload){
 //----------------chamber----------------------
 
 export async function addChamber(id,value,reload,onClose){
-    const res = await axios.post(`/api/doctor/addChamber/${id}`,value,{
+    const res = await axios.post(`${api_url}/api/doctor/addChamber/${id}`,value,{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -113,7 +114,7 @@ export async function addChamber(id,value,reload,onClose){
 }
 
 export async function updateChamber(id,data,reload,onClose){
-    const res = await axios.put(`/api/doctor/updateChamber/${id}`,data,{
+    const res = await axios.put(`${api_url}/api/doctor/updateChamber/${id}`,data,{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -125,7 +126,7 @@ export async function updateChamber(id,data,reload,onClose){
 }
 
 export async function deleteChamber(dId,cId,reload,onClose){
-    const res = await axios.put(`/api/doctor/deleteChamber/?dId=${dId}&cId=${cId}`,{},{
+    const res = await axios.put(`${api_url}/api/doctor/deleteChamber/?dId=${dId}&cId=${cId}`,{},{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }

@@ -26,15 +26,9 @@ dbConnection()
 initSocket(server)
 
 //app server initialzed
-// app.get('*',(req,res)=>{
-//     res.sendFile(path.join(__dirname,'./client/build/index.html'))
-// })
-const root = require('path').join(__dirname, 'client', 'build')
-app.use(express.static(root));
-app.get("*", (req, res) => {
-    res.sendFile('index.html', { root });
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'./client/dist/index.html'))
 })
-
 
 sheduleTask()
 

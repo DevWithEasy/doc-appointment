@@ -8,7 +8,7 @@ const middlewares = [
     express.json(),
     cors(),
     morgan('dev'),
-    express.static(path.join(__dirname,'./client/build')),
+    express.static(path.join(__dirname,'./client/dist')),
     express.static('public')
 ]
 

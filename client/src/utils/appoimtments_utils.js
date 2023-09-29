@@ -1,10 +1,11 @@
 import axios from "axios";
 import socket from '../utils/socket'
+import api_url from "./apiUrl";
 
 
 export async function addAppointment(data,toast,navigate,onOpen){
     try {
-        const res = await axios.post('/api/appointment/add',data,{
+        const res = await axios.post(`${api_url}/api/appointment/add`,data,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -23,7 +24,7 @@ export async function addAppointment(data,toast,navigate,onOpen){
 }
 
 export async function getAllAppointments(id,setAppointments){
-    const res = await axios.get(`/api/appointment/all/${id}`,{
+    const res = await axios.get(`${api_url}/api/appointment/all/${id}`,{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -33,7 +34,7 @@ export async function getAllAppointments(id,setAppointments){
 
 export async function cancelAppointment(id,user,toast,setAppointments){
     try {
-        const res = await axios.put(`/api/appointment/cancel/${id}`,{},{
+        const res = await axios.put(`${api_url}/api/appointment/cancel/${id}`,{},{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -50,7 +51,7 @@ export async function cancelAppointment(id,user,toast,setAppointments){
 }
 
 export async function getAppointments(day,date,setAppointments){
-    const res = await axios.get(`/api/appointment/all/search?day=${day}&date=${date}`,{
+    const res = await axios.get(`${api_url}/api/appointment/all/search?day=${day}&date=${date}`,{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -59,7 +60,7 @@ export async function getAppointments(day,date,setAppointments){
 }
 
 export async function confirmAppointment(id,day,date,setAppointments){
-    const res = await axios.put(`/api/appointment/confirm/${id}`,{},{
+    const res = await axios.put(`${api_url}/api/appointment/confirm/${id}`,{},{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -67,22 +68,22 @@ export async function confirmAppointment(id,day,date,setAppointments){
     if(res.data.status === 200){
         getAppointments(day,date,setAppointments)
         socket.emit('action_appointment',res.data.data)
-    };
+    }
 }
 
 export async function completeAppointment(id,day,date,setAppointments){
-    const res = await axios.put(`/api/appointment/complete/${id}`,{},{
+    const res = await axios.put(`${api_url}/api/appointment/complete/${id}`,{},{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
     });
     if(res.data.status === 200){
         getAppointments(day,date,setAppointments)
-    };
+    }
 }
 
 export async function rejectAppointment(id,day,date,setAppointments){
-    const res = await axios.put(`/api/appointment/reject/${id}`,{},{
+    const res = await axios.put(`${api_url}/api/appointment/reject/${id}`,{},{
         headers : {
             authorization : 'Bearer ' + localStorage.getItem('accessToken')
         }
@@ -90,12 +91,12 @@ export async function rejectAppointment(id,day,date,setAppointments){
     if(res.data.status === 200){
         getAppointments(day,date,setAppointments)
         socket.emit('action_appointment',res.data.data)
-    };
+    }
 }
 
 export async function getAppointmentDetails(id,setAppointment,setChamber){
     try{
-        const res = await axios.get(`/api/appointment/details/${id}`,{
+        const res = await axios.get(`${api_url}/api/appointment/details/${id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -112,7 +113,7 @@ export async function getAppointmentDetails(id,setAppointment,setChamber){
 export async function getAppointmentStatus(appointment,setLoading,setStatus){
     setLoading(true)
     try {
-        const res = await axios.get(`/api/appointment/status?dId=${appointment?.doctor?._id}&date=${appointment?.appointmentDate}&aId=${appointment?._id}`,{
+        const res = await axios.get(`${api_url}/api/appointment/status?dId=${appointment?.doctor?._id}&date=${appointment?.appointmentDate}&aId=${appointment?._id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
             }

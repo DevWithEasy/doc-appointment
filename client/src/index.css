@@ -1,13 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@300&display=swap');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@300&display=swap');
-
-@font-face {
-    font-family: 'SolaimanLipi';
-    src: url('./assets/fonts/SolaimanLipi.ttf');
-}
 
 .active{
     @apply bg-white text-blue-500
