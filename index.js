@@ -7,11 +7,10 @@ const applyRoute = require('./routers/routes')
 const applyMidleware = require('./middlewares/midlewares');
 const dbConnection = require("./config/dbConnection");
 const sheduleTask = require("./utils/sheduleTask");
-const { api_url, ui_url } = require("./utils/baseUrl");
 const initSocket = require("./config/socket");
 
 express.static(path.join(__dirname,'public'))
-express.static(path.join(__dirname, './client/build'))
+express.static(path.join(__dirname, './client/dist'))
 
 //create http server
 const server = http.createServer(app)
@@ -29,9 +28,9 @@ dbConnection()
 initSocket(server)
 
 //app server initialzed
-app.get('*',(req,res)=>{
-    res.sendFile(path.join(__dirname,'./client/build/index.html'))
-})
+// app.get('*',(req,res)=>{
+//     res.sendFile(path.join(__dirname,'client/dist/index.html'))
+// })
 
 
 sheduleTask()
