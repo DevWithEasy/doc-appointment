@@ -29,16 +29,16 @@ const routers = [
         path : '/api/transection',
         handler : transectionRouter
     },
-    {
-        path : '/',
-        handler : (req,res) =>{
-            res.json({
-                status : 200,
-                success : true,
-                message : 'Server successfully running...'
-            })
-        }
-    }
+    // {
+    //     path : '/',
+    //     handler : (req,res) =>{
+    //         res.json({
+    //             status : 200,
+    //             success : true,
+    //             message : 'Server successfully running...'
+    //         })
+    //     }
+    // }
 ]
 
 const applyRouter = (app) =>{

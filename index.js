@@ -9,8 +9,8 @@ const dbConnection = require("./config/dbConnection");
 const sheduleTask = require("./utils/sheduleTask");
 const initSocket = require("./config/socket");
 
-express.static(path.join(__dirname,'public'))
-express.static(path.join(__dirname, './client/dist'))
+app.use(express.static(path.join(__dirname,'public')))
+app.use(express.static(path.join(__dirname, 'client/dist')))
 
 //create http server
 const server = http.createServer(app)
@@ -27,10 +27,10 @@ dbConnection()
 //socket initialize
 initSocket(server)
 
-//app server initialzed
-// app.get('*',(req,res)=>{
-//     res.sendFile(path.join(__dirname,'client/dist/index.html'))
-// })
+// app server initialzed
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'client/dist/index.html'))
+})
 
 
 sheduleTask()
