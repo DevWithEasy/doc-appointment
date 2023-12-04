@@ -21,7 +21,7 @@ export default function Layout() {
     })
 
     return (
-        <div className="h-screen pt-16 pb-5  bg-[#F8F8F8] overflow-y-auto font-bangla">
+        <div className="h-screen pt-16 pb-5  bg-slate-100 overflow-y-auto font-bangla">
             <Header />
             <Outlet />
             <Toaster />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Doctor from "../components/Doctor";
-import { getFindDoctors, getSpecialist } from "../utils/doctors_utils";
+import Doctor from "../../components/Doctor";
+import { getFindDoctors, getSpecialist } from "../../utils/doctors_utils";
 
 export default function Appointment() {
     const [specialist, setSpecialist] = useState([])

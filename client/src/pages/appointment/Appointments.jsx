@@ -1,10 +1,10 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import AppointmentDetails from "../components/AppointmentDeatils";
-import AppointmentsTableView from "../components/appointments/AppointmentsTableView";
-import useUserStore from "../features/userStore";
-import { getAllAppointments } from "../utils/appoimtments_utils";
-import AppointmentsCardView from "../components/appointments/AppointmentsCardView";
+import AppointmentDetails from "../../components/AppointmentDeatils";
+import AppointmentsCardView from "../../components/appointments/AppointmentsCardView";
+import AppointmentsTableView from "../../components/appointments/AppointmentsTableView";
+import useUserStore from "../../features/userStore";
+import { getAllAppointments } from "../../utils/appoimtments_utils";
 
 export default function Appointments(){
     const { isOpen, onOpen, onClose } = useDisclosure()

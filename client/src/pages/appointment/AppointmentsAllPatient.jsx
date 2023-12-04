@@ -1,64 +1,104 @@
 import {
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  useDisclosure,
+    Button,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import AppointmentDetails from "../components/AppointmentDeatils";
-import useUserStore from "../features/userStore";
+import { DayPicker } from "react-day-picker";
+import AppointmentDetails from "../../components/AppointmentDeatils";
 import {
-  completeAppointment,
-  confirmAppointment,
-  getAppointments,
-  rejectAppointment,
-} from "../utils/appoimtments_utils";
-import statusColor from "../utils/statusColor";
-export default function AppointmentsAllPatientSearch() {
+    completeAppointment,
+    confirmAppointment,
+    getAppointments,
+    rejectAppointment,
+} from "../../utils/appoimtments_utils";
+import dateGenerator from "../../utils/dateGenerator";
+import statusColor from "../../utils/statusColor";
+
+export default function AppointmentsAllPatient() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [id, setId] = useState("");
-  const { random } = useUserStore();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const day = searchParams.get("day");
-  const date = searchParams.get("date");
-  const [appointments, setAppointments] = useState([]);
+  const [day, setDay] = useState("");
+  const [date, setDate] = useState("");
+  const [selected, setSelected] = useState();
   const [view, setView] = useState(false);
+  const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
-    getAppointments(day, date, setAppointments);
-  }, [day, date, random]);
+    const date = dateGenerator(selected);
+    setDate(date);
+  }, [selected]);
 
   return (
     <div className="space-y-2">
       <h1 className="text-2xl font-bold text-center uppercase">
-        All appointments of {day} {date}
+        All appointments
       </h1>
       <hr />
-
+      <div className="relative flex justify-center space-x-2">
+        <select
+          name="day"
+          value={day}
+          onChange={(e) => {
+            setDay(e.target.value);
+            setSelected();
+          }}
+          className="p-2 border rounded focus:outline-none focus:ring-2"
+        >
+          <option value="">দিন বাছাই করুন</option>
+                    <option value="Saturday">শনিবার</option>
+                    <option value="Sunday">রবিবার</option>
+                    <option value="Monday">সোমবার</option>
+                    <option value="Tuesday">মঙ্গলবার</option>
+                    <option value="Wednesday">বুধবার</option>
+                    <option value="Thursday">বৃহস্পতিবার</option>
+                    <option value="Friday">শুক্রবার</option>
+        </select>
+        <button
+          onClick={() => setView(!view)}
+          className="p-2 bg-white border rounded focus:outline-none focus:ring-2"
+        >
+          {date}
+        </button>
+        <button
+          onClick={() => getAppointments(day, date, setAppointments)}
+          className="px-6 bg-blue-400 text-white rounded-md"
+        >
+          Search
+        </button>
+        {day && !selected && (
+          <div className="absolute top-12 bg-gray-50 rounded-md shadow-md">
+            <DayPicker
+              mode="single"
+              selected={selected}
+              onSelect={setSelected}
+            />
+          </div>
+        )}
+      </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-white uppercase bg-gray-500 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-4 py-3">
-              Sl
+              নং
             </th>
             <th scope="col" className="px-6 py-3">
-              Name
+              নাম
             </th>
             <th scope="col" className="px-6 py-3">
-              Gender
+              লিঙ্গ
             </th>
             <th scope="col" className="px-6 py-3 ">
-              address
+              ঠিকানা
             </th>
             <th scope="col" className="px-6 py-3 ">
-              Status
+              অবস্থা
             </th>
             <th scope="col" className="px-6 py-3 text-center">
-              Action
+              পদক্ষেপ
             </th>
           </tr>
         </thead>

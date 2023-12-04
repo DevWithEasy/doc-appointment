@@ -1,13 +1,9 @@
 import Admin from './Admin/Admin';
+import AdminDashboard from './Admin/AdminDashboard';
 import AppliedDoctors from './Admin/Doctors';
 import AppliedHospital from './Admin/Hospitals';
 import Users from './Admin/Users';
 import ApplyDoctor from './ApplyDoctor';
-import Appointment from './Appointment';
-import AppointmentSubmit from './AppointmentSubmit';
-import Appointments from './Appointments';
-import AppointmentsAllPatient from './AppointmentsAllPatient';
-import AppointmentsAllPatientSearch from './AppointmentsAllPatientSearch';
 import Doctor from './Doctor';
 import Doctors from './Doctors';
 import ForgetPassword from './ForgetPassword';
@@ -15,19 +11,24 @@ import Home from './Home';
 import HospitalDetails from './HospitalDetails';
 import Hospitals from './Hospitals';
 import Layout from './Layout';
+import NotFound from './NotFound';
 import Notification from './Notification';
+import Payments from './Payments';
 import Profile from './Profile';
 import ProtectedRoute from './ProtectedRoute';
 import ResetPassword from './ResetPassword';
 import Signin from './Signin';
 import Signup from './Signup';
 import VerifyAccount from './VerifyAccount';
+import Appointment from './appointment/Appointment';
+import AppointmentFind from './appointment/AppointmentFind';
+import AppointmentSubmit from './appointment/AppointmentSubmit';
+import Appointments from './appointment/Appointments';
+import AppointmentsAllPatient from './appointment/AppointmentsAllPatient';
+import AppointmentsAllPatientSearch from './appointment/AppointmentsAllPatientSearch';
 import AddBalance from './payment/AddBalance';
-import Success from './payment/Success';
 import Failure from './payment/Failure';
-import NotFound from './NotFound';
-import Payments from './Payments';
-import AppointmentFind from './AppointmentFind';
-import AdminDashboard from './Admin/AdminDashboard';
+import Success from './payment/Success';
 
-export {Admin,AppliedDoctors,AppointmentsAllPatient,AppliedHospital,Users,ApplyDoctor,Appointment,AppointmentSubmit,Appointments,AppointmentsAllPatientSearch,Doctor,Doctors,ForgetPassword,Home,HospitalDetails,Hospitals,Layout,Notification,Profile,ProtectedRoute,ResetPassword,Signin,Signup,VerifyAccount,AddBalance,Success,Failure,NotFound,Payments,AppointmentFind,AdminDashboard}
+export { AddBalance, Admin, AdminDashboard, AppliedDoctors, AppliedHospital, ApplyDoctor, Appointment, AppointmentFind, AppointmentSubmit, Appointments, AppointmentsAllPatient, AppointmentsAllPatientSearch, Doctor, Doctors, Failure, ForgetPassword, Home, HospitalDetails, Hospitals, Layout, NotFound, Notification, Payments, Profile, ProtectedRoute, ResetPassword, Signin, Signup, Success, Users, VerifyAccount };
+

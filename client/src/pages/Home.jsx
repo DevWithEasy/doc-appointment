@@ -48,9 +48,9 @@ export default function Home() {
         </p>
       </div>
       <hr />
-      <div className="mx-2 md:w-10/12 md:mx-auto">
+      <div className="mx-2 md:w-10/12 sm:w-full md:mx-auto">
         <div className="w-full flex flex-col md:flex-row md:justify-between ">
-          <div className="w-full md:w-4/12">
+          <div className="w-full md:w-3/12 sm:w-4/12">
             <div className="flex flex-col-reverse md:flex-col md:w-8/12 space-y-3 md:pt-5">
               <div className="space-y-2">
                 <label className="font-semibold">অ্যাপয়েন্টমেন্ট খুঁজুন</label>
@@ -91,7 +91,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-8/12 mt-5 md:mt-0 overflow-y">
+          <div className="w-full md:w-9/12 sm:w-8/12 mt-5 md:mt-0 overflow-y">
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 border-t md:border-none">
               {doctors &&
                 doctors.slice(0, 6)
@@ -112,7 +112,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <section className="mx-2 md:w-10/12 md:mx-auto text-gray-600 body-font bg-white/50 rounded-md my-5">
+      <section className="mx-2 md:w-10/12 md:mx-auto text-gray-600 body-font bg-white rounded-md my-5">
         <div className="container px-5 py-5 mx-auto flex items-center md:flex-row flex-col">
           <div className="flex flex-col md:pr-10 md:mb-0 mb-6 pr-0 w-full md:w-auto md:text-left text-center">
             <h2 className="text-indigo-500  title-font mb-1">

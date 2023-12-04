@@ -1,18 +1,18 @@
 import { useDisclosure } from '@chakra-ui/react';
+import { toBengaliNumber } from 'bengali-number';
 import { useEffect, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { toast } from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
-import ChamberList from '../components/ChamberList';
-import NoBalanceAlert from '../components/NoBalanceAlert';
-import useUserStore from '../features/userStore';
-import { addAppointment } from '../utils/appoimtments_utils';
-import dateGenerator from '../utils/dateGenerator';
-import handleChange from '../utils/handleChange';
-import { selectedDay } from '../utils/selectedDay';
-import dayNameBangla from '../utils/dayNameBangla';
-import { toBengaliNumber } from 'bengali-number';
+import ChamberList from '../../components/ChamberList';
+import NoBalanceAlert from '../../components/NoBalanceAlert';
+import useUserStore from '../../features/userStore';
+import { addAppointment } from '../../utils/appoimtments_utils';
+import dateGenerator from '../../utils/dateGenerator';
+import dayNameBangla from '../../utils/dayNameBangla';
+import handleChange from '../../utils/handleChange';
+import { selectedDay } from '../../utils/selectedDay';
 
 export default function AppointmentSubmit(){
     const { isOpen, onOpen, onClose } = useDisclosure()

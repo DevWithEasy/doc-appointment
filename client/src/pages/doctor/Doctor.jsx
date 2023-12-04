@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import AddChamber from "../components/chamber/AddChamber";
-import ChamberList from "../components/chamber/ChamberList";
-import useUserStore from "../features/userStore";
-import { getDoctor, updateDoctor } from "../utils/doctors_utils";
-import handleChange from "../utils/handleChange";
+import AddChamber from "../../components/chamber/AddChamber";
+import ChamberList from "../../components/chamber/ChamberList";
+import useUserStore from "../../features/userStore";
+import { getDoctor, updateDoctor } from "../../utils/doctors_utils";
+import handleChange from "../../utils/handleChange";
 
 export default function Dashboard() {
   const { random, user } = useUserStore();

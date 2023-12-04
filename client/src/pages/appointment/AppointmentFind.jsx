@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getFindDoctors, getSpecialist } from '../utils/doctors_utils';
-import Doctor from '../components/Doctor';
+import Doctor from '../../components/Doctor';
+import { getFindDoctors, getSpecialist } from '../../utils/doctors_utils';
 
 const AppointmentFind = () => {
     const location = useLocation();

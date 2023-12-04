@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { toast } from "react-hot-toast"
-import Input from "../components/Input"
-import { handleApplyDoctor } from "../utils/doctors_utils"
+import Input from "../../components/Input"
+import { handleApplyDoctor } from "../../utils/doctors_utils"
 
 export default function ApplyDoctor(){
     const [value,setValue] = useState({
@@ -22,7 +22,7 @@ export default function ApplyDoctor(){
     return(
         <div className="w-10/12 mx-auto space-y-2 pb-5">
             <h1 className="text-2xl font-bold text-center uppercase">ডাক্তার প্রোফাইলের আবেদন</h1>
-            <div className="grid md:grid-cols-2 gap-2 bg-white/50 p-2 rounded-md">
+            <div className="grid md:grid-cols-2 gap-2 bg-white p-2 px-4 rounded-md">
                 <Input 
                     label='নাম ' 
                     type='text' 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Doctor from "../components/Doctor";
-import useUserStore from "../features/userStore";
-import { getAllActiveDoctors } from "../utils/doctors_utils";
+import Doctor from "../../components/Doctor";
+import useUserStore from "../../features/userStore";
+import { getAllActiveDoctors } from "../../utils/doctors_utils";
 
 export default function Doctors() {
   const { doctors, addDoctors } = useUserStore();
@@ -21,7 +21,7 @@ export default function Doctors() {
           type="text"
           onChange={(e) => setQuery(e.target.value)}
           placeholder="নাম দিয়ে খুঁজুন"
-          className="p-1.5 border focus:bg-white focus:outline-none focus:border-blue-500 rounded-md"
+          className="p-2 border rounded focus:outline-none focus:ring-2"
         />
         <select
           onChange={(e) => setQuery(e.target.value.toLowerCase())}
