@@ -13,6 +13,7 @@ import dateGenerator from '../../utils/dateGenerator';
 import dayNameBangla from '../../utils/dayNameBangla';
 import handleChange from '../../utils/handleChange';
 import { selectedDay } from '../../utils/selectedDay';
+import api_url from '../../utils/apiUrl';
 
 export default function AppointmentSubmit(){
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -49,7 +50,7 @@ export default function AppointmentSubmit(){
             <div className='md:flex justify-between pb-10 md:gap-x-4'>
                 <div className='w-full md:w-7/12 pt-4 space-y-2'>
                     <div className='flex space-x-2 p-4 pt-2 bg-white rounded'>
-                        <img src={doctor?.user?.image?.url} alt="" className='h-20 w-20 mt-2 rounded-md'/>
+                        <img src={`${api_url}/${doctor?.user?.image?.url}`} alt="" className='h-20 w-20 mt-2 rounded-md'/>
                         <div>
                             <p className='font-bold'>{doctor?.name}</p>
                             <p>{doctor?.education},{doctor?.specialization}</p>
