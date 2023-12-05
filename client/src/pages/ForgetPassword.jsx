@@ -8,6 +8,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import hiddenEmail from "../utils/hiddenEmail";
 import { handleSendForget, handlefind } from "../utils/users_utils";
+import Head from "../components/Head";
 
 const ForgetPassword = () => {
   const [finding, setFinding] = useState(false);
@@ -20,6 +21,11 @@ const ForgetPassword = () => {
     <div
         className="w-10/12 mx-auto"
     >
+      <Head
+        {...{
+          title : 'Forget password'
+        }}
+      />
       {!finding ? (
         <div className="mt-20 w-full md:w-1/2 mx-auto  border shadow rounded-md bg-white">
           <h1 className="p-2 text-2xl font-bold uppercase">
