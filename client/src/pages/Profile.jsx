@@ -18,7 +18,7 @@ export default function Profile() {
   useEffect(() => {
     getUser(id, setUser, setAddress);
   }, [id, random]);
-  console.log(user);
+  console.log(user)
   return (
     <div className="mx-2 md:w-10/12 md:mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 md:gap-x-4">
@@ -72,7 +72,7 @@ export default function Profile() {
                 name="gender"
                 value={user?.gender}
                 onChange={(e) => handleChange(e, user, setUser)}
-                className="w-full px-2 py-[10px] border-b focus:outline-none focus:border-blue-300"
+                className="w-full px-2 py-[6.5px] border-b focus:outline-none focus:border-blue-300"
               >
                 <option value="Male">পুরুষ</option>
                 <option value="Female">মহিলা</option>
@@ -82,18 +82,11 @@ export default function Profile() {
             <div className="relative">
               <label>জন্ম তারিখঃ </label>
               <input
-                type="text"
-                name="dob"
-                value={dateGenerator(user?.dob)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                readOnly
-              />
-              <input
                 type="date"
                 name="dob"
                 onChange={(e) => handleChange(e, user, setUser)}
-                className="absolute bottom-0 right-0 w-9 px-2 p-1 border-b focus:outline-none focus:border-blue-300"
-                placeholder=""
+                value={dateGenerator(user?.dob)}
+                className="w-full p-2 py-[7px] border-b focus:outline-none focus:border-blue-300"
               />
             </div>
             <div>
@@ -102,7 +95,7 @@ export default function Profile() {
                 name="donar"
                 value={user?.donar}
                 onChange={(e) => handleChange(e, user, setUser)}
-                className="w-full px-2 py-[10px] border-b focus:outline-none focus:border-blue-300"
+                className="w-full px-2 py-[6.5px] border-b focus:outline-none focus:border-blue-300"
               >
                 <option value="">বাছাই করুন </option>
                 <option value="no">না </option>
@@ -115,7 +108,7 @@ export default function Profile() {
                 name="bloodGroup"
                 value={user?.bloodGroup}
                 onChange={(e) => handleChange(e, user, setUser)}
-                className="w-full px-2 py-[10px] border-b focus:outline-none focus:border-blue-300"
+                className="w-full px-2 py-[6.5px] border-b focus:outline-none focus:border-blue-300"
               >
                 <option value="">বাছাই করুন </option>
                 <option value="A+">A+ </option>
@@ -131,18 +124,11 @@ export default function Profile() {
             <div className="relative">
               <label>রক্তদানের তারিখঃ </label>
               <input
-                type="text"
-                name=""
-                value={dateGenerator(user?.donateDate)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                readOnly
-              />
-              <input
                 type="date"
                 name="donateDate"
                 onChange={(e) => handleChange(e, user, setUser)}
-                className="absolute bottom-0 right-0 w-9 px-2 p-1 border-b focus:outline-none focus:border-blue-300"
-                placeholder=""
+                value={dateGenerator(user?.donateDate)}
+                className="w-full p-2 py-[7px] border-b focus:outline-none focus:border-blue-300"
               />
             </div>
             <div>

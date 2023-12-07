@@ -16,7 +16,7 @@ import { getAppointmentDetails, getAppointmentStatus } from '../utils/appoimtmen
 import PrintHeader from "./PrintHeader"
 
 // eslint-disable-next-line react/prop-types
-export default function AppointmentDetails({ id, open, setOpen}) {
+export default function AppointmentDetails({ id, view, setView}) {
     const {onClose} = useDisclosure()
     const printRef = useRef()
     const [appointment, setAppointment] = useState({})
@@ -28,21 +28,10 @@ export default function AppointmentDetails({ id, open, setOpen}) {
         const date = new Date(appoinmentDate);
         const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const dayName = daysOfWeek[date.getDay()];
-        let day
-        let month
+        let day = date.getDate()
+        let month = date.getMonth() + 1
 
-        if (date.getDate() < 10) {
-            day = `0${date.getDate()}`
-        } else {
-            day = date.getDate()
-        }
-
-        if (date.getMonth() < 10) {
-            month = `0${date.getMonth() + 1}`
-        } else {
-            month = date.getMonth() + 1
-        }
-        return `${day}-${month}-${date.getFullYear()} (${dayName})`
+        return `${String(day).padStart(2,'0')}-${String(month).padStart(2,'0')}-${date.getFullYear()} (${dayName})`
     }
 
     const handlePrint = useReactToPrint({
@@ -56,7 +45,7 @@ export default function AppointmentDetails({ id, open, setOpen}) {
     
     return (
         <>
-            <Modal isOpen={open} size='xl' onClose={onClose}>
+            <Modal isOpen={view} size='xl' onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader
@@ -65,7 +54,7 @@ export default function AppointmentDetails({ id, open, setOpen}) {
                         অ্যাপয়েন্টম্যান্টের বিস্তারিত
                     </ModalHeader>
                     <ModalCloseButton onClick={() => {
-                        setOpen(!open)
+                        setView(!view)
                         setStatus({})
                     }} />
                     <ModalBody
@@ -174,7 +163,7 @@ export default function AppointmentDetails({ id, open, setOpen}) {
                     <ModalFooter className="space-x-2 font-bangla">
                         <button
                             className='px-4 py-2 bg-gray-500 text-white rounded-md'
-                            onClick={() => { onClose(); setStatus({}) }}
+                            onClick={() => { setView(!view); setStatus({}) }}
                         >
                             বন্ধ করুন
                         </button>

@@ -1,24 +1,19 @@
 import { toBengaliNumber } from 'bengali-number';
-import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useUserStore from '../../features/userStore';
 import AppointmentStatusBangla from '../../utils/AppointmentStatusBangla';
 import { cancelAppointment } from '../../utils/appoimtments_utils';
 import dayNameBangla from '../../utils/dayNameBangla';
 import statusColor from '../../utils/statusColor';
-import AppointmentDetails from '../AppointmentDeatils';
 
-const AppointmentsTableView = ({ appointments,setAppointments }) => {
-    const [open,setOpen] = useState(false)
-    const [id,setId] = useState('')
+const AppointmentsTableView = ({ appointments,setAppointments, setView, setId }) => {
     const { user } = useUserStore()
 
-    console.log(open)
     return (
 
-        <div class="hidden md:block m-2 relative overflow-x-auto">
-            <table class="w-full text-left text-gray-500">
-                <thead class="bg-gray-500 text-white">
+        <div className="hidden md:block m-2 relative overflow-x-auto">
+            <table className="w-full text-left text-gray-500">
+                <thead className="bg-gray-500 text-white">
                     <tr>
                         <td className="px-4 py-2">
                             নং
@@ -60,7 +55,7 @@ const AppointmentsTableView = ({ appointments,setAppointments }) => {
                         </td>
                         <td className="flex space-x-2 justify-center px-6 py-2">
                             <button
-                                onClick={() => { setId(appointment?._id); setOpen(!open) }}
+                                onClick={() => { setId(appointment?._id); setView(true) }}
                                 className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-500"
                             >
                                 বিস্তারিত
@@ -70,17 +65,7 @@ const AppointmentsTableView = ({ appointments,setAppointments }) => {
                     </tr>)}
                 </tbody>
             </table>
-            {
-                open && 
-                <AppointmentDetails {...{
-                    id,
-                    open,
-                    setOpen
-                }}/>
-            }
         </div>
-
-
     );
 };
 

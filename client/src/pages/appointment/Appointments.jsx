@@ -1,4 +1,3 @@
-import { useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import AppointmentDetails from "../../components/AppointmentDeatils";
 import AppointmentsCardView from "../../components/appointments/AppointmentsCardView";
@@ -7,8 +6,9 @@ import useUserStore from "../../features/userStore";
 import { getAllAppointments } from "../../utils/appoimtments_utils";
 
 export default function Appointments(){
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [view,setView]= useState(false)
     const {user} = useUserStore()
+    const [id,setId] = useState('')
     const [appointments,setAppointments] = useState([])
 
     useEffect(()=>{
@@ -21,17 +21,25 @@ export default function Appointments(){
             <hr/>
             <AppointmentsTableView {...{
                 appointments,
-                setAppointments
+                setAppointments,
+                setId,
+                setView
             }}/>
+
             <AppointmentsCardView {...{
                 appointments,
-                setAppointments
+                setAppointments,
+                setId,
+                setView
             }}/>
-            <AppointmentDetails {...{
-                isOpen, 
-                onOpen, 
-                onClose
-            }}/>
+
+            {view &&
+                <AppointmentDetails {...{
+                    id,
+                    view, 
+                    setView
+                }}/>
+            }
         </div>
     )
 }

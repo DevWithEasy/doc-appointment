@@ -21,8 +21,6 @@ export default function Header() {
     removeUser();
     localStorage.removeItem("accessToken");
   }
-
-  console.log(api_url +user?.image?.url)
   
   return (
     <div className="w-full fixed top-0 left-0 z-10 bg-gray-500">

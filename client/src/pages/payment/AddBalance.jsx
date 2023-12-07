@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import image from "../../assets/images/add_balance.png";
 import handleChange from "../../utils/handleChange";
 import { MdPayment } from "react-icons/md";
+import api_url from "../../utils/apiUrl";
 
 const AddBalance = () => {
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ const AddBalance = () => {
     }
     setLoading(true);
     try {
-      const res = await axios.post("/api/transection/init", value, {
+      const res = await axios.post(`${api_url}/api/transection/init`, value, {
         headers: {
           authorization: "Bearer " + localStorage.getItem("accessToken"),
         },

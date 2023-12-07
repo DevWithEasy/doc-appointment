@@ -1,4 +1,3 @@
-import React from 'react';
 import {useNavigate} from 'react-router-dom'
 import image from '../../assets/images/payment_success.png'
 import {TiTickOutline} from 'react-icons/ti'

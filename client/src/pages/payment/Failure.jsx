@@ -1,4 +1,3 @@
-import React from 'react';
 import {useNavigate} from 'react-router-dom'
 import image from '../../assets/images/payment_failed.png'
 import {RxCross2} from 'react-icons/rx'

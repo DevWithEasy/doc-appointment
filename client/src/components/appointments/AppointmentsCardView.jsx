@@ -1,15 +1,12 @@
 import { toBengaliNumber } from 'bengali-number';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import useUserStore from '../../features/userStore';
 import AppointmentStatusBangla from '../../utils/AppointmentStatusBangla';
 import { cancelAppointment } from '../../utils/appoimtments_utils';
 import dayNameBangla from '../../utils/dayNameBangla';
-import AppointmentDetails from '../AppointmentDeatils';
 
-const AppointmentsCardView = ({ appointments,setAppointments}) => {
-    const [open,setOpen] = useState(false)
-    const [id,setId] = useState('')
+const AppointmentsCardView = ({ appointments,setAppointments, setView, setId }) => {
     const { user } = useUserStore()
     return (
         <div
@@ -80,7 +77,7 @@ const AppointmentsCardView = ({ appointments,setAppointments}) => {
                             className='pt-2 space-x-2'
                         >
                             <button
-                                onClick={() => { setId(appointment?._id); setOpen(!open) }}
+                                onClick={() => { setId(appointment?._id); setView(true) }}
                                 className="px-2 py-1 bg-green-400 text-white rounded hover:bg-green-500"
                             >
                                 বিস্তারিত
@@ -89,14 +86,6 @@ const AppointmentsCardView = ({ appointments,setAppointments}) => {
                         </div>
                     </div>
                 )
-            }
-            {
-                open && 
-                <AppointmentDetails {...{
-                    id,
-                    open,
-                    setOpen
-                }}/>
             }
         </div>
     );
