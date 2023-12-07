@@ -93,7 +93,7 @@ export default function Header() {
                   </MenuItem>
                   {user?.isAdmin && (
                     <MenuItem
-                      onClick={() => navigate("/admin")}
+                      onClick={() => navigate("/admin/dashboard")}
                       className="text-black"
                     >
                       এডমিন ড্যাশবোর্ড

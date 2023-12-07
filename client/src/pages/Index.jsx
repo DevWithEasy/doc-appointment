@@ -1,5 +1,5 @@
 import Admin from './Admin/Admin';
-import AdminDashboard from './Admin/AdminDashboard';
+import Dashboard from './Admin/Dashboard';
 import AppliedDoctors from './Admin/Doctors';
 import AppliedHospital from './Admin/Hospitals';
 import Users from './Admin/Users';
@@ -30,5 +30,5 @@ import AddBalance from './payment/AddBalance';
 import Failure from './payment/Failure';
 import Success from './payment/Success';
 
-export { AddBalance, Admin, AdminDashboard, AppliedDoctors, AppliedHospital, ApplyDoctor, Appointment, AppointmentFind, AppointmentSubmit, Appointments, AppointmentsAllPatient, AppointmentsAllPatientSearch, Doctor, Doctors, Failure, ForgetPassword, Home, HospitalDetails, Hospitals, Layout, NotFound, Notification, Payments, Profile, ProtectedRoute, ResetPassword, Signin, Signup, Success, Users, VerifyAccount };
+export { AddBalance, Admin, Dashboard, AppliedDoctors, AppliedHospital, ApplyDoctor, Appointment, AppointmentFind, AppointmentSubmit, Appointments, AppointmentsAllPatient, AppointmentsAllPatientSearch, Doctor, Doctors, Failure, ForgetPassword, Home, HospitalDetails, Hospitals, Layout, NotFound, Notification, Payments, Profile, ProtectedRoute, ResetPassword, Signin, Signup, Success, Users, VerifyAccount };
 

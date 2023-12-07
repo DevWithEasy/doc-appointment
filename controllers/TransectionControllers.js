@@ -57,7 +57,8 @@ exports.initPayment=async(req,res,next)=>{
                 const newTransection = new Transection({
                     tnxID,
                     amount : req.body.amount,
-                    user : req.body.userId
+                    user : req.body.userId,
+                    type : 'Recharge'
                 })
         
                 newTransection.save()

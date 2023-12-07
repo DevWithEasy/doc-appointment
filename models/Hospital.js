@@ -8,10 +8,6 @@ const hostipalSchema = mongoose.Schema({
     type : String,
     required : true
   },
-  image :{
-    type : String,
-    required : true
-  },
   type : {
     type : String,
     required : true
@@ -28,7 +24,7 @@ const hostipalSchema = mongoose.Schema({
     type : String,
     default : ''
   },
-  long :{
+  lon :{
     type : String,
     default : ''
   },

@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { deleteDoctor } from "../../utils/doctors_utils";
 import DeleteDoctor from "./DeleteDoctor";
+import api_url from "../../utils/apiUrl";
 
 export default function DoctorDetails({ doctor }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -35,7 +36,7 @@ export default function DoctorDetails({ doctor }) {
           <ModalBody>
             <div className="p-2 space-y-2 font-bangla">
               <img
-                src={doctor?.user?.image?.url}
+                src={`${api_url}/${doctor?.user?.image?.url}`}
                 alt="doctor_image"
                 className="h-[200px] mx-auto rounded-md"
               />

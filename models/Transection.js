@@ -14,6 +14,11 @@ const TransectionSchema = mongoose.Schema({
         type:Number,
         required:true
     },
+    type : {
+        type : String,
+        enum : ['Bill,Rechage'],
+        required : true
+    },
     payment:{
         type:Boolean,
         default : false,

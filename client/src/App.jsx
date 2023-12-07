@@ -1,5 +1,6 @@
 import { useRoutes } from 'react-router-dom';
-import {Admin,AppliedDoctors,AppointmentsAllPatient,AppliedHospital,Users,ApplyDoctor,Appointment,AppointmentSubmit,Appointments,AppointmentsAllPatientSearch,Doctor,Doctors,ForgetPassword,Home,HospitalDetails,Hospitals,Layout,Notification,Profile,ProtectedRoute,ResetPassword,Signin,Signup,VerifyAccount,AddBalance,Success,Failure,NotFound,Payments,AppointmentFind,AdminDashboard} from './pages/Index'
+import {Admin,AppliedDoctors,AppointmentsAllPatient,AppliedHospital,Users,ApplyDoctor,Appointment,AppointmentSubmit,Appointments,AppointmentsAllPatientSearch,Doctor,Doctors,ForgetPassword,Home,HospitalDetails,Hospitals,Layout,Notification,Profile,ProtectedRoute,ResetPassword,Signin,Signup,VerifyAccount,AddBalance,Success,Failure,NotFound,Payments,AppointmentFind,Dashboard} from './pages/Index'
+import BillPayments from './pages/Admin/BillPayments';
 
 function App() {
   const routes = useRoutes(
@@ -101,10 +102,10 @@ function App() {
             </ProtectedRoute>
           },
           {
-            path : '/admin',
+            path : '/admin/dashboard',
             element : <ProtectedRoute>
               <Admin>
-                <AdminDashboard/>
+                <Dashboard/>
               </Admin>
             </ProtectedRoute>,
           },
@@ -129,6 +130,14 @@ function App() {
             element : <ProtectedRoute>
               <Admin>
               <AppliedHospital/>
+              </Admin>
+            </ProtectedRoute>,
+          },
+          {
+            path : '/admin/payments',
+            element : <ProtectedRoute>
+              <Admin>
+                <BillPayments/>
               </Admin>
             </ProtectedRoute>,
           },

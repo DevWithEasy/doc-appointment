@@ -1,28 +1,48 @@
-import { useState } from "react";
-import Hospital from "../components/Hospital";
+import axios from 'axios';
+import { useEffect, useState } from "react";
+import Hospital from "../components/hospital/Hospital";
+import api_url from "../utils/apiUrl";
+import useServiceStore from '../features/serviceStore';
 
-export default function Hospitals(){
-    const [hospital,setHospital] = useState('')
-    return(
-        <div
-            className="w-10/12 mx-auto"
-        >
-            <h1 className="p-2 text-2xl font-bold text-center uppercase">Hospitals</h1>
-            <div className="flex justify-end py-2">
-                <select onChange={(e)=>setHospital(e.target.value)} className='p-2 border rounded shadow focus:outline-none focus:ring-2'>
-                    <option value="">Select Sevirce type</option>
-                    <option value="">Clinic</option>
-                    <option value="">Diabetic </option>
-                    <option value="">hospital</option>
-                </select>
+export default function Hospitals() {
+    const [query, setQuery] = useState('')
+    const { addHospitals,hospitals } = useServiceStore()
+    async function getAllHospitals() {
+        const res = await axios.get(`${api_url}/api/hospital/all`, {
+            headers: {
+                authorization: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+        addHospitals(res.data.data)
+    }
+    useEffect(() => {
+        getAllHospitals()
+    }, [])
+
+    return (
+        <div className="space-y-2 w-10/12 mx-auto">
+            <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">
+                <input
+                    onChange={(e) => setQuery(e.target.value.toLowerCase())}
+                    className="w-full md:w-4/12 p-2 border rounded focus:outline-none focus:border-blue-500"
+                    placeholder="সার্চ করুন - নাম /ঠিকানা /ধরণ "
+                />
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <Hospital/>
-                <Hospital/>
-                <Hospital/>
-                <Hospital/>
-                <Hospital/>
-                <Hospital/>
+            <div
+                className="grid grid-cols-3"
+            >
+                {
+                    hospitals && hospitals
+                        .filter((hospital) =>
+                            hospital.name.toLowerCase().includes(query) ||
+                            hospital.type.toLowerCase().includes(query) || hospital.loaction.toLowerCase().includes(query)
+                        )
+                        .map((hospital) => <Hospital 
+                                key={hospital._id} 
+                                {...{ hospital }} 
+                            />
+                        )
+                }
             </div>
         </div>
     )
