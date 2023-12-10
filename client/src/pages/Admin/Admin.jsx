@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { FaUsers, FaRegHospital, FaHome } from 'react-icons/fa'
+import { IoBookSharp } from "react-icons/io5";
 import { FcGraduationCap } from 'react-icons/fc'
 import { MdPayment } from 'react-icons/md'
 
+// eslint-disable-next-line react/prop-types
 export default function Admin({ children }) {
   return (
     <div className="h-screen -mt-16 -mb-5 pt-[58px] flex justify-between">
@@ -23,6 +25,15 @@ export default function Admin({ children }) {
           <FaUsers />
           <span className="hidden md:inline-block">
             ব্যবহারকারী
+          </span>
+        </NavLink>
+        <NavLink
+          to="/admin/specialists"
+          className='flex items-center space-x-2 px-4 py-1 rounded-full'
+        >
+          <IoBookSharp />
+          <span className="hidden md:inline-block">
+            বিশেষজ্ঞ বিষয়
           </span>
         </NavLink>
         <NavLink

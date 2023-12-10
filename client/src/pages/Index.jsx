@@ -29,6 +29,9 @@ import AppointmentsAllPatientSearch from './appointment/AppointmentsAllPatientSe
 import AddBalance from './payment/AddBalance';
 import Failure from './payment/Failure';
 import Success from './payment/Success';
+import Specialists from './Admin/Specialists';
+import BillPayments from './Admin/BillPayments';
 
-export { AddBalance, Admin, Dashboard, AppliedDoctors, AppliedHospital, ApplyDoctor, Appointment, AppointmentFind, AppointmentSubmit, Appointments, AppointmentsAllPatient, AppointmentsAllPatientSearch, Doctor, Doctors, Failure, ForgetPassword, Home, HospitalDetails, Hospitals, Layout, NotFound, Notification, Payments, Profile, ProtectedRoute, ResetPassword, Signin, Signup, Success, Users, VerifyAccount };
+
+export { BillPayments,Specialists,AddBalance, Admin, Dashboard, AppliedDoctors, AppliedHospital, ApplyDoctor, Appointment, AppointmentFind, AppointmentSubmit, Appointments, AppointmentsAllPatient, AppointmentsAllPatientSearch, Doctor, Doctors, Failure, ForgetPassword, Home, HospitalDetails, Hospitals, Layout, NotFound, Notification, Payments, Profile, ProtectedRoute, ResetPassword, Signin, Signup, Success, Users, VerifyAccount };
 

@@ -4,6 +4,8 @@ const appointmentRouter = require('./appointmentRouter')
 const adminRouter = require('./adminRouter')
 const hospitalRouter = require('./hospitalRouter')
 const transectionRouter = require('./transectionRouter')
+const specialistRouter = require('./SpecialistRouter')
+
 const routers = [
     {
         path : '/api/auth',
@@ -28,6 +30,10 @@ const routers = [
     {
         path : '/api/transection',
         handler : transectionRouter
+    },
+    {
+        path : '/api/specialist',
+        handler : specialistRouter
     },
     // {
     //     path : '/',
