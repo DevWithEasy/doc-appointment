@@ -6,9 +6,19 @@ import { toBengaliNumber } from 'bengali-number';
 import AddSpecialist from '../../components/specialist/AddSpecialist';
 import UpdateSpecialist from '../../components/specialist/UpdateSpecialist';
 import DeleteSpecialist from '../../components/specialist/DeleteSpecialist';
+import useUserStore from '../../features/userStore';
+import { IoMdAddCircleOutline } from 'react-icons/io';
+import useServiceStore from '../../features/serviceStore';
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
+import Loading from '../../components/Loading';
 
 const Specialists = () => {
-    const [specialists, setSpecialists] = useState([])
+    const { random } = useUserStore()
+    const {addSpecialists,specialists} = useServiceStore()
+    const [view, setView] = useState(false)
+    const [id, setId] = useState('')
+    const [updateView, setUpdateView] = useState(false)
+    const [deleteView, setDeleteView] = useState(false)
     async function getAllSpecialist() {
         try {
             const res = await axios.get(`${api_url}/api/specialist/`, {
@@ -17,7 +27,7 @@ const Specialists = () => {
                 }
             })
             if (res.data.status === 200) {
-                setSpecialists(res.data.data)
+                addSpecialists(res.data.data)
             }
         } catch (error) {
             console.log(error)
@@ -25,7 +35,7 @@ const Specialists = () => {
     }
     useEffect(() => {
         getAllSpecialist()
-    }, [])
+    }, [random])
     return (
         <div>
             <Heading>
@@ -40,7 +50,13 @@ const Specialists = () => {
                         className="w-full md:w-4/12 p-1 border rounded focus:outline-none focus:ring-2"
                         placeholder="সার্চ করুন - নাম /ঠিকানা /ধরণ "
                     />
-                    <AddSpecialist />
+                    <button
+                        onClick={() => setView(!view)}
+                        className="px-2 py-1 flex items-center space-x-1 bg-blue-500 text-white rounded-md"
+                    >
+                        <IoMdAddCircleOutline size={22} />
+                        <span>যোগ করুন </span>
+                    </button>
                 </div>
                 <table className="w-full">
                     <thead className="bg-gray-300">
@@ -55,16 +71,46 @@ const Specialists = () => {
                             specialists && specialists.map((specialist, i) =>
                                 <tr key={i} className='border-b'>
                                     <td className="p-1 text-center">{toBengaliNumber(i + 1)}</td>
-                                    <td className="p-1 ">{specialist?.name}</td>
-                                    <td className="p-1 text-center space-x-2">
-                                        <UpdateSpecialist {...{specialist}}/>
-                                        <DeleteSpecialist {...{specialist}}/>
+                                    <td className="p-1 text-center">{specialist?.name}</td>
+                                    <td className="p-1 flex justify-center text-center space-x-2">
+                                        <button 
+                                            onClick={()=>
+                                                {
+                                                    setUpdateView(!updateView),
+                                                    setId(specialist._id)
+                                                }
+                                            } 
+                                            className="flex items-center space-x-2 p-1 bg-blue-400 text-white rounded hover:bg-blue-500"
+                                        >
+                                            <AiFillEdit />
+                                        </button>
+                                        <button 
+                                            onClick={()=>
+                                                {
+                                                    setDeleteView(!deleteView),
+                                                    setId(specialist._id)
+                                                }
+                                            } 
+                                            className="flex items-center space-x-2 p-1 bg-red-400 text-white rounded hover:bg-red-500"
+                                        >
+                                            <AiFillDelete />
+                                        </button>
                                     </td>
                                 </tr>)
                         }
                     </tbody>
                 </table>
             </div>
+            {view &&
+                <AddSpecialist {...{ view, setView }} />
+            }
+            {updateView &&
+                <UpdateSpecialist {...{ id, updateView, setUpdateView }} />
+            }
+            {deleteView &&
+                <DeleteSpecialist {...{ id, deleteView, setDeleteView }} />
+            }
+            <Loading/>
         </div>
     );
 };

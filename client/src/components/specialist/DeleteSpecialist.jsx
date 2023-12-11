@@ -18,7 +18,7 @@ export default function DeleteSpecialist({specialist}){
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = useRef()
 
-    async function deleteChamber(){
+    async function deleteChamber({id, deleteView, setDeleteView}){
         const res = await axios.delete(`/api/hospital/delete/${specialist._id}`,{
             headers : {
                 authorization : 'Bearer ' + localStorage.getItem('accessToken')
@@ -30,9 +30,6 @@ export default function DeleteSpecialist({specialist}){
     }
     return(
         <>
-        <button onClick={onOpen} className="flex items-center space-x-2 p-1 bg-red-400 text-white rounded hover:bg-red-500">
-            <AiFillDelete/>
-        </button>
         <AlertDialog
           motionPreset='slideInBottom'
           leastDestructiveRef={cancelRef}
