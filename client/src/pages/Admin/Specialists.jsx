@@ -5,21 +5,22 @@ import Heading from '../../components/Heading';
 import { toBengaliNumber } from 'bengali-number';
 import AddSpecialist from '../../components/specialist/AddSpecialist';
 import UpdateSpecialist from '../../components/specialist/UpdateSpecialist';
-import DeleteSpecialist from '../../components/specialist/DeleteSpecialist';
 import useUserStore from '../../features/userStore';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import useServiceStore from '../../features/serviceStore';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import Loading from '../../components/Loading';
+import Delete from '../../components/Delete';
 
 const Specialists = () => {
     const { random } = useUserStore()
-    const {addSpecialists,specialists} = useServiceStore()
+    const {addSpecialists,specialists,process,processing} = useServiceStore()
     const [view, setView] = useState(false)
     const [id, setId] = useState('')
     const [updateView, setUpdateView] = useState(false)
     const [deleteView, setDeleteView] = useState(false)
     async function getAllSpecialist() {
+        processing(true)
         try {
             const res = await axios.get(`${api_url}/api/specialist/`, {
                 headers: {
@@ -27,15 +28,19 @@ const Specialists = () => {
                 }
             })
             if (res.data.status === 200) {
+                processing(false)
                 addSpecialists(res.data.data)
             }
         } catch (error) {
+            processing(false)
             console.log(error)
         }
     }
     useEffect(() => {
         getAllSpecialist()
     }, [random])
+
+    console.log(process)
     return (
         <div>
             <Heading>
@@ -108,9 +113,10 @@ const Specialists = () => {
                 <UpdateSpecialist {...{ id, updateView, setUpdateView }} />
             }
             {deleteView &&
-                <DeleteSpecialist {...{ id, deleteView, setDeleteView }} />
+                <Delete {...{ path : '', deleteView, setDeleteView }}/>
             }
-            <Loading/>
+            {process && <Loading/>}
+            
         </div>
     );
 };

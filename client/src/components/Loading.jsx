@@ -1,18 +1,27 @@
-import React from 'react';
-import { Spinner } from '@chakra-ui/react';
+import '../assets/css/loading.css'
 
-const Loading = ({msg}) => {
+const Loading = () => {
+
     return (
         <div
-            className='fixed h-screen w-full top-0 left-0 flex justify-center items-center bg-slate-500/50'
+            className="fixed -top-2 left-0 h-screen w-full z-50 flex justify-center items-center bg-gray-500/70"
         >
             <div
-                className='w-1/4 p-2 flex flex-col justify-center items-center bg-white rounded-md shadow-lg'
+                className="w-full mx-2 md:w-4/12 md:mx-auto"
             >
-                <Spinner size='md'/>
-                <p>{msg}</p>
-                <p className='animate-pulse'>Please wait...</p>
+                <div className="loading-container">
+                    <div className="loading-text">
+                        <span>L</span>
+                        <span>O</span>
+                        <span>A</span>
+                        <span>D</span>
+                        <span>I</span>
+                        <span>N</span>
+                        <span>G</span>
+                    </div>
+                </div>
             </div>
+
         </div>
     );
 };

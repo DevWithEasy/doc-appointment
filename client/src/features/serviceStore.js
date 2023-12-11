@@ -4,8 +4,14 @@ import { devtools, persist } from "zustand/middleware";
 const serviceStore = (set) => ({
     hospitals : [],
     specialists : [],
+    doctors : [],
     process : false,
-    
+
+    addDoctors: (data) => {
+        set((state) => ({
+            doctors : data
+        }))
+    },
     addHospitals: (data) => {
         set((state) => ({
             hospitals : data

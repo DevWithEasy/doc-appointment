@@ -6,17 +6,29 @@ import DeleteDoctor from "../../components/details/DeleteDoctor"
 import { toBengaliNumber } from "bengali-number"
 import Heading from "../../components/Heading"
 import api_url from "../../utils/apiUrl"
+import useServiceStore from "../../features/serviceStore"
+import Loading from "../../components/Loading"
 
 export default function AppliedDoctors() {
+    const [id, setId] = useState('')
+    const [view, setView] = useState(false)
+    const [deleteView, setDeleteView] = useState(false)
     const { random, reload } = useUserStore()
-    const [doctors, setDoctors] = useState([])
+    const { doctors, addDoctors, process, processing } = useServiceStore()
+
     async function getAppliedDoctors() {
-        const res = await axios.get(`${api_url}/api/admin/getAlldoctors`, {
-            headers: {
-                authorization: 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        setDoctors(res.data.data)
+        processing(true)
+        try {
+            const res = await axios.get(`${api_url}/api/admin/getAlldoctors`, {
+                headers: {
+                    authorization: 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            addDoctors(res.data.data)
+            processing(false)
+        } catch (error) {
+            processing(false)
+        }
     }
 
     async function approvedDoctor(id) {
@@ -97,22 +109,47 @@ export default function AppliedDoctors() {
                                         }
                                     </td>
                                     <td className="p-1 text-center space-x-2">
-                                        {doctor?.status === 'Pending' && <button onClick={() => approvedDoctor(doctor._id)} className="p-2 bg-green-400 text-white rounded hover:bg-green-500">অনুমোদন</button>}
-                                        {doctor?.status === 'Pending' && <DeleteDoctor
-                                            {...{
-                                                id: doctor._id,
-                                                deleteHandler: cancelDoctor
+                                        {doctor?.status === 'Pending' &&
+                                            <button
+                                                onClick={() => approvedDoctor(doctor._id)}
+                                                className="p-2 bg-green-400 text-white rounded hover:bg-green-500"
+                                            >
+                                                অনুমোদন
+                                            </button>
+                                        }
+                                        {doctor?.status === 'Pending' &&
+                                            <button
+                                                onClick={() => {
+                                                    setDeleteView(!deleteView),
+                                                    setId(doctor._id)
+                                                }}
+                                                className='p-2 bg-red-500 text-white rounded'
+                                            >
+                                                বাতিল
+                                            </button>}
+                                        <button
+                                            onClick={() => {
+                                                setView(!view),
+                                                setId(doctor._id)
                                             }}
+                                            className="px-2 py-1 bg-green-500 text-white rounded-md"
                                         >
-                                            বাতিল
-                                        </DeleteDoctor>}
-                                        <DoctorDetails {...{ doctor }} />
+                                            বিস্তারিত
+                                        </button>
+
                                     </td>
                                 </tr>)
                         }
                     </tbody>
                 </table>
             </div>
+            {view &&
+                <DoctorDetails {...{ id, view, setView }} />
+            }
+            {deleteView &&
+                <Delete {...{ path: '', deleteView, setDeleteView }} />
+            }
+            {process && <Loading />}
         </div>
     )
 }

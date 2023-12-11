@@ -1,7 +1,6 @@
 import {
     Modal,
     ModalBody,
-    ModalCloseButton,
     ModalContent,
     ModalFooter,
     ModalHeader,
@@ -16,21 +15,27 @@ import api_url from '../../utils/apiUrl'
 import useUserStore from '../../features/userStore'
 
 export default function UpdateSpecialist({ id, updateView, setUpdateView }) {
-    const {specialists} = useServiceStore()
-    const {reload} = useUserStore()
-    const {loading,setLoading} = useState(false)
+    const { specialists,process,processing } = useServiceStore()
+    const { reload } = useUserStore()
     const [value, setValue] = useState(specialists.find(s => s._id === id))
 
     async function updateSpecialist() {
-        const res = await axios.put(`${api_url}/api/specialist/${value._id}`, value, {
-            headers: {
-                authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        processing(true)
+        try{
+            const res = await axios.put(`${api_url}/api/specialist/${value._id}`, value, {
+                headers: {
+                    authorization: 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if (res.data.status === 200) {
+                processing(false)
+                toast.success('Updated added')
+                reload()
+                setUpdateView(!updateView)
             }
-        })
-        if (res.data.status === 200) {
-            toast.success('Updated added')
-            reload()
-            setUpdateView(!updateView)
+        }catch{
+            processing(false)
+            toast.success('Something went wrong.')
         }
     }
     return (
@@ -38,7 +43,7 @@ export default function UpdateSpecialist({ id, updateView, setUpdateView }) {
             <Modal isOpen={updateView}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader className='font-bangla'>হালনাগাদ করন {value?.name} </ModalHeader>
+                    <ModalHeader className='font-bangla'>হালনাগাদ করন </ModalHeader>
                     <ModalBody>
                         <div className="p-2 space-y-2 font-bangla">
                             <label>বিশেষজ্ঞ বিষয় :</label>
@@ -47,8 +52,18 @@ export default function UpdateSpecialist({ id, updateView, setUpdateView }) {
                     </ModalBody>
 
                     <ModalFooter className='space-x-2 font-bangla'>
-                        <button onClick={()=>setUpdateView(!updateView)} className='py-2 px-6 bg-gray-500 text-white rounded-md'>বাতিল</button>
-                        <button onClick={() => updateSpecialist()} className='py-2 px-6 font-bangla bg-green-400 text-white rounded-md'>হালনাগাদ</button>
+                        <button 
+                            onClick={() => setUpdateView(!updateView)} 
+                            className='py-2 px-6 bg-gray-500 text-white rounded-md'
+                        >
+                            বাতিল
+                        </button>
+                        <button
+                            onClick={() => updateSpecialist()}
+                            className='py-2 px-6 font-bangla bg-green-400 text-white rounded-md'
+                        >
+                            { process ? 'কাজ হচ্ছে...' : 'নিশ্চিত'}
+                        </button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
