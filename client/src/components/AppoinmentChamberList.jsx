@@ -1,6 +1,6 @@
 import dayNameBangla from "../utils/dayNameBangla";
 
-export default function ChamberList({ chambers }) {
+export default function AppoinmentChamberList({ chambers }) {
   return (
     <div className="overflow-x-auto z-0 bg-white p-2 rounded-md">
       <div

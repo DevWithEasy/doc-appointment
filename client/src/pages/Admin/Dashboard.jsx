@@ -1,7 +1,6 @@
-import Heading from '../../components/Heading';
 import { FaUsers, FaRegHospital, } from 'react-icons/fa'
 import { FcGraduationCap } from 'react-icons/fc'
-import Info from '../../components/Info';
+import {Heading, Info} from '../../components/Index'
 
 const Dashboard = () => {
     const infos = [

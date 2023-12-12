@@ -1,12 +1,9 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import AddHospital from "../../components/hospital/AddHospital"
-import DeleteHospital from "../../components/hospital/DeleteHospital"
-import UpdateHospital from "../../components/hospital/UpdateHospital"
 import useUserStore from "../../features/userStore"
 import { toBengaliNumber } from "bengali-number"
 import api_url from "../../utils/apiUrl"
-import Heading from "../../components/Heading"
+import {AddHospital, Heading, UpdateHospital} from '../../components/Index'
 
 export default function AppliedHospital() {
     const [hospitals, setHospitals] = useState([])
@@ -65,7 +62,7 @@ export default function AppliedHospital() {
                                     </td>
                                     <td className="flex items-center justify-center p-1 text-center space-x-2">
                                         <UpdateHospital {...{ hospital }} />
-                                        <DeleteHospital {...{ hospital }} />
+                                        {/* <DeleteHospital {...{ hospital }} /> */}
                                     </td>
                                 </tr>)
                         }

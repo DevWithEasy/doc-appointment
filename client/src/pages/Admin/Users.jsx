@@ -1,9 +1,8 @@
 import axios from "axios"
 import { toBengaliNumber } from 'bengali-number'
 import { useEffect, useState } from "react"
-import UserDetails from "../../components/details/UserDetails"
-import Heading from "../../components/Heading"
 import api_url from "../../utils/apiUrl"
+
 
 export default function Users() {
     const [users, setUsers] = useState([])

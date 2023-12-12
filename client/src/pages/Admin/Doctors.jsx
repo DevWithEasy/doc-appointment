@@ -1,13 +1,11 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import DoctorDetails from "../../components/details/DoctorDetails"
 import useUserStore from "../../features/userStore"
-import DeleteDoctor from "../../components/details/DeleteDoctor"
 import { toBengaliNumber } from "bengali-number"
-import Heading from "../../components/Heading"
 import api_url from "../../utils/apiUrl"
 import useServiceStore from "../../features/serviceStore"
-import Loading from "../../components/Loading"
+import {Delete, DoctorDetails, Heading, Loading} from '../../components/Index'
+
 
 export default function AppliedDoctors() {
     const [id, setId] = useState('')

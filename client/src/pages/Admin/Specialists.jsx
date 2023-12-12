@@ -1,16 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import api_url from '../../utils/apiUrl';
-import Heading from '../../components/Heading';
 import { toBengaliNumber } from 'bengali-number';
-import AddSpecialist from '../../components/specialist/AddSpecialist';
-import UpdateSpecialist from '../../components/specialist/UpdateSpecialist';
 import useUserStore from '../../features/userStore';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import useServiceStore from '../../features/serviceStore';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
-import Loading from '../../components/Loading';
-import Delete from '../../components/Delete';
+import {AddSpecialist, Delete, Heading, Loading, UpdateSpecialist} from '../../components/Index'
 
 const Specialists = () => {
     const { random } = useUserStore()
