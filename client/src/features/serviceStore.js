@@ -5,8 +5,14 @@ const serviceStore = (set) => ({
     hospitals : [],
     specialists : [],
     doctors : [],
+    users : [],
     process : false,
 
+    addUsers: (data) => {
+        set((state) => ({
+            users : data
+        }))
+    },
     addDoctors: (data) => {
         set((state) => ({
             doctors : data

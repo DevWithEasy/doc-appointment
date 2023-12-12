@@ -2,10 +2,14 @@ import axios from "axios"
 import { toBengaliNumber } from 'bengali-number'
 import { useEffect, useState } from "react"
 import api_url from "../../utils/apiUrl"
+import { Heading, UserDetails } from "../../components/Index"
+import useServiceStore from "../../features/serviceStore"
 
 
 export default function Users() {
-    const [users, setUsers] = useState([])
+    const {users,addUsers} = useServiceStore()
+    const [view, setView] = useState(false)
+    const [id,setId] = useState('')
     async function getAllUsers() {
         try {
             const res = await axios.get(`${api_url}/api/admin/getAllUsers`, {
@@ -14,7 +18,7 @@ export default function Users() {
                 }
             })
             if (res.data.status === 200) {
-                setUsers(res.data.data)
+                addUsers(res.data.data)
             }
         } catch (error) {
             console.log(error)
@@ -67,7 +71,14 @@ export default function Users() {
                                             {user?.isAdmin ? 'এডমিন' : user?.isDoctor ? 'ডাক্তার' : user?.isHospital ? 'হাসপাতাল' : 'ব্যবহারকারী'}
                                         </td>
                                         <td className="p-1 text-center space-x-2">
-                                            <UserDetails {...{ user }} />
+                                            <button onClick={() => {
+                                                setView(!view),
+                                                setId(user._id)
+                                            }}
+                                                className="px-2 py-1 bg-green-500 text-white rounded-md"
+                                            >
+                                                বিস্তারিত
+                                            </button>
                                         </td>
                                     </tr>)
                             }
@@ -75,6 +86,9 @@ export default function Users() {
                     </table>
                 </div>
             </div>
+            {view &&
+                <UserDetails {...{id,view,setView}}/>
+            }
         </div>
     )
 }

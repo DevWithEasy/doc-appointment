@@ -13,7 +13,7 @@ import useServiceStore from "../../features/serviceStore";
 export default function DoctorDetails({ id, view, setView }) {
   const { doctors } = useServiceStore()
   const doctor = doctors.find(d => d._id === id)
-  console.log(doctor)
+
   return (
     <>
       <Modal isOpen={view} size='xl'>
@@ -95,7 +95,6 @@ export default function DoctorDetails({ id, view, setView }) {
                   </tr>
                 </tbody>
               </table>
-              
             </div>
           </ModalBody>
 
