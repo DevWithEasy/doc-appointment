@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const hostipalSchema = mongoose.Schema({
+const vanueSchema = mongoose.Schema({
   name : {
     type: String,
     required: true
@@ -10,7 +10,7 @@ const hostipalSchema = mongoose.Schema({
   },
   type : {
     type : String,
-    required : true
+    enum : ['hospital','diagnostic','clinic','p_chamber']
   },
   open :{
     type : String,
@@ -20,15 +20,15 @@ const hostipalSchema = mongoose.Schema({
     type : String,
     required : true
   },
-  lat :{
+  lat : {
     type : String,
-    default : ''
+    required : true
   },
-  lon :{
+  long : {
     type : String,
-    default : ''
+    required : true
   },
   },{timestamps : true})
 
-const Hospital = mongoose.model('Hospital',hostipalSchema)
-module.exports = Hospital
+const Vanue = mongoose.model('Vanue',vanueSchema)
+module.exports = Vanue

@@ -1,16 +1,11 @@
-import {
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuGroup,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
+import {Menu,MenuButton,MenuDivider,MenuGroup,MenuItem,MenuList,} from "@chakra-ui/react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { MdNotificationsNone } from "react-icons/md";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useUserStore from "../features/userStore";
 import api_url from "../utils/apiUrl";
+import { useEffect } from "react";
+import socket from "../utils/socket";
 
 export default function Header() {
   const {isAuth,user,removeUser , notifications} = useUserStore();
@@ -21,6 +16,14 @@ export default function Header() {
     removeUser();
     localStorage.removeItem("accessToken");
   }
+
+  useEffect(()=>{
+    isAuth && socket.emit('join_chat',{id : user._id})
+    const timeoutId = setTimeout(() => {
+      clearTimeout(timeoutId);
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  },[])
   
   return (
     <div className="w-full fixed top-0 left-0 z-10 bg-gray-500">

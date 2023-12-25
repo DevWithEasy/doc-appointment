@@ -11,6 +11,7 @@ const initSocket=(server)=>{
         // console.log(`user connected ${socket.id}`)
         socket.on('join_chat',data=>{
             socket.join(data.id)
+            console.log(`join chat ${data.id}`)
         })
 
         socket.on('create_appointment',data=>{

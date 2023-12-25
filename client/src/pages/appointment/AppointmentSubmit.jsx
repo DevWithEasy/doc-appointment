@@ -57,7 +57,7 @@ export default function AppointmentSubmit(){
                             <p>সার্ভিস চার্জ - {doctor?.feesPerConsultation}</p> 
                         </div>
                     </div>
-                    {doctor?.chambers && <ChamberList chambers={doctor.chambers}/>}
+                    {doctor?.chambers && <AppoinmentChamberList chambers={doctor.chambers}/>}
                 </div>
                 <div className='w-full md:w-5/12 mt-4 flex flex-col items-center justify-center bg-white rounded-md'>
                     <DayPicker
