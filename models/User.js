@@ -29,8 +29,8 @@ const userSchema = mongoose.Schema({
       type : Date
     },
     donar : {
-      type : String,
-      enum : ['yes','no']
+      type : Boolean,
+      default : false
     },
     bloodGroup : {
       type : String,
