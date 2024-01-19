@@ -101,15 +101,20 @@ export async function deleteDoctor(id,reload){
 //----------------chamber----------------------
 
 export async function addChamber(id,value,reload,onClose){
-    const res = await axios.post(`${api_url}/api/doctor/addChamber/${id}`,value,{
-        headers : {
-            authorization : 'Bearer ' + localStorage.getItem('accessToken')
+    try {
+        const res = await axios.post(`${api_url}/api/doctor/addChamber/${id}`,value,{
+            headers : {
+                authorization : 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        })
+    
+        if(res.data.status === 200){
+            reload()
+            onClose()
+            console.log(res.data)
         }
-    })
-
-    if(res.data.status === 200){
-        reload()
-        onClose()
+    } catch (error) {
+        console.log(error)
     }
 }
 

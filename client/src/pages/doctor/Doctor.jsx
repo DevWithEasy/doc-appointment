@@ -4,7 +4,7 @@ import AddChamber from "../../components/chamber/AddChamber";
 import ChamberList from "../../components/chamber/ChamberList";
 import useUserStore from "../../features/userStore";
 import { getDoctor, updateDoctor } from "../../utils/doctors_utils";
-import handleChange from "../../utils/handleChange";
+import D_Input from "../../components/D_Input";
 
 export default function Dashboard() {
   const { random, user } = useUserStore();
@@ -13,7 +13,8 @@ export default function Dashboard() {
   useEffect(() => {
     getDoctor(user?._id, setDoctor);
   }, [user?._id, random]);
-  
+
+  console.log(doctor.chambers)
   return (
     <div className="mx-2 md:w-10/12 md:mx-auto space-y-2">
       <h1 className="text-2xl">Doctor Dashboard</h1>
@@ -21,117 +22,85 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 md:gap-x-4">
         <div className="bg-white/50 p-2 shadow rounded-md">
           <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-2">
-            <div>
-              <label>নামঃ</label>
-              <input
-                type="text"
-                name="name"
-                value={doctor?.name}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="নাম"
-              />
-            </div>
+            <D_Input {...{
+              label: 'নামঃ',
+              name: 'name',
+              c_value: doctor?.name,
+              value: doctor,
+              setValue: setDoctor
+            }} />
 
-            <div>
-              <label>ই-মেইলঃ</label>
-              <input
-                type="email"
-                name="email"
-                value={doctor?.email}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="ই-মেইল"
-              />
-            </div>
-            <div>
-              <label>মোবাইল নাম্বারঃ</label>
-              <input
-                type="text"
-                name="phone"
-                value={doctor?.phone}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="মোবাইল নাম্বার"
-              />
-            </div>
-            <div>
-              <label>শিক্ষাগত যোগ্যতাঃ</label>
-              <input
-                type="text"
-                name="education"
-                value={doctor?.education}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="শিক্ষাগত যোগ্যতা"
-              />
-            </div>
-            <div>
-              <label>অভিজ্ঞতার বিষয়ঃ</label>
-              <input
-                type="text"
-                name="specialization"
-                value={doctor?.specialization}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="অভিজ্ঞতার বিষয়"
-              />
-            </div>
-            <div>
-              <label>অভিজ্ঞতার ক্ষেত্রসমূহঃ</label>
-              <input
-                type="text"
-                name="experienceArea"
-                value={doctor?.experienceArea}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="অভিজ্ঞতার ক্ষেত্রসমূহ"
-              />
-            </div>
-            <div>
-              <label>মোট অভিজ্ঞতার বছরঃ</label>
-              <input
-                type="text"
-                name="experience"
-                value={doctor?.experience}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder=" মোট অভিজ্ঞতার বছর"
-              />
-            </div>
-            <div>
-              <label>বর্তমানে কর্মরত আছেনঃ</label>
-              <input
-                type="text"
-                name="designation"
-                value={doctor?.designation}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="বর্তমানে কর্মরত আছেন"
-              />
-            </div>
-            <div>
-              <label>কর্মরত পদবীঃ</label>
-              <input
-                type="text"
-                name="workedAt"
-                value={doctor?.workedAt}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="কর্মরত পদবী"
-              />
-            </div>
-            <div>
-              <label>সার্ভিস চার্জঃ</label>
-              <input
-                type="text"
-                name="feesPerConsultation"
-                value={doctor?.feesPerConsultation}
-                onChange={(e) => handleChange(e, doctor, setDoctor)}
-                className="w-full p-2 border-b focus:outline-none focus:border-blue-300"
-                placeholder="সার্ভিস চার্জ"
-              />
-            </div>
+            <D_Input {...{
+              label: 'ই-মেইলঃ',
+              name: 'email',
+              c_value: doctor?.email,
+              value: doctor,
+              setValue: setDoctor
+            }} />
+
+            <D_Input {...{
+              label: 'মোবাইল নাম্বারঃ',
+              name: 'phone',
+              c_value: doctor?.phone,
+              value: doctor,
+              setValue: setDoctor
+            }} />
+
+            <D_Input {...{
+              label: 'শিক্ষাগত যোগ্যতাঃ',
+              name: 'education',
+              c_value: doctor?.education,
+              value: doctor,
+              setValue: setDoctor
+            }} />
+
+            <D_Input {...{
+              label: 'অভিজ্ঞতার বিষয়ঃ',
+              name: 'specialization',
+              c_value: doctor?.specialization,
+              value: doctor,
+              setValue: setDoctor
+            }} />
+
+            <D_Input {...{
+              label: 'অভিজ্ঞতার ক্ষেত্রসমূহঃ',
+              name: 'experienceArea',
+              c_value: doctor?.experienceArea,
+              value: doctor,
+              setValue: setDoctor
+            }} />
+
+            <D_Input {...{
+              label: 'মোট অভিজ্ঞতার বছরঃ',
+              name: 'experience',
+              c_value: doctor?.experience,
+              value: doctor,
+              setValue: setDoctor
+            }} />
+
+            <D_Input {...{
+              label: 'বর্তমানে কর্মরত আছেনঃ',
+              name: 'designation',
+              c_value: doctor?.designation,
+              value: doctor,
+              setValue: setDoctor
+            }} />
+
+            <D_Input {...{
+              label: 'কর্মরত পদবীঃ',
+              name: 'workedAt',
+              c_value: doctor?.workedAt,
+              value: doctor,
+              setValue: setDoctor
+            }} />
+
+            <D_Input {...{
+              label: 'সার্ভিস চার্জঃ',
+              name: 'feesPerConsultation',
+              c_value: doctor?.feesPerConsultation,
+              value: doctor,
+              setValue: setDoctor
+            }} />
           </div>
 
           <div className="flex justify-center items-center pt-4">
@@ -165,7 +134,7 @@ export default function Dashboard() {
           <span className="text-xl">চেম্বারের তালিকা :</span>
           <AddChamber {...{ id: doctor._id }} />
         </p>
-        {doctor.name && (
+        {doctor?.chambers?.length > 0 && (
           <ChamberList
             {...{
               doctor,

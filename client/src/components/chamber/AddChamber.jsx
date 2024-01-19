@@ -16,8 +16,9 @@ import handleChange from "../../utils/handleChange";
 import Input from "../Input";
 
 export default function AddChamber({ id }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { reload } = useUserStore();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { reload } = useUserStore()
+  const [view,setView] = useState(false)
   const [value, setValue] = useState({
     vanue: "",
     location: "",
@@ -42,16 +43,22 @@ export default function AddChamber({ id }) {
           <ModalHeader className='font-bangla'>তথ্য গুলো দিয়ে নতুন চেম্বার যোগ করুন </ModalHeader>
           <ModalCloseButton />
           <ModalBody
-            className='font-bangla'
+            className='font-bangla relative'
           >
             <div className="p-2 space-y-2">
-              <Input
+              <input 
+                type="text"
+                onFocus={()=>setView(true)}
+                onBlur={()=>setView(false)}
+                className='w-full p-2 border rounded focus:outline-none focus:ring-2'
+              />
+              {/* <Input
                 label="হাসপাতাল / ক্লিনিক /ডায়ানগস্টিক নাম "
                 type="text"
                 name="vanue"
                 value={value}
                 setValue={setValue}
-              />
+              /> */}
               <Input
                 label="ঠিকানা"
                 type="text"
@@ -108,7 +115,7 @@ export default function AddChamber({ id }) {
             </div>
           </ModalBody>
 
-          <ModalFooter className="space-x-2">
+          <ModalFooter className="space-x-2 font-bangla">
             <button
               onClick={onClose}
               className="py-2 px-6 bg-gray-500 text-white rounded-md"

@@ -2,6 +2,7 @@ const { randomUUID } = require('crypto')
 const User = require("../models/User")
 const Doctor = require("../models/Doctor")
 const createError = require("../utils/createError")
+const Chamber = require('../models/Chamber')
 
 exports.applyDoctor = async (req, res, next) => {
     try {
@@ -306,12 +307,17 @@ exports.allApprovedSpecialistDoctors = async (req, res, next) => {
 exports.addChamber = async (req, res, next) => {
     try {
         const { userId, ...data } = req.body
-        const chamber = await Doctor.findByIdAndUpdate(req.params.doctorId, {
+        
+        const newChamber = new Chamber({
+            ...data,
+            doctor : req.params.id
+        })
+
+        const chamber = await newChamber.save()
+
+        await Doctor.findByIdAndUpdate(req.params.doctorId, {
             $push: {
-                chambers: {
-                    id: randomUUID(),
-                    ...data
-                }
+                chambers: chamber._id
             }
         })
         res.status(200).json({
