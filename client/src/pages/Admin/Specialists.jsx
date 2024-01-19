@@ -7,6 +7,7 @@ import { IoMdAddCircleOutline } from 'react-icons/io';
 import useServiceStore from '../../features/serviceStore';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import {AddSpecialist, Delete, Heading, Loading, UpdateSpecialist} from '../../components/Index'
+import { Link } from 'react-router-dom';
 
 const Specialists = () => {
     const { random } = useUserStore()
@@ -36,7 +37,6 @@ const Specialists = () => {
         getAllSpecialist()
     }, [random])
 
-    console.log(process)
     return (
         <div>
             <Heading>
@@ -74,17 +74,11 @@ const Specialists = () => {
                                     <td className="p-1 text-center">{toBengaliNumber(i + 1)}</td>
                                     <td className="p-1 text-center">{specialist?.name}</td>
                                     <td className="p-1 flex justify-center text-center space-x-2">
-                                        <button 
-                                            onClick={()=>
-                                                {
-                                                    setUpdateView(!updateView),
-                                                    setId(specialist._id)
-                                                }
-                                            } 
-                                            className="flex items-center space-x-2 p-1 bg-blue-400 text-white rounded hover:bg-blue-500"
+                                        <Link
+                                            to={`/admin/specialist/update/${specialist?._id}`}
                                         >
                                             <AiFillEdit />
-                                        </button>
+                                        </Link>
                                         <button 
                                             onClick={()=>
                                                 {

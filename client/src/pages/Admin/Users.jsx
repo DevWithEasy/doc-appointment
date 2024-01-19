@@ -2,15 +2,17 @@ import axios from "axios"
 import { toBengaliNumber } from 'bengali-number'
 import { useEffect, useState } from "react"
 import api_url from "../../utils/apiUrl"
-import { Heading, UserDetails } from "../../components/Index"
+import { Heading, Loading, UserDetails } from "../../components/Index"
 import useServiceStore from "../../features/serviceStore"
-
+import { useNavigate} from 'react-router-dom'
 
 export default function Users() {
-    const {users,addUsers} = useServiceStore()
+    const navigate = useNavigate()
+    const { users, addUsers, process, processing } = useServiceStore()
     const [view, setView] = useState(false)
-    const [id,setId] = useState('')
+    const [id, setId] = useState('')
     async function getAllUsers() {
+        processing(true)
         try {
             const res = await axios.get(`${api_url}/api/admin/getAllUsers`, {
                 headers: {
@@ -19,9 +21,11 @@ export default function Users() {
             })
             if (res.data.status === 200) {
                 addUsers(res.data.data)
+                processing(false)
             }
         } catch (error) {
             console.log(error)
+            processing(false)
         }
     }
     useEffect(() => {
@@ -71,10 +75,7 @@ export default function Users() {
                                             {user?.isAdmin ? 'এডমিন' : user?.isDoctor ? 'ডাক্তার' : user?.isHospital ? 'হাসপাতাল' : 'ব্যবহারকারী'}
                                         </td>
                                         <td className="p-1 text-center space-x-2">
-                                            <button onClick={() => {
-                                                setView(!view),
-                                                setId(user._id)
-                                            }}
+                                            <button onClick={() => navigate(`/admin/user/${user?._id}`)}
                                                 className="px-2 py-1 bg-green-500 text-white rounded-md"
                                             >
                                                 বিস্তারিত
@@ -87,8 +88,9 @@ export default function Users() {
                 </div>
             </div>
             {view &&
-                <UserDetails {...{id,view,setView}}/>
+                <UserDetails {...{ id, view, setView }} />
             }
+            {process && <Loading />}
         </div>
     )
 }

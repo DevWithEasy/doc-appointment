@@ -15,51 +15,31 @@ import useUserStore from "../../features/userStore"
 import handleChange from "../../utils/handleChange"
 import Input from "../Input"
 import { IoMdAddCircleOutline } from 'react-icons/io'
+import api_url from '../../utils/apiUrl'
 
-export default function AddHospital(props) {
+export default function AddHospital() {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const { add, setAdd } = props
     const { reload } = useUserStore()
-    const [file, setFile] = useState()
-    const [image, setImage] = useState()
     const [value, setValue] = useState({
         name: '',
         location: '',
-        image: '',
         type: '',
         open: '',
         close: '',
         lat: '',
         long: ''
     })
-    const handleFile = (e) => {
-        setFile(e.target.files[0])
-        const fileReader = new FileReader()
-        fileReader.onload = (e) => {
-            setImage(e.target.result)
-        }
-        fileReader.readAsDataURL(e.target.files[0])
-    }
+
     async function addHospital() {
-        const formData = new FormData()
-        formData.append('file', file)
-        formData.append('name', value.name)
-        formData.append('location', value.location)
-        formData.append('image', value.image)
-        formData.append('type', value.type)
-        formData.append('open', value.open)
-        formData.append('close', value.close)
-        formData.append('lat', value.lat)
-        formData.append('long', value.long)
-        const res = await axios.post(`/api/hospital/add/`, formData, {
+        console.log('addHospital')
+        const res = await axios.post(`${api_url}/api/vanue/add/`, value, {
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem('accessToken')
             }
         })
-        console.log(res.data);
-        if (res.data.status === 200) {
+        if (res.data.success) {
             reload()
-            setAdd(!add)
+            onClose()
             toast.success('Successfully added')
         }
     }
@@ -86,17 +66,15 @@ export default function AddHospital(props) {
                                 <label className="block">প্রতিষ্ঠানের ধরণ  : </label>
                                 <select name='type' onChange={(e) => handleChange(e, value, setValue)} className='w-full p-2 border rounded focus:outline-none focus:ring-2'>
                                     <option value="">বাছাই করুন </option>
-                                    <option value="Hospital">হাসপাতাল </option>
-                                    <option value="Dainogostic Center">ডায়নোগষ্টিক সেন্টার </option>
-                                    <option value="Clinic">ক্লিনিক</option>
-                                    <option value="Personal Chember">পার্সোনাল চেম্বার</option>
+                                    <option value="hospital">হাসপাতাল </option>
+                                    <option value="diagnostic">ডায়নোগষ্টিক সেন্টার </option>
+                                    <option value="clinic">ক্লিনিক</option>
+                                    <option value="p_chamber">পার্সোনাল চেম্বার</option>
                                 </select>
                             </div>
 
                             <div className="space-y-2">
                                 <div className="space-y-2">
-                                    <label>প্রতিষ্ঠানের ছবি  :</label>
-                                    <input type='file' onChange={(e) => handleFile(e)} className="w-full border p-1 rounded-md" />
                                     <div className="w-full flex items-center space-x-2">
                                         <div className=" space-y-1">
                                             <label>Lantitude :</label>
@@ -119,15 +97,12 @@ export default function AddHospital(props) {
                                     </div>
 
                                 </div>
-                                <div className="flex justify-center items-center">
-                                    {image && <img src={image} alt='user_image' className="h-[180px] mx-auto rounded-md" />}
-                                </div>
                             </div>
 
                         </div>
                     </ModalBody>
 
-                    <ModalFooter className='space-x-2'>
+                    <ModalFooter className='space-x-2 font-bangla'>
                         <button onClick={() => addHospital()} className='py-2 px-6 bg-green-400 text-white rounded-md'>নিশ্চিত করুন</button>
                     </ModalFooter>
                 </ModalContent>

@@ -1,20 +1,32 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import useUserStore from "../../features/userStore"
 import { toBengaliNumber } from "bengali-number"
 import api_url from "../../utils/apiUrl"
-import {AddHospital, Heading, UpdateHospital} from '../../components/Index'
+import { AddHospital, Heading, Loading, UpdateHospital } from '../../components/Index'
+import useServiceStore from "../../features/serviceStore"
+import { AiFillEdit } from "react-icons/ai"
+import { Link } from "react-router-dom"
 
 export default function AppliedHospital() {
-    const [hospitals, setHospitals] = useState([])
     const { random } = useUserStore()
+    const { hospitals, addHospitals, process, processing } = useServiceStore()
     async function getAllHospitals() {
-        const res = await axios.get(`${api_url}/api/hospital/all`, {
-            headers: {
-                authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        processing(true)
+        try {
+            const res = await axios.get(`${api_url}/api/vanue/all`, {
+                headers: {
+                    authorization: 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if (res.data.success) {
+                addHospitals(res.data.data)
+                processing(false)
             }
-        })
-        setHospitals(res.data.data)
+        } catch (error) {
+            processing(false)
+        }
+
     }
     useEffect(() => {
         getAllHospitals()
@@ -55,20 +67,24 @@ export default function AppliedHospital() {
                                     <td className="p-1 text-center">{hospital?.location}</td>
                                     <td className="p-1 text-center">
                                         {
-                                            hospital?.type === 'Hospital' ? 'হাসপাতাল' :
-                                                hospital?.type === 'Dainogostic Center' ? 'ডায়নোগষ্টিক সেন্টার ' :
-                                                    hospital?.type === 'Clinic' ? 'ক্লিনিক ' : 'নিজস্ব চেম্বার'
+                                            hospital?.type === 'hospital' ? 'হাসপাতাল' :
+                                                hospital?.type === 'diagnostic' ? 'ডায়নোগষ্টিক সেন্টার ' :
+                                                    hospital?.type === 'clinic' ? 'ক্লিনিক ' : 'নিজস্ব চেম্বার'
                                         }
                                     </td>
                                     <td className="flex items-center justify-center p-1 text-center space-x-2">
-                                        <UpdateHospital {...{ hospital }} />
-                                        {/* <DeleteHospital {...{ hospital }} /> */}
+                                        <Link
+                                            to={`/admin/hospitals/update/${hospital?._id}`}
+                                        >
+                                        <AiFillEdit/>
+                                        </Link>
                                     </td>
                                 </tr>)
                         }
                     </tbody>
                 </table>
             </div>
+            {process && <Loading />}
         </div>
     )
 }

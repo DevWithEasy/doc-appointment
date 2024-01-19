@@ -1,6 +1,4 @@
 const Vanue = require("../models/Vanue")
-const path = require('path')
-const fs = require('fs')
 
 exports.addHospital = async (req, res, next) => {
     try {

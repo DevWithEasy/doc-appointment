@@ -5,9 +5,10 @@ import { toBengaliNumber } from "bengali-number"
 import api_url from "../../utils/apiUrl"
 import useServiceStore from "../../features/serviceStore"
 import {Delete, DoctorDetails, Heading, Loading} from '../../components/Index'
-
+import { useNavigate } from 'react-router-dom'
 
 export default function AppliedDoctors() {
+    const navigate = useNavigate()
     const [id, setId] = useState('')
     const [view, setView] = useState(false)
     const [deleteView, setDeleteView] = useState(false)
@@ -31,7 +32,7 @@ export default function AppliedDoctors() {
 
     async function approvedDoctor(id) {
         try {
-            const res = await axios.post(`/api/doctor/approve/${id}`, {}, {
+            const res = await axios.post(`${api_url}/api/doctor/approve/${id}`, {}, {
                 headers: {
                     authorization: 'Bearer ' + localStorage.getItem('accessToken')
                 }
@@ -47,7 +48,7 @@ export default function AppliedDoctors() {
 
     async function cancelDoctor(id) {
         try {
-            const res = await axios.post(`/api/doctor/cancel/${id}`, {}, {
+            const res = await axios.post(`${api_url}/api/doctor/cancel/${id}`, {}, {
                 headers: {
                     authorization: 'Bearer ' + localStorage.getItem('accessToken')
                 }
@@ -126,10 +127,7 @@ export default function AppliedDoctors() {
                                                 বাতিল
                                             </button>}
                                         <button
-                                            onClick={() => {
-                                                setView(!view),
-                                                setId(doctor._id)
-                                            }}
+                                            onClick={() => navigate(`/admin/doctor/${doctor?._id}`)}
                                             className="px-2 py-1 bg-green-500 text-white rounded-md"
                                         >
                                             বিস্তারিত

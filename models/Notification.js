@@ -5,10 +5,6 @@ const notificationSchema = mongoose.Schema({
         ref: 'User',
         required: true
     },
-    type: {
-        type: String,
-        enum: ['appointment','service']
-    },
     message: {
         type: String,
         required: true

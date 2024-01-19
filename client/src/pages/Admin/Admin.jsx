@@ -4,7 +4,6 @@ import { IoBookSharp } from "react-icons/io5";
 import { FcGraduationCap } from 'react-icons/fc'
 import { MdPayment } from 'react-icons/md'
 
-// eslint-disable-next-line react/prop-types
 export default function Admin({ children }) {
   return (
     <div className="h-screen -mt-16 -mb-5 pt-[58px] flex justify-between">
