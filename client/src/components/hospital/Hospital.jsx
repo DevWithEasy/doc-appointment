@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import api_url from '../../utils/apiUrl'
+
 export default function Hospital({ hospital }) {
     const navigate = useNavigate()
-    console.log(hospital)
+    
     return (
         <div
             onClick={() => navigate(`/hospital/${hospital?._id}`)}
-            className="space-y-2 bg-white shadow border rounded cursor-pointer"
+            className="space-y-2 bg-white border rounded cursor-pointer"
         >
             <img src={`${api_url}/${hospital?.image}`} alt="" className='w-full' />
             <div

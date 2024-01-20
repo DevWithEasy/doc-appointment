@@ -15,7 +15,7 @@ import handleChange from "../../utils/handleChange"
 import Input from "../Input"
 import api_url from '../../utils/apiUrl'
 
-export default function AddHospital({view,setView}) {
+export default function AddHospitalByUser({view,setView}) {
     const { reload } = useUserStore()
     const [value, setValue] = useState({
         name: '',

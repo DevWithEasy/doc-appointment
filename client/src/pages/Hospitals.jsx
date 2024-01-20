@@ -8,17 +8,21 @@ export default function Hospitals() {
     const [query, setQuery] = useState('')
     const { addHospitals,hospitals } = useServiceStore()
     async function getAllHospitals() {
-        const res = await axios.get(`${api_url}/api/hospital/all`, {
-            headers: {
-                authorization: 'Bearer ' + localStorage.getItem('accessToken')
-            }
-        })
-        addHospitals(res.data.data)
+        try {
+            const res = await axios.get(`${api_url}/api/vanue/all`, {
+                headers: {
+                    authorization: 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            addHospitals(res.data.data)
+        } catch (error) {
+            
+        }
     }
     useEffect(() => {
         getAllHospitals()
     }, [])
-
+    console.log(hospitals)
     return (
         <div className="space-y-2 w-10/12 mx-auto">
             <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">
@@ -29,13 +33,13 @@ export default function Hospitals() {
                 />
             </div>
             <div
-                className="grid grid-cols-3"
+                className="grid grid-cols-3 gap-4"
             >
                 {
                     hospitals && hospitals
                         .filter((hospital) =>
-                            hospital.name.toLowerCase().includes(query) ||
-                            hospital.type.toLowerCase().includes(query) || hospital.loaction.toLowerCase().includes(query)
+                            hospital?.name?.toLowerCase().includes(query) ||
+                            hospital?.type?.toLowerCase().includes(query) || hospital?.loaction?.toLowerCase().includes(query)
                         )
                         .map((hospital) => <Hospital 
                                 key={hospital._id} 

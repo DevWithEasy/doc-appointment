@@ -5,16 +5,18 @@ import ChamberList from "../../components/chamber/ChamberList";
 import useUserStore from "../../features/userStore";
 import { getDoctor, updateDoctor } from "../../utils/doctors_utils";
 import D_Input from "../../components/D_Input";
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 export default function Dashboard() {
-  const { random, user } = useUserStore();
-  const [doctor, setDoctor] = useState({});
+  const { random, user } = useUserStore()
+  const [doctor, setDoctor] = useState({})
+  const [view, setView] = useState(false)
 
   useEffect(() => {
     getDoctor(user?._id, setDoctor);
   }, [user?._id, random]);
 
-  console.log(doctor.chambers)
+
   return (
     <div className="mx-2 md:w-10/12 md:mx-auto space-y-2">
       <h1 className="text-2xl">Doctor Dashboard</h1>
@@ -132,7 +134,13 @@ export default function Dashboard() {
       <div className="space-y-2 border p-2 shadow rounded-md overflow-x-auto pb-6 bg-white/50">
         <p className="flex justify-between">
           <span className="text-xl">চেম্বারের তালিকা :</span>
-          <AddChamber {...{ id: doctor._id }} />
+          <button
+            onClick={() => setView(!view)}
+            className="px-2 py-1 flex items-center space-x-1 bg-green-400 text-white rounded-md"
+          >
+            <IoMdAddCircleOutline size={22} />
+            <span>চেম্বার যোগ করুন</span>
+          </button>
         </p>
         {doctor?.chambers?.length > 0 && (
           <ChamberList
@@ -142,6 +150,9 @@ export default function Dashboard() {
           />
         )}
       </div>
+      {view &&
+        <AddChamber {...{ id: doctor?._id, view, setView }} />
+      }
     </div>
   );
 }

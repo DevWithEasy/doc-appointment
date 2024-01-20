@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import useUserStore from "../../features/userStore"
 import { toBengaliNumber } from "bengali-number"
 import api_url from "../../utils/apiUrl"
@@ -7,10 +7,13 @@ import { AddHospital, Heading, Loading, UpdateHospital } from '../../components/
 import useServiceStore from "../../features/serviceStore"
 import { AiFillEdit } from "react-icons/ai"
 import { Link } from "react-router-dom"
+import { IoMdAddCircleOutline } from "react-icons/io"
 
 export default function AppliedHospital() {
     const { random } = useUserStore()
     const { hospitals, addHospitals, process, processing } = useServiceStore()
+    const [view, setView] = useState(false)
+
     async function getAllHospitals() {
         processing(true)
         try {
@@ -46,7 +49,15 @@ export default function AppliedHospital() {
                         className="w-full md:w-4/12 p-1 border rounded focus:outline-none focus:ring-2"
                         placeholder="সার্চ করুন - নাম /ঠিকানা /ধরণ "
                     />
-                    <AddHospital />
+
+                    <button 
+                        onClick={()=>setView(!view)} 
+                        className="px-2 py-1 flex items-center space-x-1 bg-green-400 text-white rounded-md"
+                    >
+                        <IoMdAddCircleOutline size={22} />
+                        <span>যোগ করুন </span>
+                    </button>
+
                 </div>
                 <table className="w-full">
                     <thead className="bg-gray-300">
@@ -76,7 +87,7 @@ export default function AppliedHospital() {
                                         <Link
                                             to={`/admin/hospitals/update/${hospital?._id}`}
                                         >
-                                        <AiFillEdit/>
+                                            <AiFillEdit />
                                         </Link>
                                     </td>
                                 </tr>)
@@ -84,6 +95,7 @@ export default function AppliedHospital() {
                     </tbody>
                 </table>
             </div>
+            {view && <AddHospital {...{view,setView}}/>}
             {process && <Loading />}
         </div>
     )

@@ -45,6 +45,7 @@ exports.getHospital = async (req, res, next) => {
 exports.getAllHospital = async (req, res, next) => {
     try {
         const hospitals = await Vanue.find({})
+        console.log(hospitals)
         res.status(200).json({
             status: 200,
             success: true,
