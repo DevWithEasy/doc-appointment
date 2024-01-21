@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Hospital from "../components/hospital/Hospital";
 import api_url from "../utils/apiUrl";
 import useServiceStore from '../features/serviceStore';
+import MapView from '../components/MapView';
 
 export default function Hospitals() {
     const [query, setQuery] = useState('')
@@ -22,7 +23,7 @@ export default function Hospitals() {
     useEffect(() => {
         getAllHospitals()
     }, [])
-    console.log(hospitals)
+    
     return (
         <div className="space-y-2 w-10/12 mx-auto">
             <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">
@@ -35,7 +36,7 @@ export default function Hospitals() {
             <div
                 className="grid grid-cols-3 gap-4"
             >
-                {
+                {/* {
                     hospitals && hospitals
                         .filter((hospital) =>
                             hospital?.name?.toLowerCase().includes(query) ||
@@ -46,7 +47,8 @@ export default function Hospitals() {
                                 {...{ hospital }} 
                             />
                         )
-                }
+                } */}
+                <MapView {...{hospitals}}/>
             </div>
         </div>
     )

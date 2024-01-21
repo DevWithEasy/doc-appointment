@@ -9,3 +9,7 @@
 .active{
     @apply bg-white text-blue-500
 }
+
+.leaflet-container{
+    @apply h-[450px] w-[800px]
+}

@@ -1,37 +1,31 @@
-import { useEffect, useState } from 'react';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
+const MapView = ({ hospitals }) => {
+    const center = [26.029539, 88.462343];
 
-const MapView = () => {
-    const [location, setLocation] = useState(null)
-
-
-    useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    setLocation({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                    })
-                    setSelectedPlace({
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    })
-                },
-                (error) => {
-                    console.error('Error getting location:', error.message)
-                }
-            );
-        } else {
-            console.error('Geolocation is not supported by your browser')
-        }
-    }, [])
-
-    console.log(location)
     return (
-        <>
-            
-        </>
+        <div>
+            <MapContainer center={center} zoom={13}>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                {hospitals.length > 0 &&
+                    hospitals.map((hospital) => {
+                        const lat = Number(hospital?.lat);
+                        const lng = Number(hospital?.long);
+                        const position = L.latLng(lat, lng);
+
+                        return (
+                            <Marker key={hospital.id} position={position}>
+                                <Popup>{hospital?.name}</Popup>
+                            </Marker>
+                        );
+                    })}
+            </MapContainer>
+        </div>
     );
 };
 
