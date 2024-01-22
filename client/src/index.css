@@ -11,5 +11,5 @@
 }
 
 .leaflet-container{
-    @apply h-full
+    @apply h-full z-0
 }

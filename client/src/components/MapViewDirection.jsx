@@ -1,11 +1,22 @@
-import React, { useEffect, useRef } from 'react';
-import L from 'leaflet';
-import 'leaflet-routing-machine';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
+import React, { useEffect, useRef } from 'react'
+import L from 'leaflet'
+import 'leaflet-routing-machine'
+import 'leaflet/dist/leaflet.css'
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css'
+import locationIcon from '../assets/images/location.png'
+import carIcon from '../assets/images/car.png'
 
 const MapViewDirection = ({ view, setView, location }) => {
-    const mapRef = useRef(null);
+    const mapRef = useRef(null)
+
+    const destinationIcon = (url) => {
+        return L.icon({
+            iconUrl: url,
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32],
+        });
+    }
 
     useEffect(() => {
         if (!mapRef.current) {
@@ -28,7 +39,9 @@ const MapViewDirection = ({ view, setView, location }) => {
                             routeWhileDragging: true,
                         }).addTo(map);
 
-                        const yourMarker = L.marker([latitude, longitude]).addTo(map);
+                        const yourMarker = L.marker([latitude, longitude], {
+                            icon: destinationIcon(carIcon)
+                        }).addTo(map);
                         yourMarker.bindPopup('You are here').openPopup();
                     },
                     (error) => {
@@ -37,7 +50,9 @@ const MapViewDirection = ({ view, setView, location }) => {
                 );
             }
 
-            const destinationMarker = L.marker([26.0300189, 88.4703003]).addTo(map);
+            const destinationMarker = L.marker([26.0300189, 88.4703003], {
+                icon: destinationIcon(locationIcon)
+            }).addTo(map);
             destinationMarker.bindPopup('Desh Xray').openPopup();
 
             mapRef.current = map;
@@ -58,7 +73,6 @@ const MapViewDirection = ({ view, setView, location }) => {
                 id="map"
                 style={{ height: '450px' }}
             >
-
             </div>
         </div>
     );

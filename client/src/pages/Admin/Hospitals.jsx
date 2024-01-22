@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import useUserStore from "../../features/userStore"
 import { toBengaliNumber } from "bengali-number"
 import api_url from "../../utils/apiUrl"
-import { AddHospital, Heading, Loading, UpdateHospital } from '../../components/Index'
+import { AddHospital, Heading, Loading } from '../../components/Index'
 import useServiceStore from "../../features/serviceStore"
 import { AiFillEdit } from "react-icons/ai"
 import { Link } from "react-router-dom"
