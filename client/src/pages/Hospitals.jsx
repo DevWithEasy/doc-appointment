@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Hospital from "../components/hospital/Hospital";
 import api_url from "../utils/apiUrl";
 import useServiceStore from '../features/serviceStore';
-import MapView from '../components/MapView';
 
 export default function Hospitals() {
     const [query, setQuery] = useState('')
@@ -36,7 +35,7 @@ export default function Hospitals() {
             <div
                 className="grid grid-cols-3 gap-4"
             >
-                {/* {
+                {
                     hospitals && hospitals
                         .filter((hospital) =>
                             hospital?.name?.toLowerCase().includes(query) ||
@@ -47,8 +46,7 @@ export default function Hospitals() {
                                 {...{ hospital }} 
                             />
                         )
-                } */}
-                <MapView {...{hospitals}}/>
+                }
             </div>
         </div>
     )

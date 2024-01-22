@@ -26,7 +26,7 @@ export default function Header() {
   },[])
   
   return (
-    <div className="w-full fixed top-0 left-0 z-10 bg-gray-500">
+    <div className="w-full fixed top-0 left-0 z-50 bg-gray-500">
       <div className="md:w-10/12 md:mx-auto flex justify-between items-center p-2">
         <div className="w-6/12 md:w-3/12 text-white">
           <Link to="/" className="flex items-center space-x-3">

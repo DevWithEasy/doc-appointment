@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom';
-import { Admin, AppliedDoctors, AppointmentsAllPatient, AppliedHospital, Users, ApplyDoctor, Appointment, AppointmentSubmit, Appointments, AppointmentsAllPatientSearch, Doctor, Doctors, ForgetPassword, Home, HospitalDetails, Hospitals, Layout, Notification, Profile, ProtectedRoute, ResetPassword, Signin, Signup, VerifyAccount, AddBalance, Success, Failure, NotFound, Payments, AppointmentFind, Dashboard, Specialists, BillPayments } from './pages/Index'
+import { Admin, AppliedDoctors, AppointmentsAllPatient, AppliedHospital, Users, ApplyDoctor, Appointment, AppointmentSubmit, Appointments, AppointmentsAllPatientSearch, Doctor, Doctors, ForgetPassword, Home, HospitalDetails, Hospitals, Layout, Notification, Profile, ProtectedRoute, ResetPassword, Signin, Signup, VerifyAccount, AddBalance, Success, Failure, NotFound, Payments, AppointmentFind, Dashboard, Specialists, BillPayments, MapView } from './pages/Index'
 import { DoctorDetails, UpdateHospital, UpdateSpecialist, UserDetails } from './components/Index';
 
 function App() {
@@ -42,6 +42,10 @@ function App() {
           {
             path: '/hospitals',
             element: <Hospitals />
+          },
+          {
+            path: '/map',
+            element: <MapView />
           },
           {
             path: '/doctors',

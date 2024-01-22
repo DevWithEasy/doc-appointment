@@ -2,15 +2,18 @@ import Doctor from '../components/Doctor'
 import { useParams } from 'react-router-dom'
 import useServiceStore from '../features/serviceStore'
 import api_url from '../utils/apiUrl'
-import {toBengaliNumber} from 'bengali-number'
+import { toBengaliNumber } from 'bengali-number'
+import MapViewDirection from '../components/MapViewDirection'
+import { useState } from 'react'
 
 export default function HospitalDetails() {
+    const [view, setView] = useState(false)
     const { hospitals } = useServiceStore()
     const { id } = useParams()
     const hospital = hospitals.find(hospital => hospital._id === id)
     console.log(hospital)
     return (
-        <div className='w-10/12 mx-auto space-y-2'>
+        <div className='w-10/12 mx-auto space-y-2 '>
             <div
                 className='relative h-[350px] w-full flex justify-center items-center bg-white rounded-md'>
                 <div
@@ -45,7 +48,14 @@ export default function HospitalDetails() {
                             </span>
                         </p>
                     </div>
+                    <button
+                        onClick={()=>setView(!view)}
+                        className='px-4 py-2 border rounded'
+                    >
+                        আপনার দুরত্ব দেখুন
+                    </button>
                 </div>
+
             </div>
 
             <div className=''>
@@ -63,6 +73,13 @@ export default function HospitalDetails() {
                     <Doctor />
                 </div>
             </div>
+
+            {view &&
+                <MapViewDirection {...{
+                    view, setView,
+                    location: [Number(hospital?.lat), Number(hospital?.long)]
+                }} />
+            }
         </div>
     )
 }

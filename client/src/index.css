@@ -11,5 +11,5 @@
 }
 
 .leaflet-container{
-    @apply h-[450px] w-[800px]
+    @apply h-full
 }

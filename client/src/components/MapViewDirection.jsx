@@ -1,0 +1,67 @@
+import React, { useEffect, useRef } from 'react';
+import L from 'leaflet';
+import 'leaflet-routing-machine';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
+
+const MapViewDirection = ({ view, setView, location }) => {
+    const mapRef = useRef(null);
+
+    useEffect(() => {
+        if (!mapRef.current) {
+            const map = L.map('map').setView([26.03225, 88.46250], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+
+                        L.Routing.control({
+                            waypoints: [
+                                L.latLng(latitude, longitude),
+                                L.latLng(location),
+                            ],
+                            routeWhileDragging: true,
+                        }).addTo(map);
+
+                        const yourMarker = L.marker([latitude, longitude]).addTo(map);
+                        yourMarker.bindPopup('You are here').openPopup();
+                    },
+                    (error) => {
+                        console.error('Error getting user location:', error);
+                    }
+                );
+            }
+
+            const destinationMarker = L.marker([26.0300189, 88.4703003]).addTo(map);
+            destinationMarker.bindPopup('Desh Xray').openPopup();
+
+            mapRef.current = map;
+        }
+    }, []);
+
+    return (
+        <div
+            className='fixed top-0 left-0 h-screen w-full overflow-hidden z-50 pt-16 px-4 bg-slate-500/50  space-y-2'
+        >
+            <button
+                onClick={() => setView(!view)}
+                className='px-4 py-2 bg-red-500 text-white rounded-md'
+            >
+                বন্ধ করুন
+            </button>
+            <div
+                id="map"
+                style={{ height: '450px' }}
+            >
+
+            </div>
+        </div>
+    );
+};
+
+export default MapViewDirection;
