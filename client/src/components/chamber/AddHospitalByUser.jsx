@@ -15,7 +15,7 @@ import handleChange from "../../utils/handleChange"
 import Input from "../Input"
 import api_url from '../../utils/apiUrl'
 
-export default function AddHospitalByUser({view,setView}) {
+export default function AddHospitalByUser({setName, setLocation,setVanue,addVanue_view, setAddVanue_View,handleView}) {
     const { reload } = useUserStore()
     const [value, setValue] = useState({
         name: '',
@@ -28,27 +28,42 @@ export default function AddHospitalByUser({view,setView}) {
     })
 
     async function addHospital() {
-        const res = await axios.post(`${api_url}/api/vanue/add/`, value, {
-            headers: {
-                authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        try {
+            const res = await axios.post(`${api_url}/api/vanue/add/`, value, {
+                headers: {
+                    authorization: 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if (res.data.success) {
+                reload()
+                setAddVanue_View(!addVanue_view)
+                setVanue(prev => {
+                    return {
+                        ...prev,
+                        vanue: res?.data?.data?._id
+                    }
+                })
+                setName(res?.data?.data?.name)
+                setLocation(res?.data?.data?.location)
+                toast.success('Successfully added')
             }
-        })
-        if (res.data.success) {
-            reload()
-            setView(!view)
-            toast.success('Successfully added')
+        } catch (error) {
+            console.log(error)
         }
     }
     return (
 
         <>
-            <Modal isOpen={view}>
+            <Modal isOpen={addVanue_view}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader className='font-bangla'>
                         নতুন সেবা প্রতিষ্ঠান যোগ করুন
                     </ModalHeader>
-                    <ModalCloseButton onClick={()=>setView(!view)}/>
+                    <ModalCloseButton onClick={()=>{
+                        setAddVanue_View(!addVanue_view),
+                        handleView('vanue')
+                    }}/>
                     <ModalBody>
                         <div className="p-2 space-y-2 font-bangla">
                             <Input {...{

@@ -1,19 +1,42 @@
-import Doctor from '../components/Doctor'
+import axios from 'axios'
+import { toBengaliNumber } from 'bengali-number'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import Doctor from '../components/Doctor'
+import MapViewDirection from '../components/MapViewDirection'
 import useServiceStore from '../features/serviceStore'
 import api_url from '../utils/apiUrl'
-import { toBengaliNumber } from 'bengali-number'
-import MapViewDirection from '../components/MapViewDirection'
-import { useState } from 'react'
+import HospitalDoctor from '../components/HospitalDoctor'
 
 export default function HospitalDetails() {
     const [view, setView] = useState(false)
     const { hospitals } = useServiceStore()
     const { id } = useParams()
+    const [doctors,setDoctors] = useState([])
     const hospital = hospitals.find(hospital => hospital._id === id)
-    console.log(hospital)
+
+    async function getHospitalDoctors() {
+        try {
+            const res = await axios.get(`${api_url}/api/vanue/doctors/${id}`, {
+                headers: {
+                    authorization: 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if (res.data.success) {
+                setDoctors(res.data.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    useEffect(() => {
+        getHospitalDoctors()
+    }, [])
+    console.log(doctors)
     return (
-        <div className='w-10/12 mx-auto space-y-2 '>
+        <div className='mx-2 md:w-10/12 md:mx-auto space-y-2 '>
             <div
                 className='relative h-[350px] w-full flex justify-center items-center bg-white rounded-md'>
                 <div
@@ -58,26 +81,26 @@ export default function HospitalDetails() {
 
             </div>
 
-            <div className=''>
-                <h3 className='p-2 bg-gray-500 text-white text-center text-xl rounded-md'>
+            <div className='space-y-2'>
+                <h3 className='p-2 text-center text-xl font-semibold border-b-4'>
                     ডাক্তারের তালিকা
                 </h3>
-                <div className='grid grid-cols-3 md:grid-cols-3 gap-4'>
-                    <Doctor />
-                    <Doctor />
-                    <Doctor />
-                    <Doctor />
-                    <Doctor />
-                    <Doctor />
-                    <Doctor />
-                    <Doctor />
+                <div className='grid md:grid-cols-3 md:gap-4 space-y-3 md:space-y-0'>
+                    {doctors.length > 0 &&
+                        doctors.map(doctor=>
+                            <HospitalDoctor
+                                key={doctor?._id}
+                                {...{chamber : doctor}}
+                            />
+                        )
+                    }
                 </div>
             </div>
 
             {view &&
                 <MapViewDirection {...{
                     view, setView,
-                    location: [Number(hospital?.lat), Number(hospital?.long)]
+                    hospital
                 }} />
             }
         </div>

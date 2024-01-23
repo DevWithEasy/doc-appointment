@@ -1,3 +1,6 @@
+const { populate } = require("dotenv")
+const Chamber = require("../models/Chamber")
+const Doctor = require("../models/Doctor")
 const Vanue = require("../models/Vanue")
 
 exports.addHospital = async (req, res, next) => {
@@ -45,7 +48,7 @@ exports.getHospital = async (req, res, next) => {
 exports.getAllHospital = async (req, res, next) => {
     try {
         const hospitals = await Vanue.find({})
-        console.log(hospitals)
+
         res.status(200).json({
             status: 200,
             success: true,
@@ -100,6 +103,32 @@ exports.deleteHospital = async (req, res, next) => {
             status: 200,
             success: true,
             message: 'Vanue delete successfully'
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.getHospitalDoctors = async (req, res, next) => {
+    try {
+        const chambers = await Chamber.find({ vanue: req.params.id })
+        .populate('doctor')
+        .populate({
+            path : 'doctor',
+            populate : {
+                path : 'user',
+                model : 'User'
+            }
+        })
+        res.status(200).json({
+            status: 200,
+            success: true,
+            data: chambers
         })
 
     } catch (error) {

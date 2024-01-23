@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
     Modal,
     ModalBody,
@@ -7,8 +6,13 @@ import {
     ModalHeader,
     ModalOverlay,
 } from "@chakra-ui/react";
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import useServiceStore from '../../features/serviceStore';
+import api_url from '../../utils/apiUrl';
 
-const FindVanue = ({ hospitals, setName, setLocation, setValue, vanue_view, setVanue_View }) => {
+const FindVanue = ({ setName, setValue, setLocation, vanue_view, setVanue_View, handleView }) => {
+    const { hospitals, addHospitals } = useServiceStore()
 
     const handleSelect = (hospital) => {
         setValue(prev => {
@@ -19,8 +23,27 @@ const FindVanue = ({ hospitals, setName, setLocation, setValue, vanue_view, setV
         })
         setName(hospital.name)
         setLocation(hospital.location)
-        setVanue_View(false)
+        handleView('add')
     }
+
+    async function getAllHospitals() {
+        try {
+            const res = await axios.get(`${api_url}/api/vanue/all`, {
+                headers: {
+                    authorization: 'Bearer ' + localStorage.getItem('accessToken')
+                }
+            })
+            if (res.data.success) {
+                addHospitals(res.data.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+    useEffect(() => {
+        getAllHospitals()
+    }, [])
 
     return (
         <>
@@ -29,17 +52,23 @@ const FindVanue = ({ hospitals, setName, setLocation, setValue, vanue_view, setV
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader 
+                    <ModalHeader
                         className='font-bangla'
                     >
                         চেম্বার বাছাই করুন
                     </ModalHeader>
                     <ModalCloseButton onClick={() => setVanue_View(!vanue_view)} />
                     <ModalBody
-                        className='font-bangla h-screen overflow-y-auto'
+                        className='font-bangla h-screen overflow-y-auto space-y-2'
                     >
+                        <button
+                            onClick={() => handleView('new')}
+                            className='w-full p-2 bg-gray-50 border rounded focus:outline-none focus:ring-2'
+                        >
+                            চেম্বারের স্থান না পেলে নতুন যোগ করুন
+                        </button>
                         <div
-                            className='h-80 w-full space-y-2 p-2 bg-white overflow-y-auto'
+                            className='h-96 w-full space-y-2 bg-white overflow-y-auto'
                         >
                             <input
                                 type="text"

@@ -211,7 +211,15 @@ exports.deleteDoctor = async (req, res, next) => {
 
 exports.findDoctor = async (req, res, next) => {
     try {
-        const doctor = await Doctor.findOne({ user: req.params.id }).populate('user', '-_id image')
+        const doctor = await Doctor.findOne({ user: req.params.id })
+            .populate('user', '-_id image')
+            .populate({
+                path: 'chambers',
+                populate: {
+                    path: 'vanue',
+                    model: 'Vanue'
+                }
+            })
 
         res.status(200).json({
             status: 200,
@@ -307,10 +315,10 @@ exports.allApprovedSpecialistDoctors = async (req, res, next) => {
 exports.addChamber = async (req, res, next) => {
     try {
         const { userId, ...data } = req.body
-        
+
         const newChamber = new Chamber({
             ...data,
-            doctor : req.params.id
+            doctor: req.params.doctorId
         })
 
         const chamber = await newChamber.save()

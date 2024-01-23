@@ -12,7 +12,7 @@ import location from '../assets/images/location.png'
 import MarkerClusterGroup from 'react-leaflet-cluster'
 
 const MapView = () => {
-    const center = [26.03224, 88.46250]
+    const center = [26.082397467648313, 88.4669244779722]
     const { addHospitals, hospitals } = useServiceStore()
 
     async function getAllHospitals() {
@@ -44,7 +44,7 @@ const MapView = () => {
         >
             <MapContainer
                 center={center}
-                zoom={15}
+                zoom={10}
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

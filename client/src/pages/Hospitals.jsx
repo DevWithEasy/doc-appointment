@@ -24,7 +24,7 @@ export default function Hospitals() {
     }, [])
     
     return (
-        <div className="space-y-2 w-10/12 mx-auto">
+        <div className="space-y-2 mx-2 md:w-10/12 md:mx-auto">
             <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2">
                 <input
                     onChange={(e) => setQuery(e.target.value.toLowerCase())}
@@ -33,7 +33,7 @@ export default function Hospitals() {
                 />
             </div>
             <div
-                className="grid grid-cols-3 gap-4"
+                className="grid md:grid-cols-3 md:gap-4 space-y-3 md:space-y-0"
             >
                 {
                     hospitals && hospitals

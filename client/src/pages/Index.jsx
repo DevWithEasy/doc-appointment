@@ -1,3 +1,6 @@
+import AppointmentSummery from '../components/doctor/AppointmentSummery';
+import Chambers from '../components/doctor/Chambers';
+import Information from '../components/doctor/Information';
 import Admin from './Admin/Admin';
 import BillPayments from './Admin/BillPayments';
 import Dashboard from './Admin/Dashboard';
@@ -34,5 +37,5 @@ import Failure from './payment/Failure';
 import Success from './payment/Success';
 
 
-export { AddBalance, Admin, AppliedDoctors, AppliedHospital, ApplyDoctor, Appointment, AppointmentFind, AppointmentSubmit, Appointments, AppointmentsAllPatient, AppointmentsAllPatientSearch, BillPayments, Dashboard, Doctor, Doctors, Failure, ForgetPassword, Home, HospitalDetails, Hospitals, Layout, MapView, NotFound, Notification, Payments, Profile, ProtectedRoute, ResetPassword, Signin, Signup, Specialists, Success, Users, VerifyAccount };
+export {Chambers,AppointmentSummery,Information, AddBalance, Admin, AppliedDoctors, AppliedHospital, ApplyDoctor, Appointment, AppointmentFind, AppointmentSubmit, Appointments, AppointmentsAllPatient, AppointmentsAllPatientSearch, BillPayments, Dashboard, Doctor, Doctors, Failure, ForgetPassword, Home, HospitalDetails, Hospitals, Layout, MapView, NotFound, Notification, Payments, Profile, ProtectedRoute, ResetPassword, Signin, Signup, Specialists, Success, Users, VerifyAccount };
 

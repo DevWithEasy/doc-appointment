@@ -21,9 +21,9 @@ export default function Hospital({ hospital }) {
                     className='inline-block px-4 py-1 bg-green-500 text-white text-sm rounded-full'
                 >
                     {
-                        hospital?.type === 'Hospital' ? 'হাসপাতাল' :
-                            hospital?.type === 'Dainogostic Center' ? 'ডায়নোগষ্টিক সেন্টার ' :
-                                hospital?.type === 'Clinic' ? 'ক্লিনিক ' : 'নিজস্ব চেম্বার'
+                        hospital?.type === 'hospital' ? 'হাসপাতাল' :
+                            hospital?.type === 'diagnostic' ? 'ডায়নোগষ্টিক সেন্টার ' :
+                                hospital?.type === 'clinic' ? 'ক্লিনিক ' : 'নিজস্ব চেম্বার'
                     }
                 </p>
             </div>

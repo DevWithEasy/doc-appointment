@@ -1,8 +1,10 @@
 import UpdateChamber from "./UpdateChamber";
 import DeleteChamber from "./DeleteChamber";
 import dayNameBangla from "../../utils/dayNameBangla";
+import formatTime from "../../utils/formatTime";
+import { toBengaliNumber } from "bengali-number";
 export default function ChamberList({ doctor }) {
-  
+  console.log(doctor)
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-left text-gray-500 dark:text-gray-400">
@@ -41,12 +43,12 @@ export default function ChamberList({ doctor }) {
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
             >
               <td className="px-4 py-4">{i + 1}</td>
-              <td className="px-6 py-4">{chamber.vanue}</td>
-              <td className="px-6 py-4">{chamber.location}</td>
-              <td className="px-6 py-4 text-center">{chamber.appointment_limit}</td>
+              <td className="px-6 py-4">{chamber?.vanue?.name}</td>
+              <td className="px-6 py-4">{chamber?.vanue?.location}</td>
+              <td className="px-6 py-4 text-center">{toBengaliNumber(chamber.limit)}</td>
               <td className="px-6 py-4">{dayNameBangla(chamber.day)}</td>
-              <td className="px-6 py-4">{chamber.from}</td>
-              <td className="px-6 py-4">{chamber.to}</td>
+              <td className="px-6 py-4">{formatTime(chamber.from)}</td>
+              <td className="px-6 py-4">{formatTime(chamber.to)}</td>
               <td className="px-6 py-4 flex justify-center items-center p-2 text-center space-x-2">
                 <UpdateChamber {...{ doctor, chamber }} />
                 <DeleteChamber {...{ doctor, chamber }} />

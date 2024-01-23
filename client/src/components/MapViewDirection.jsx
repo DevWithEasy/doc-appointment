@@ -6,7 +6,7 @@ import 'leaflet-routing-machine/dist/leaflet-routing-machine.css'
 import locationIcon from '../assets/images/location.png'
 import carIcon from '../assets/images/car.png'
 
-const MapViewDirection = ({ view, setView, location }) => {
+const MapViewDirection = ({ view, setView, hospital }) => {
     const mapRef = useRef(null)
 
     const destinationIcon = (url) => {
@@ -20,11 +20,14 @@ const MapViewDirection = ({ view, setView, location }) => {
 
     useEffect(() => {
         if (!mapRef.current) {
-            const map = L.map('map').setView([26.03225, 88.46250], 13);
+            const map = L.map('map').setView([26.03225, 88.46250], 13)
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+            L.tileLayer(
+                'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                {
+                    attribution: '© OpenStreetMap contributors'
+                }
+            ).addTo(map)
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -34,15 +37,20 @@ const MapViewDirection = ({ view, setView, location }) => {
                         L.Routing.control({
                             waypoints: [
                                 L.latLng(latitude, longitude),
-                                L.latLng(location),
+                                L.latLng([Number(hospital?.lat), Number(hospital?.long)]),
                             ],
                             routeWhileDragging: true,
+                            createMarker: () => null
                         }).addTo(map);
 
-                        const yourMarker = L.marker([latitude, longitude], {
-                            icon: destinationIcon(carIcon)
-                        }).addTo(map);
-                        yourMarker.bindPopup('You are here').openPopup();
+                        const yourMarker = L.marker(
+                            [latitude, longitude],
+                            {
+                                icon: destinationIcon(carIcon)
+                            }
+                        ).addTo(map)
+
+                        yourMarker.bindPopup('আপনার বর্তমান অবস্থান').openPopup()
                     },
                     (error) => {
                         console.error('Error getting user location:', error);
@@ -50,12 +58,16 @@ const MapViewDirection = ({ view, setView, location }) => {
                 );
             }
 
-            const destinationMarker = L.marker([26.0300189, 88.4703003], {
-                icon: destinationIcon(locationIcon)
-            }).addTo(map);
-            destinationMarker.bindPopup('Desh Xray').openPopup();
+            const destinationMarker = L.marker(
+                [Number(hospital?.lat), Number(hospital?.long)],
+                {
+                    icon: destinationIcon(locationIcon)
+                }
+            ).addTo(map)
 
-            mapRef.current = map;
+            destinationMarker.bindPopup(`${hospital?.name},${hospital?.location}`).openPopup()
+
+            mapRef.current = map
         }
     }, []);
 
