@@ -13,6 +13,7 @@ import { AiFillEdit } from "react-icons/ai";
 import useUserStore from "../../features/userStore";
 import { updateChamber } from "../../utils/doctors_utils";
 import handleChange from "../../utils/handleChange";
+import Input from "../Input";
 
 export default function UpdateChamber(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,40 +28,43 @@ export default function UpdateChamber(props) {
         className="flex items-center space-x-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
       >
         <AiFillEdit />
-        {/* <span>Update</span> */}
       </button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Update Chamber</ModalHeader>
+          <ModalHeader className="font-bangla">চেম্বার আপডেট</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <div className="p-2 space-y-2">
-              <label>হাসপাতাল / ক্লিনিক /ডায়ানগস্টিক নাম </label>
-              <input
+            <div className="p-2 space-y-2 font-bangla">
+              <Input
+                label="হাসপাতাল / ক্লিনিক /ডায়ানগস্টিক নাম "
                 type="text"
-                name="vanue"
-                value={value?.vanue}
-                onChange={(e) => handleChange(e, value, setValue)}
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2"
+                // name="vanue"
+                c_value={chamber?.vanue?.name}
+                value={value}
+                setValue={setValue}
               />
-              <label>ঠিকানা</label>
-              <input
+
+              <Input
+                label="ঠিকানা"
                 type="text"
-                name="location"
-                value={value?.location}
-                onChange={(e) => handleChange(e, value, setValue)}
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2"
+                // name="location"
+                c_value={chamber?.vanue?.location}
+                value={value}
+                setValue={setValue}
+                disabled
               />
-              <label>সর্বোচ্চ অ্যাপয়েন্টমেন্ট</label>
-              <input
+
+              <Input
+                label="সর্বোচ্চ অ্যাপয়েন্টমেন্ট"
                 type="number"
-                name="appointment_limit"
-                value={value?.appointment_limit}
-                onChange={(e) => handleChange(e, value, setValue)}
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2"
+                name="limit"
+                c_value={value?.limit}
+                value={value}
+                setValue={setValue}
               />
+
               <div className="space-y-2">
                 <div className="w-full space-y-1">
                   <label className="block">দিন ও সময় : </label>
@@ -81,43 +85,39 @@ export default function UpdateChamber(props) {
                   </select>
                 </div>
                 <div className="w-full flex items-center space-x-2">
-                  <div className=" space-y-1">
-                    <label>শুরুর সময় :</label>
-                    <input
-                      value={value?.from}
-                      type="time"
-                      name="from"
-                      onChange={(e) => handleChange(e, value, setValue)}
-                      className="w-full p-1.5 border rounded focus:outline-none focus:ring-2"
-                    />
-                  </div>
-                  <div className=" space-y-1">
-                    <label>শেষ সময়:</label>
-                    <input
-                      value={value?.to}
-                      type="time"
-                      name="to"
-                      onChange={(e) => handleChange(e, value, setValue)}
-                      className="w-full p-1.5 border rounded focus:outline-none focus:ring-2"
-                    />
-                  </div>
+                  <Input
+                    label="শুরুর সময় "
+                    type="time"
+                    name="from"
+                    c_value={value?.from}
+                    value={value}
+                    setValue={setValue}
+                  />
+                  <Input
+                    label="শেষ সময়"
+                    type="time"
+                    name="to"
+                    c_value={value?.to}
+                    value={value}
+                    setValue={setValue}
+                  />
                 </div>
               </div>
             </div>
           </ModalBody>
 
-          <ModalFooter className="space-x-2">
+          <ModalFooter className="space-x-2 font-bangla">
             <button
               onClick={onClose}
               className="py-2 px-6 bg-gray-500 text-white rounded-md"
             >
-              Close
+              বাতিল
             </button>
             <button
               onClick={() => updateChamber(doctor._id, value, reload, onClose)}
               className="py-2 px-6 bg-blue-500 text-white rounded-md"
             >
-              Submit
+              সাবমিট
             </button>
           </ModalFooter>
         </ModalContent>
