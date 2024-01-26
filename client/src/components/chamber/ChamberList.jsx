@@ -3,8 +3,13 @@ import DeleteChamber from "./DeleteChamber";
 import dayNameBangla from "../../utils/dayNameBangla";
 import formatTime from "../../utils/formatTime";
 import { toBengaliNumber } from "bengali-number";
+import { useState } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 export default function ChamberList({ doctor }) {
-  console.log(doctor)
+  const [updateView, setUpdateView] = useState(false)
+  const [deleteView, setDeleteView] = useState(false)
+  const [s_Chamber, setS_Chamber] = useState(null)
+  console.log(updateView)
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-left text-gray-500 dark:text-gray-400">
@@ -50,13 +55,37 @@ export default function ChamberList({ doctor }) {
               <td className="px-6 py-4">{formatTime(chamber.from)}</td>
               <td className="px-6 py-4">{formatTime(chamber.to)}</td>
               <td className="px-6 py-4 flex justify-center items-center p-2 text-center space-x-2">
-                <UpdateChamber {...{ doctor, chamber }} />
-                <DeleteChamber {...{ doctor, chamber }} />
+                <AiFillEdit
+                  onClick={() => {
+                    setS_Chamber(chamber)
+                    setUpdateView(!updateView)
+                  }}
+                  className="cursor-pointer"
+                />
+                <AiFillDelete
+                  onClick={() => {
+                    setS_Chamber(chamber)
+                    setDeleteView(!deleteView)
+                  }}
+                  className="cursor-pointer"
+                />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {updateView &&
+        <UpdateChamber {...{
+          s_Chamber,
+          updateView, setUpdateView
+        }} />
+      }
+      {deleteView &&
+        <DeleteChamber {...{
+          s_Chamber,
+          deleteView, setDeleteView
+        }} />
+      }
     </div>
   );
 }

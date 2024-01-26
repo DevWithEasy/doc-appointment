@@ -15,33 +15,25 @@ import { updateChamber } from "../../utils/doctors_utils";
 import handleChange from "../../utils/handleChange";
 import Input from "../Input";
 
-export default function UpdateChamber(props) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+export default function UpdateChamber({ s_Chamber, updateView, setUpdateView }) {
+  const { onClose } = useDisclosure();
   const { reload } = useUserStore();
-  const { doctor, chamber } = props;
-  const [value, setValue] = useState(chamber);
+  const [value, setValue] = useState(s_Chamber);
 
   return (
     <>
-      <button
-        onClick={onOpen}
-        className="flex items-center space-x-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        <AiFillEdit />
-      </button>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={updateView}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader className="font-bangla">চেম্বার আপডেট</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={() => setUpdateView(!updateView)} />
           <ModalBody>
             <div className="p-2 space-y-2 font-bangla">
               <Input
                 label="হাসপাতাল / ক্লিনিক /ডায়ানগস্টিক নাম "
                 type="text"
                 // name="vanue"
-                c_value={chamber?.vanue?.name}
+                c_value={value?.vanue?.name}
                 value={value}
                 setValue={setValue}
               />
@@ -50,7 +42,7 @@ export default function UpdateChamber(props) {
                 label="ঠিকানা"
                 type="text"
                 // name="location"
-                c_value={chamber?.vanue?.location}
+                c_value={value?.vanue?.location}
                 value={value}
                 setValue={setValue}
                 disabled
@@ -108,7 +100,7 @@ export default function UpdateChamber(props) {
 
           <ModalFooter className="space-x-2 font-bangla">
             <button
-              onClick={onClose}
+              onClick={() => setUpdateView(!updateView)}
               className="py-2 px-6 bg-gray-500 text-white rounded-md"
             >
               বাতিল
