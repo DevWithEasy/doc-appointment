@@ -211,7 +211,7 @@ exports.deleteDoctor = async (req, res, next) => {
 
 exports.findDoctor = async (req, res, next) => {
     try {
-        const doctor = await Doctor.findOne({ user: req.params.id })
+        const doctor = await Doctor.findOne({ _id: req.params.id })
             .populate('user', '-_id image')
             .populate({
                 path: 'chambers',
@@ -220,7 +220,7 @@ exports.findDoctor = async (req, res, next) => {
                     model: 'Vanue'
                 }
             })
-
+        console.log(doctor)
         res.status(200).json({
             status: 200,
             success: true,
