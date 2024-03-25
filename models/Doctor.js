@@ -32,7 +32,8 @@ const doctorSchema = mongoose.Schema({
     required: true,
   },
   specialization: {
-    type: String,
+    type: mongoose.Types.ObjectId,
+    ref: 'Specialist',
     required: true,
   },
   experience: {
