@@ -8,6 +8,7 @@ const path = require('path');
 const { sendVerificaion, sendSuccessful, sendForgetPassword } = require("../utils/verification");
 const { passwordChangeSuccessfull } = require("../utils/verification");
 const Appointment = require("../models/Appointment");
+const Notification = require("../models/Notification");
 
 exports.signup = async (req, res, next) => {
     const { password } = req.body
@@ -79,10 +80,12 @@ exports.signin = async (req, res, next) => {
         //TOKEN FOR SECRET
         const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET)
 
+        const notifications = await Notification.find({user : user._id})
+
         res.status(200).json({
             status: 200,
             success: true,
-            data: { ...user._doc, token }
+            data: { ...user._doc, token,notifications }
         })
     } catch (error) {
         res.status(500).json({
