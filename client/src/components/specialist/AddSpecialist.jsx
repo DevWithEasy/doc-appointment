@@ -44,7 +44,14 @@ export default function AddSpecialist({view,setView}) {
                     <ModalCloseButton onClick={()=>setView(!view)}/>
                     <ModalBody>
                         <div className="p-2 space-y-2 font-bangla">
-                            <Input label='বিশেষজ্ঞ বিষয় ' type='text' name='name' value={value} setValue={setValue} />
+                            <Input 
+                                label='বিশেষজ্ঞ বিষয় ' 
+                                type='text' 
+                                name='name'
+                                c_value={value.name}
+                                value={value} 
+                                setValue={setValue} 
+                                />
                         </div>
                     </ModalBody>
 

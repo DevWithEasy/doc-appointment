@@ -3,6 +3,7 @@ const User = require("../models/User")
 const Doctor = require("../models/Doctor")
 const createError = require("../utils/createError")
 const Chamber = require('../models/Chamber')
+const Specialist = require('../models/Specialist')
 
 exports.applyDoctor = async (req, res, next) => {
     try {
@@ -225,6 +226,29 @@ exports.findDoctor = async (req, res, next) => {
             status: 200,
             success: true,
             data: doctor
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.getHomeData = async (req, res, next) => {
+    try {
+        const doctors = await Doctor.find({ status: 'Approved' }).populate('user', 'image -_id')
+        const specializations = await Specialist.find({})
+        
+        res.status(200).json({
+            status: 200,
+            success: true,
+            data: {
+                doctors,
+                specializations
+            }
         })
 
     } catch (error) {

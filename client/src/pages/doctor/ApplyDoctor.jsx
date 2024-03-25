@@ -26,70 +26,80 @@ export default function ApplyDoctor(){
                 <Input 
                     label='নাম ' 
                     type='text' 
-                    name='name' 
+                    name='name'
+                    c_value = {value.name} 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
                     label='মোবাইল নম্বর ' 
                     type='text' 
-                    name='phone' 
+                    name='phone'
+                    c_value = {value.phone} 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
                     label='ই-মেইল ' 
                     type='email' 
-                    name='email' 
+                    name='email'
+                    c_value = {value.email} 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
                     label='ওয়েবসাইট ' 
                     type='text' 
-                    name='website' 
+                    name='website'
+                    c_value = {value.website} 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
                     label='কর্মরত আছেন (প্রতিষ্ঠানের নাম)' 
                     type='text' 
-                    name='workedAt' 
+                    name='workedAt'
+                    c_value = {value.workedAt} 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
                     label='পদবী ' 
                     type='text' 
-                    name='designation' 
+                    name='designation'
+                    c_value = {value.designation} 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
                     label='শিক্ষাগত যোগ্যতা (সকল ডিগ্রী)' 
                     type='text' 
-                    name='education' 
+                    name='education'
+                    c_value = {value.education} 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
                     label='অভিজ্ঞতার বিষয়' 
                     type='text' 
-                    name='specialization' 
+                    name='specialization'
+                    c_value = {value.specialization} 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
                     label='মোট অভিজ্ঞতার বয়স' 
                     type='text' 
-                    name='experience' 
+                    name='experience'
+                    c_value = {value.experience} 
                     value={value} 
                     setValue={setValue} 
                 />
                 <Input 
                     label='অভিজ্ঞতার ক্ষেত্রসমূহ ' 
                     type='text' 
-                    name='experienceArea' 
+                    name='experienceArea'
+                    c_value = {value.experienceArea} 
                     value={value} 
                     setValue={setValue} 
                 />
@@ -97,6 +107,7 @@ export default function ApplyDoctor(){
                     label='সার্ভিস চার্জ ' 
                     type='text' 
                     name='feesPerConsultation' 
+                    c_value = {value.feesPerConsultation}
                     value={value} 
                     setValue={setValue} 
                 />
