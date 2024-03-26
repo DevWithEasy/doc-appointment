@@ -262,7 +262,7 @@ exports.getHomeData = async (req, res, next) => {
 
 exports.find = async (req, res, next) => {
     try {
-        const doctor = await Doctor.findOne({ _id: req.params.id }).populate('user', '-_id image')
+        const doctor = await Doctor.findOne({ user: req.params.id })
 
         res.status(200).json({
             status: 200,

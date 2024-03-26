@@ -13,6 +13,19 @@ const Notification = require("../models/Notification");
 exports.signup = async (req, res, next) => {
     const { password } = req.body
     try {
+        //FIND USER IN DATABASE
+        const findUser = await User.findOne({ $or : [
+            {email: req.body.email},
+            {phone: req.body.phone}
+        ] })
+
+        if(findUser){
+            return res.status(501).json({
+                status: 501,
+                success: false,
+                message: 'Already have an account'
+            })
+        }
 
         //HASHED PASSWORD FOR SECRET
         const hashed = await bcrypt.hash(password, 10)
@@ -58,6 +71,7 @@ exports.signin = async (req, res, next) => {
     try {
         //FIND USER IN DATABASE
         const user = await User.findOne({ email: req.body.email })
+        console.log(req.body)
 
         if (!user) {
             return res.status(404).json({
