@@ -99,7 +99,7 @@ export default function AppliedDoctors() {
                                 <tr key={i} className='border-b'>
                                     <td className="p-1 text-center">{toBengaliNumber(i + 1)}</td>
                                     <td className="p-1 ">{doctor?.name}</td>
-                                    <td className="p-1 text-center">{doctor?.specialization}</td>
+                                    <td className="p-1 text-center">{doctor?.specialization?.name}</td>
                                     <td className="p-1 text-center">{doctor?.feesPerConsultation}</td>
                                     <td className="p-1 text-center">
                                         {
