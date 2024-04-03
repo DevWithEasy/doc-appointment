@@ -210,6 +210,31 @@ exports.deleteDoctor = async (req, res, next) => {
     }
 }
 
+exports.getHomeData = async (req, res, next) => {
+    try {
+        const totalDoctors = await Doctor.count({ status: 'Approved' })
+        const doctors = await Doctor.find({ status: 'Approved' }).populate('user', 'image -_id').populate('specialization')
+        const specializations = await Specialist.find({})
+
+        res.status(200).json({
+            status: 200,
+            success: true,
+            data: {
+                total: totalDoctors,
+                doctors,
+                specializations
+            }
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: error.message
+        })
+    }
+}
+
 exports.findDoctor = async (req, res, next) => {
     try {
         const doctor = await Doctor.findOne({ _id: req.params.id })
@@ -237,52 +262,10 @@ exports.findDoctor = async (req, res, next) => {
     }
 }
 
-exports.getHomeData = async (req, res, next) => {
+exports.findDoctorBySpecialist = async (req, res, next) => {
     try {
-        const totalDoctors = await Doctor.count({ status: 'Approved' })
-        const doctors = await Doctor.find({ status: 'Approved' }).populate('user', 'image -_id').populate('specialization')
-        const specializations = await Specialist.find({})
-        
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: {
-                total : totalDoctors,
-                doctors,
-                specializations
-            }
-        })
 
-    } catch (error) {
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: error.message
-        })
-    }
-}
-
-exports.find = async (req, res, next) => {
-    try {
-        const doctor = await Doctor.findOne({ user: req.params.id })
-
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: doctor
-        })
-    } catch (error) {
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: error.message
-        })
-    }
-}
-
-exports.allApprovedDoctors = async (req, res, next) => {
-    try {
-        const doctors = await Doctor.find({ status: 'Approved' }).populate('user', 'image -_id')
+        const doctors = await Doctor.find({ status: 'Approved', specialization : req.params.id }).populate('user', 'image -_id').populate('specialization')
 
         res.status(200).json({
             status: 200,
@@ -298,16 +281,14 @@ exports.allApprovedDoctors = async (req, res, next) => {
     }
 }
 
-exports.allApprovedDoctorsSpecialization = async (req, res, next) => {
+exports.findDoctorByPagination = async (req, res, next) => {
     try {
-        const doctors = await Doctor.find({ status: 'Approved' })
-        const specialization = doctors.map(doctor => {
-            return doctor.specialization
-        })
+        // const doctors = await Doctor.find({ status: 'Approved' })
+        console.log(req.params)
         res.status(200).json({
             status: 200,
             success: true,
-            data: specialization
+            data: {}
         })
 
     } catch (error) {
@@ -337,6 +318,25 @@ exports.allApprovedSpecialistDoctors = async (req, res, next) => {
         })
     }
 }
+
+exports.find = async (req, res, next) => {
+    try {
+        const doctor = await Doctor.findOne({ user: req.params.id })
+
+        res.status(200).json({
+            status: 200,
+            success: true,
+            data: doctor
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: error.message
+        })
+    }
+}
+
 
 exports.addChamber = async (req, res, next) => {
     try {
