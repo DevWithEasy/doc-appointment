@@ -239,6 +239,7 @@ exports.findDoctor = async (req, res, next) => {
 
 exports.getHomeData = async (req, res, next) => {
     try {
+        const totalDoctors = await Doctor.count({ status: 'Approved' })
         const doctors = await Doctor.find({ status: 'Approved' }).populate('user', 'image -_id').populate('specialization')
         const specializations = await Specialist.find({})
         
@@ -246,6 +247,7 @@ exports.getHomeData = async (req, res, next) => {
             status: 200,
             success: true,
             data: {
+                total : totalDoctors,
                 doctors,
                 specializations
             }
