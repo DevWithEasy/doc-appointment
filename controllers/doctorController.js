@@ -264,13 +264,16 @@ exports.findDoctor = async (req, res, next) => {
 
 exports.findDoctorBySpecialist = async (req, res, next) => {
     try {
-
-        const doctors = await Doctor.find({ status: 'Approved', specialization : req.params.id }).populate('user', 'image -_id').populate('specialization')
+        const specializations = await Specialist.find({})
+        const doctors = await Doctor.find({ status: 'Approved', specialization: req.params.id }).populate('user', 'image -_id').populate('specialization')
 
         res.status(200).json({
             status: 200,
             success: true,
-            data: doctors
+            data: {
+                doctors,
+                specializations
+            }
         })
     } catch (error) {
         res.status(500).json({
@@ -283,12 +286,19 @@ exports.findDoctorBySpecialist = async (req, res, next) => {
 
 exports.findDoctorByPagination = async (req, res, next) => {
     try {
-        // const doctors = await Doctor.find({ status: 'Approved' })
-        console.log(req.params)
+        const skip = Number(req.params.no * 10)
+        const totalDoctors = await Doctor.count({ status: 'Approved' })
+        const doctors = await Doctor.find({ status: 'Approved' })
+            .populate('user', 'image -_id')
+            .populate('specialization')
+            .skip(skip)
+            .limit(10)
+
         res.status(200).json({
             status: 200,
             success: true,
-            data: {}
+            total: totalDoctors,
+            data: doctors,
         })
 
     } catch (error) {
