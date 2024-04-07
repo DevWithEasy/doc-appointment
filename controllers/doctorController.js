@@ -238,6 +238,7 @@ exports.getHomeData = async (req, res, next) => {
 exports.findDoctor = async (req, res, next) => {
     try {
         const doctor = await Doctor.findOne({ _id: req.params.id })
+            .populate('specialization')
             .populate('user', '-_id image')
             .populate({
                 path: 'chambers',
@@ -246,11 +247,24 @@ exports.findDoctor = async (req, res, next) => {
                     model: 'Vanue'
                 }
             })
-        console.log(doctor)
+
+        const doctors = await Doctor.find(
+            { 
+                status: 'Approved',
+                specialization: doctor.specialization,
+                _id : {$ne : req.params.id}
+            }
+        )
+        .populate('user', 'image -_id')
+        .populate('specialization')
+
         res.status(200).json({
             status: 200,
             success: true,
-            data: doctor
+            data: {
+                doctor,
+                doctors
+            }
         })
 
     } catch (error) {
@@ -264,8 +278,17 @@ exports.findDoctor = async (req, res, next) => {
 
 exports.findDoctorBySpecialist = async (req, res, next) => {
     try {
+
         const specializations = await Specialist.find({})
-        const doctors = await Doctor.find({ status: 'Approved', specialization: req.params.id }).populate('user', 'image -_id').populate('specialization')
+
+        const doctors = await Doctor.find(
+            { 
+                status: 'Approved',
+                specialization: req.params.id 
+            }
+        )
+        .populate('user', 'image -_id')
+        .populate('specialization')
 
         res.status(200).json({
             status: 200,
