@@ -333,10 +333,14 @@ exports.findDoctorByPagination = async (req, res, next) => {
     }
 }
 
-exports.allApprovedSpecialistDoctors = async (req, res, next) => {
+exports.findDoctorByDayAndSpecialist = async (req, res, next) => {
     try {
-        const { specialist, day } = req.query
-        const doctors = await Doctor.find({ status: 'Approved', specialization: specialist, 'chambers.day': day }).populate('user', 'image')
+        const { specialization, day } = req.query
+        const doctors = await Doctor.find({ status: 'Approved', specialization: specialization })
+        .populate('user', 'image')
+
+        
+
         res.status(200).json({
             status: 200,
             success: true,
