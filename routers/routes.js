@@ -5,6 +5,7 @@ const adminRouter = require('./adminRouter')
 const vanueRouter = require('./vanueRouter')
 const transectionRouter = require('./transectionRouter')
 const specialistRouter = require('./SpecialistRouter')
+const chamberRouter = require('./chamberRouter')
 
 const routers = [
     {
@@ -14,6 +15,10 @@ const routers = [
     {
         path : '/api/doctor',
         handler : doctorRouter
+    },
+    {
+        path : '/api/chamber',
+        handler : chamberRouter
     },
     {
         path : '/api/vanue',

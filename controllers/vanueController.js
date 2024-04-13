@@ -125,6 +125,13 @@ exports.getHospitalDoctors = async (req, res, next) => {
                 model : 'User'
             }
         })
+        .populate({
+            path : 'doctor',
+            populate : {
+                path : 'specialization',
+                model : 'Specialist'
+            }
+        })
         res.status(200).json({
             status: 200,
             success: true,

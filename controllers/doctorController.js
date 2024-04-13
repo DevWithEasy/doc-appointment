@@ -144,28 +144,41 @@ exports.cancelDoctor = async (req, res, next) => {
 
 exports.updateDoctor = async (req, res, next) => {
     try {
-        await Doctor.updateOne({ _id: req.params.id }, {
-            $set: {
-                name: req.body.name,
-                phone: req.body.phone,
-                email: req.body.email,
-                website: req.body.website,
-                workedAt: req.body.workedAt,
-                designation: req.body.designation,
-                education: req.body.education,
-                specialization: req.body.specialization,
-                experience: req.body.experience,
-                experienceArea: req.body.experienceArea,
-                feesPerConsultation: req.body.feesPerConsultation
-            }
-        })
+        const { q } = req.query
+        if (q === 'info') {
+            const doctor = await Doctor.findByIdAndUpdate(req.params.id, {
+                $set: {
+                    name: req.body.name,
+                    phone: req.body.phone,
+                    email: req.body.email,
+                    website: req.body.website,
+                    workedAt: req.body.workedAt,
+                    designation: req.body.designation,
+                    education: req.body.education,
+                    specialization: req.body.specialization,
+                    experience: req.body.experience,
+                    experienceArea: req.body.experienceArea,
+                    feesPerConsultation: req.body.feesPerConsultation
+                }
+            }, { new: true })
+            return res.status(200).json({
+                status: 200,
+                success: true,
+                data: doctor
+            })
+        } else if (q === 'bio') {
+            const doctor = await Doctor.findByIdAndUpdate(req.params.id, {
+                $set: {
+                    bio: req.body.bio,
+                }
+            }, { new: true })
 
-        const doctor = await Doctor.findOne({ _id: req.params.id })
-        res.status(200).json({
-            status: 200,
-            success: true,
-            data: doctor
-        })
+            return res.status(200).json({
+                status: 200,
+                success: true,
+                data: doctor
+            })
+        }
     } catch (error) {
         res.status(500).json({
             status: 500,
@@ -236,34 +249,18 @@ exports.getHomeData = async (req, res, next) => {
 }
 
 exports.findDoctor = async (req, res, next) => {
+    console.log('hello')
     try {
-        const doctor = await Doctor.findOne({ _id: req.params.id })
-            .populate('specialization')
-            .populate('user', '-_id image')
-            .populate({
-                path: 'chambers',
-                populate: {
-                    path: 'vanue',
-                    model: 'Vanue'
-                }
-            })
+        const doctor = await Doctor.findOne({ user: req.params.id })
 
-        const doctors = await Doctor.find(
-            { 
-                status: 'Approved',
-                specialization: doctor.specialization,
-                _id : {$ne : req.params.id}
-            }
-        )
-        .populate('user', 'image -_id')
-        .populate('specialization')
+        const specialists = await Specialist.find()
 
         res.status(200).json({
             status: 200,
             success: true,
             data: {
                 doctor,
-                doctors
+                specialists
             }
         })
 
@@ -282,13 +279,13 @@ exports.findDoctorBySpecialist = async (req, res, next) => {
         const specializations = await Specialist.find({})
 
         const doctors = await Doctor.find(
-            { 
+            {
                 status: 'Approved',
-                specialization: req.params.id 
+                specialization: req.params.id
             }
         )
-        .populate('user', 'image -_id')
-        .populate('specialization')
+            .populate('user', 'image -_id')
+            .populate('specialization')
 
         res.status(200).json({
             status: 200,
@@ -337,9 +334,9 @@ exports.findDoctorByDayAndSpecialist = async (req, res, next) => {
     try {
         const { specialization, day } = req.query
         const doctors = await Doctor.find({ status: 'Approved', specialization: specialization })
-        .populate('user', 'image')
+            .populate('user', 'image')
 
-        
+
 
         res.status(200).json({
             status: 200,
@@ -363,90 +360,6 @@ exports.find = async (req, res, next) => {
         res.status(200).json({
             status: 200,
             success: true,
-            data: doctor
-        })
-    } catch (error) {
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: error.message
-        })
-    }
-}
-
-
-exports.addChamber = async (req, res, next) => {
-    try {
-        const { userId, ...data } = req.body
-
-        const newChamber = new Chamber({
-            ...data,
-            doctor: req.params.doctorId
-        })
-
-        const chamber = await newChamber.save()
-
-        await Doctor.findByIdAndUpdate(req.params.doctorId, {
-            $push: {
-                chambers: chamber._id
-            }
-        })
-        res.status(200).json({
-            status: 200,
-            success: true,
-            message: 'Chamber added successfully',
-            data: chamber
-        })
-
-    } catch (error) {
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: error.message
-        })
-    }
-}
-
-exports.updateChamber = async (req, res, next) => {
-    const { userId, ...data } = req.body
-    try {
-        const doctor = await Doctor.findOneAndUpdate({ _id: req.params.doctorId, "chambers._id": data._id }, {
-            $set: {
-                'chambers.$.vanue': data.vanue,
-                'chambers.$.location': data.location,
-                'chambers.$.appointment_limit': data.appointment_limit,
-                'chambers.$.day': data.day,
-                'chambers.$.from': data.from,
-                'chambers.$.to': data.to
-            }
-        }, { new: true })
-
-        res.status(200).json({
-            status: 200,
-            success: true,
-            message: 'Chamber update successfully',
-            data: doctor
-        })
-
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({
-            status: 500,
-            success: false,
-            message: error.message
-        })
-    }
-}
-
-exports.removeChamber = async (req, res, next) => {
-    const { dId, cId } = req.query
-    try {
-        const doctor = await Doctor.findOneAndUpdate({ _id: dId }, { $pull: { 'chambers': { '_id': cId } } }, { new: true })
-
-        res.status(200).json({
-            status: 200,
-            success: true,
-            message: 'Chamber deleted successfully',
             data: doctor
         })
     } catch (error) {
