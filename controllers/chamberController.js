@@ -5,7 +5,7 @@ exports.findAllChambers = async (req, res, next) => {
     try {
         const doctor = await Doctor.findOne({ user: req.params.id })
         const chambers = await Chamber.find({ doctor: doctor._id })
-        .populate('vanue')
+            .populate('vanue')
 
         res.status(200).json({
             status: 200,
@@ -25,7 +25,7 @@ exports.addChamber = async (req, res, next) => {
     try {
         const { userId, ...data } = req.body
 
-        const doctor = await Doctor.findOne({user : userId})
+        const doctor = await Doctor.findOne({ user: userId })
 
         if (doctor) {
             const newChamber = new Chamber({
@@ -46,7 +46,7 @@ exports.addChamber = async (req, res, next) => {
                 message: 'Chamber added successfully',
                 data: chamber
             })
-        }else{
+        } else {
             res.status(404).json({
                 status: 404,
                 success: false,
@@ -64,23 +64,25 @@ exports.addChamber = async (req, res, next) => {
 }
 
 exports.updateChamber = async (req, res, next) => {
-    const { userId, ...data } = req.body
-    try {
-        // const doctor = await Doctor.findOneAndUpdate({ _id: req.params.id, }{
-        //     $set: {
-        //         'limit': data.limit,
-        //         'day': data.day,
-        //         'from': data.from,
-        //         'to': data.to
-        //     }
-        // }, { new: true })
 
-        // res.status(200).json({
-        //     status: 200,
-        //     success: true,
-        //     message: 'Chamber update successfully',
-        //     data: doctor
-        // })
+    try {
+        const doctor = await Chamber.findByIdAndUpdate(
+            req.params.id,
+            {
+                'limit': req.body.limit,
+                'day': req.body.day,
+                'from': req.body.from,
+                'to': req.body.to
+            },
+            { new: true }
+        )
+
+        res.status(200).json({
+            status: 200,
+            success: true,
+            message: 'Chamber update successfully',
+            data: doctor
+        })
 
     } catch (error) {
         console.log(error.message);
@@ -93,9 +95,15 @@ exports.updateChamber = async (req, res, next) => {
 }
 
 exports.removeChamber = async (req, res, next) => {
-    const { dId, cId } = req.query
+    
     try {
-        const doctor = await Doctor.findOneAndUpdate({ _id: dId }, { $pull: { 'chambers': { '_id': cId } } }, { new: true })
+        const chamber = await Chamber.findById(req.params.id)
+
+        const doctor = await Doctor.findByIdAndUpdate(chamber.doctor,{
+            $pull : {
+                chambers : req.params.id
+            }
+        })
 
         res.status(200).json({
             status: 200,
