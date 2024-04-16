@@ -66,21 +66,21 @@ exports.addChamber = async (req, res, next) => {
 exports.updateChamber = async (req, res, next) => {
     const { userId, ...data } = req.body
     try {
-        const doctor = await Doctor.findOneAndUpdate({ _id: req.params.id, }{
-            $set: {
-                'limit': data.limit,
-                'day': data.day,
-                'from': data.from,
-                'to': data.to
-            }
-        }, { new: true })
+        // const doctor = await Doctor.findOneAndUpdate({ _id: req.params.id, }{
+        //     $set: {
+        //         'limit': data.limit,
+        //         'day': data.day,
+        //         'from': data.from,
+        //         'to': data.to
+        //     }
+        // }, { new: true })
 
-        res.status(200).json({
-            status: 200,
-            success: true,
-            message: 'Chamber update successfully',
-            data: doctor
-        })
+        // res.status(200).json({
+        //     status: 200,
+        //     success: true,
+        //     message: 'Chamber update successfully',
+        //     data: doctor
+        // })
 
     } catch (error) {
         console.log(error.message);
