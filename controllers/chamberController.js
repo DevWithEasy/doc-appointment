@@ -66,14 +66,12 @@ exports.addChamber = async (req, res, next) => {
 exports.updateChamber = async (req, res, next) => {
     const { userId, ...data } = req.body
     try {
-        const doctor = await Doctor.findOneAndUpdate({ _id: req.params.doctorId, "chambers._id": data._id }, {
+        const doctor = await Doctor.findOneAndUpdate({ _id: req.params.id, }{
             $set: {
-                'chambers.$.vanue': data.vanue,
-                'chambers.$.location': data.location,
-                'chambers.$.appointment_limit': data.appointment_limit,
-                'chambers.$.day': data.day,
-                'chambers.$.from': data.from,
-                'chambers.$.to': data.to
+                'limit': data.limit,
+                'day': data.day,
+                'from': data.from,
+                'to': data.to
             }
         }, { new: true })
 
