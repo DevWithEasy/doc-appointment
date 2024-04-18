@@ -64,24 +64,27 @@ exports.addChamber = async (req, res, next) => {
 }
 
 exports.updateChamber = async (req, res, next) => {
-
     try {
-        const doctor = await Chamber.findByIdAndUpdate(
+        await Chamber.findByIdAndUpdate(
             req.params.id,
             {
-                'limit': req.body.limit,
-                'day': req.body.day,
-                'from': req.body.from,
-                'to': req.body.to
-            },
-            { new: true }
+                $set : {
+                    'limit': req.body.limit,
+                    'day': req.body.day,
+                    'from': req.body.from,
+                    'to': req.body.to
+                }
+            }
         )
+
+        const chambers = await Chamber.find({ doctor: req.body.doctor })
+            .populate('vanue')
 
         res.status(200).json({
             status: 200,
             success: true,
             message: 'Chamber update successfully',
-            data: doctor
+            data: chambers
         })
 
     } catch (error) {
@@ -99,7 +102,9 @@ exports.removeChamber = async (req, res, next) => {
     try {
         const chamber = await Chamber.findById(req.params.id)
 
-        const doctor = await Doctor.findByIdAndUpdate(chamber.doctor,{
+        await Chamber.findByIdAndDelete(req.params.id)
+
+        await Doctor.findByIdAndUpdate(chamber.doctor,{
             $pull : {
                 chambers : req.params.id
             }
@@ -109,7 +114,7 @@ exports.removeChamber = async (req, res, next) => {
             status: 200,
             success: true,
             message: 'Chamber deleted successfully',
-            data: doctor
+            data: {}
         })
     } catch (error) {
         res.status(500).json({

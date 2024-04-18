@@ -5,9 +5,9 @@ const router = require('express').Router()
 
 router
     .get('/:id', authenticated, findAllChambers)
-    .post('/add_chamber/:id', authenticated, addChamber)
-    .put('/update_chamber/:id', authenticated, updateChamber)
-    .delete('/delete_chamber/:id', authenticated, removeChamber)
+    .post('/:id', authenticated, addChamber)
+    .put('/:id', authenticated, updateChamber)
+    .delete('/:id', authenticated, removeChamber)
 
 
 module.exports = router
