@@ -249,7 +249,6 @@ exports.getHomeData = async (req, res, next) => {
 }
 
 exports.findDoctor = async (req, res, next) => {
-    console.log('hello')
     try {
         const doctor = await Doctor.findOne({ user: req.params.id })
 
@@ -265,6 +264,7 @@ exports.findDoctor = async (req, res, next) => {
         })
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             status: 500,
             success: false,

@@ -3,6 +3,36 @@ const Doctor = require('../models/Doctor')
 const User = require('../models/User')
 const getObjectId = require('../utils/getObjectId')
 
+exports.findAppointment=async(req,res,next)=>{
+    try {
+        console.log(req.params.id)
+        // const doctor = await Doctor.findById(req.params.id)
+        // .populate('user', 'image -_id')
+        // .populate('specialization')
+        // .populate({
+        //     path : 'chambers',
+        //     populate : {
+        //         path : 'vanue',
+        //         model : 'Vanue'
+        //     }
+        // })
+        // res.status(200).json({
+        //     status : 200,
+        //     success : true,
+        //     message : 'Successfully applied',
+        //     data : doctor
+        // })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status : 500,
+            success : false,
+            message : error.message
+        })
+    }
+}
+
 exports.addAppointment=async(req,res,next)=>{
     try {
         const user = await User.findById(req.body.userId)

@@ -2,7 +2,6 @@ const User = require("../models/User");
 const Verification = require("../models/Verification");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const createError = require("../utils/createError");
 const fs = require('fs')
 const path = require('path');
 const { sendVerificaion, sendSuccessful, sendForgetPassword } = require("../utils/verification");
@@ -13,7 +12,7 @@ const Notification = require("../models/Notification");
 exports.signup = async (req, res, next) => {
     const { password } = req.body
     try {
-        //FIND USER IN DATABASE
+        
         const findUser = await User.findOne({ $or : [
             {email: req.body.email},
             {phone: req.body.phone}
@@ -27,20 +26,20 @@ exports.signup = async (req, res, next) => {
             })
         }
 
-        //HASHED PASSWORD FOR SECRET
+        
         const hashed = await bcrypt.hash(password, 10)
 
-        //SAVE NEW USER IN DATABASE
+        
         const newuser = new User({
             ...req.body,
             password: hashed
         })
         const user = await newuser.save()
 
-        //TOKEN FOR SECRET
+        
         const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET)
 
-        //GENERATE RANDOM NUMBER AND HASHED
+        
         const randomNumber = Math.ceil(Math.random() * 999999)
         const code = await bcrypt.hash((randomNumber).toString(), 10)
 
@@ -69,9 +68,8 @@ exports.signup = async (req, res, next) => {
 
 exports.signin = async (req, res, next) => {
     try {
-        //FIND USER IN DATABASE
+
         const user = await User.findOne({ email: req.body.email })
-        console.log(req.body)
 
         if (!user) {
             return res.status(404).json({
@@ -91,7 +89,6 @@ exports.signin = async (req, res, next) => {
             })
         }
 
-        //TOKEN FOR SECRET
         const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET)
 
         const notifications = await Notification.find({user : user._id})
