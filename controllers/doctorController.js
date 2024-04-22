@@ -4,6 +4,7 @@ const Doctor = require("../models/Doctor")
 const createError = require("../utils/createError")
 const Chamber = require('../models/Chamber')
 const Specialist = require('../models/Specialist')
+const { populate } = require('dotenv')
 
 exports.applyDoctor = async (req, res, next) => {
     try {
@@ -252,19 +253,18 @@ exports.findDoctor = async (req, res, next) => {
     try {
         const doctor = await Doctor.findOne({ user: req.params.id })
 
-        const specialists = await Specialist.find()
+        const doctors = await Doctor.find({ specialization: doctor.specialization }).limit(6)
 
         res.status(200).json({
             status: 200,
             success: true,
             data: {
                 doctor,
-                specialists
+                doctors,
             }
         })
 
     } catch (error) {
-        console.log(error)
         res.status(500).json({
             status: 500,
             success: false,
@@ -355,13 +355,79 @@ exports.findDoctorByDayAndSpecialist = async (req, res, next) => {
 
 exports.find = async (req, res, next) => {
     try {
-        const doctor = await Doctor.findOne({ user: req.params.id })
+        const doctor = await Doctor.findById(req.params.id)
+        .populate('user')
+        .populate('specialization')
+
+        const doctors = await Doctor.find({
+            specialization: doctor.specialization,
+            _id : {
+                $ne : req.params.id
+            }
+        })
+        .limit(6)
+        .populate('user')
+        .populate('specialization')
+
+        res.status(200).json({
+            status: 200,
+            success: true,
+            data: {
+                doctor,
+                doctors
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.findForAppointmentSubmit = async (req, res, next) => {
+    try {
+        const doctor = await Doctor.findById(req.params.id)
+        .populate('user')
+        .populate('specialization')
+        .populate({
+            path : 'chambers',
+            populate : {
+                path : 'vanue',
+                model : 'Vanue'
+            }
+        })
 
         res.status(200).json({
             status: 200,
             success: true,
             data: doctor
         })
+
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.findDoctorProfile = async (req, res, next) => {
+    try {
+        const doctor = await Doctor.findOne({ user: req.params.id })
+        .populate('specialization')
+        
+        const specialists = await Specialist.find({})
+
+        res.status(200).json({
+            status: 200,
+            success: true,
+            data: {doctor,specialists}
+        })
+
     } catch (error) {
         res.status(500).json({
             status: 500,
