@@ -35,7 +35,7 @@ exports.addChamber = async (req, res, next) => {
 
             const chamber = await newChamber.save()
 
-            await Doctor.findByIdAndUpdate(req.params.doctorId, {
+            await Doctor.findByIdAndUpdate(doctor._id, {
                 $push: {
                     chambers: chamber._id
                 }

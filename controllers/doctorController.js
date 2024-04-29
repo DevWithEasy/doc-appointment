@@ -227,7 +227,7 @@ exports.deleteDoctor = async (req, res, next) => {
 exports.getHomeData = async (req, res, next) => {
     try {
         const totalDoctors = await Doctor.count({ status: 'Approved' })
-        const doctors = await Doctor.find({ status: 'Approved' }).populate('user', 'image -_id').populate('specialization')
+        const doctors = await Doctor.find({ status: 'Approved' }).populate('user', 'image gender -_id').populate('specialization')
         const specializations = await Specialist.find({})
 
         res.status(200).json({
