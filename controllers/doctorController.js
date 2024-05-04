@@ -1,10 +1,7 @@
-const { randomUUID } = require('crypto')
 const User = require("../models/User")
 const Doctor = require("../models/Doctor")
 const createError = require("../utils/createError")
-const Chamber = require('../models/Chamber')
 const Specialist = require('../models/Specialist')
-const { populate } = require('dotenv')
 
 exports.applyDoctor = async (req, res, next) => {
     try {
