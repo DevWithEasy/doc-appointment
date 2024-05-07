@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const appointmentSchema = mongoose.Schema({
-  appointmentId : {
+  order : {
     type: String,
     required: true
   },
@@ -8,11 +8,16 @@ const appointmentSchema = mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: 'Doctor'
   },
-  chamberId : {
-    type: String,
+  chamber : {
+    type: mongoose.Types.ObjectId,
+    ref: 'Chamber',
     required : true
   },
-  patientName :{
+  user : {
+    type: mongoose.Types.ObjectId,
+    ref: 'User'
+  },
+  name :{
     type : String,
     required : true
   },
@@ -24,7 +29,7 @@ const appointmentSchema = mongoose.Schema({
     type : String,
     required : true
   },
-  patientPhone :{
+  phone :{
     type : String,
     required : true
   },
@@ -39,10 +44,6 @@ const appointmentSchema = mongoose.Schema({
   appointmentDate :{
     type : String,
     required : true
-  },
-  user : {
-    type: mongoose.Types.ObjectId,
-    ref: 'User'
   },
   status : {
     type : String,

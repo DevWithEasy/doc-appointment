@@ -424,7 +424,7 @@ exports.findUser = async (req, res, next) => {
 
 exports.updateProfile = async (req, res, next) => {
     try {
-        await User.updateOne({ _id: req.params.id }, {
+        const user = await User.findByIdAndUpdate(req.params.id,{
             $set: {
                 name: req.body.name,
                 gender: req.body.gender,
@@ -439,8 +439,9 @@ exports.updateProfile = async (req, res, next) => {
                 'address.upazilla': req.body.address.upazilla,
                 'address.district': req.body.address.district,
             }
+        },{
+            new  : true
         })
-        const user = await User.findOne({ _id: req.params.id })
         res.status(200).json({
             status: 200,
             success: true,

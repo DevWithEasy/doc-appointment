@@ -68,7 +68,7 @@ const userSchema = mongoose.Schema({
       },
       url: {
         type : String,
-        default : '/image/users/default_profile.jpg'
+        default : '/image/users/default_profile.png'
       }
     },
     address : {
