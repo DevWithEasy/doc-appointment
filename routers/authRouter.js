@@ -19,9 +19,9 @@ router.get('/user/:id',authenticated,getProfile)
       .post('/upload/:id',authenticated,uploadUser.single('file'),uploadProfilePhoto)
 
 router.get('/notifications',authenticated, getNotifications)
-      .post('/seenNotification',authenticated,seenNotification)
-      .post('/seenAllNotification',authenticated,seenAllNotification)
-      .post('/deleteAllNotification',authenticated,deleteAllNotification)
+      .post('/seen-notification/:id',authenticated,seenNotification)
+      .post('/seen-all-notification',authenticated,seenAllNotification)
+      .post('/delete-all-notification',authenticated,deleteAllNotification)
 
 router.post('/add-field',addField)
 

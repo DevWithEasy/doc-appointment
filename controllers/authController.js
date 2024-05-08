@@ -312,13 +312,15 @@ exports.getNotifications = async (req, res, next) => {
 
 exports.seenNotification = async (req, res, next) => {
     try {
-        const { userId, ...notification } = req.body
-        await User.updateOne({ _id: userId, 'notifications.id': notification.id }, { $set: { 'notifications.$.status': 'read' } })
-        const user = await User.findOne({ _id: userId })
+        await Notification.findByIdAndUpdate(req.params.id,{
+            $set : {
+                status : true
+            }
+        })
         res.status(200).json({
             status: 200,
             success: true,
-            data: user
+            data: {}
         })
     } catch (error) {
         res.status(500).json({

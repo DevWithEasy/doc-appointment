@@ -2,7 +2,6 @@ const Appointment = require('../models/Appointment')
 const Doctor = require('../models/Doctor')
 const Notification = require('../models/Notification')
 const User = require('../models/User')
-const getObjectId = require('../utils/getObjectId')
 
 exports.findAppointment = async (req, res, next) => {
     try {
@@ -268,16 +267,12 @@ exports.deleteAppointment = async (req, res, next) => {
 }
 
 exports.searchAppointment = async (req, res, next) => {
-    const { day, date } = req.query
+    const { date } = req.query
     try {
         const doctor = await Doctor.findOne({ user: req.body.userId })
         const data = await Appointment.find({
             doctor: doctor._id,
-            appointmentDay: day,
-            appointmentDate: date,
-            status: {
-                $ne: 'Canceled'
-            }
+            appointmentDate: date
         })
         res.status(200).json({
             status: 200,
