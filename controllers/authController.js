@@ -292,6 +292,24 @@ exports.sentCodeAgain = async (req, res, next) => {
     }
 }
 
+exports.getNotifications = async (req, res, next) => {
+    try {
+        const { userId } = req.body
+        const notofications = await Notification.find({ user: userId})
+        res.status(200).json({
+            status: 200,
+            success: true,
+            data: notofications
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            success: false,
+            message: error.message
+        })
+    }
+}
+
 exports.seenNotification = async (req, res, next) => {
     try {
         const { userId, ...notification } = req.body

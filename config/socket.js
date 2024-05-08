@@ -12,12 +12,13 @@ const initSocket=(server)=>{
             socket.join(data.id)
         })
 
-        socket.on('create_appointment',data=>{
-            socket.to(data.doctor).emit('create_appointment_notifiaction',data.notification)
+        socket.on('create_appointment',notification=>{
+            socket.to(notification.user).emit('create_appointment_notification',notification)
+            console.log(notification)
         })
 
-        socket.on('action_appointment',data=>{
-            socket.to(data.user).emit('action_appointment_recieved',data.notification)
+        socket.on('action_appointment',notifiaction=>{
+            socket.to(notifiaction.user).emit('action_appointment_recieved',data.notifiaction)
         })
     })
 }

@@ -1,5 +1,6 @@
 const Appointment = require('../models/Appointment')
 const Doctor = require('../models/Doctor')
+const Notification = require('../models/Notification')
 const User = require('../models/User')
 const getObjectId = require('../utils/getObjectId')
 
@@ -37,21 +38,21 @@ exports.addAppointment = async (req, res, next) => {
     try {
 
         const user = await User.findById(req.body.userId)
+        const doctor  = await Doctor.findById(req.body.doctor)
 
         if (user.balance < 10) {
             return res.status(405).json({
                 status: 405,
                 success: false,
-                message: 'Unsufficient balance.'
+                message: 'আপনার ব্যালেন্স শেষ হয়ে গেছে।'
             })
         }
-        const doctor = await Doctor.findOne({ _id: req.body.doctor })
 
         const appointments = await Appointment.find(
             {
                 appointmentDate: req.body.chamber.date,
                 appointmentDay: req.body.chamber.day,
-                chamber: req.body.chamberId
+                chamber: req.body.chamber._id
             }
         ).countDocuments()
         
@@ -60,7 +61,7 @@ exports.addAppointment = async (req, res, next) => {
             return res.status(406).json({
                 status : 406,
                 success : false,
-                message : 'Appointment Completed. Please try another chamber or day'
+                message : 'আপয়েন্টমেন্ট নেওয়া শেষ। অন্য তারিখে বা চেম্বারে চেষ্টা করুন।'
             })
         }
 
@@ -77,42 +78,31 @@ exports.addAppointment = async (req, res, next) => {
             appointmentDay : req.body.chamber.day,
             appointmentDate : req.body.chamber.date
         })
-console.log(newAppointment)
-        // const notification = {
-        //     id : Date.now(),
-        //     name : req.body.patientName,
-        //     message : `${req.body.patientName} has been applied for appointments.`,
-        //     day : req.body.appointmentDay,
-        //     date : req.body.appointmentDate,
-        //     onClickPath : `/doctor/allAppointments/search?day=${req.body.appointmentDay}&date=${req.body.appointmentDate}`,
-        //     status : 'unread'
-        // }
 
-        // const doctorUserProfile = await User.findByIdAndUpdate(doctor.user,{
-        //     $push : {
-        //         notifications : notification
-        //     }
-        // },{new : true})
+        const newNotification = new Notification({
+            user : doctor.user,
+            message : `${user.name} take a new appointment ${req.body.chamber.date}`,
+            path : `/user/doctor/${doctor.user}/appointments?date=${req.body.chamber.date}`
+        })
 
-        // await User.findByIdAndUpdate(req.body.userId,{
-        //     $inc : {
-        //         balance : -10
-        //     }
-        // })
+        await newAppointment.save()
 
-        // newAppointment.save()
-        // res.status(200).json({
-        //     status : 200,
-        //     success : true,
-        //     message : 'Successfully applied',
-        //     data : {
-        //         doctor : doctorUserProfile._id,
-        //         notification
-        //     }
-        // })
+        const notification = await newNotification.save()
+
+        await User.findByIdAndUpdate(req.body.userId,{
+            $inc : {
+                balance : -10
+            }
+        })
+
+        res.status(200).json({
+            status : 200,
+            success : true,
+            message : 'আপনার আপয়েন্টমেন্ট সফলভাবে গ্রহন হয়েছে।',
+            data : notification
+        })
 
     } catch (error) {
-        console.log(error)
         res.status(500).json({
             status: 500,
             success: false,
@@ -306,7 +296,16 @@ exports.searchAppointment = async (req, res, next) => {
 exports.getAllAppointment = async (req, res, next) => {
 
     try {
-        const data = await Appointment.find({ user: req.params.id })
+        const data = await Appointment
+        .find({ user: req.params.id })
+        .populate('doctor')
+        .populate({
+            path : 'chamber',
+            populate : {
+                path : 'vanue',
+                model : 'Vanue'
+            }
+        })
         res.status(200).json({
             status: 200,
             success: true,
