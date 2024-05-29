@@ -281,7 +281,7 @@ exports.findDoctorBySpecialist = async (req, res, next) => {
                 specialization: req.params.id
             }
         )
-            .populate('user', 'image -_id')
+            .populate('user', 'image gender -_id')
             .populate('specialization')
 
         res.status(200).json({
@@ -353,18 +353,25 @@ exports.findDoctorByDayAndSpecialist = async (req, res, next) => {
 exports.find = async (req, res, next) => {
     try {
         const doctor = await Doctor.findById(req.params.id)
-        .populate('user')
-        .populate('specialization')
+            .populate('user')
+            .populate('specialization')
+            .populate({
+                path: 'chambers',
+                populate: {
+                    path: 'vanue',
+                    model: 'Vanue'
+                }
+            })
 
         const doctors = await Doctor.find({
             specialization: doctor.specialization,
-            _id : {
-                $ne : req.params.id
+            _id: {
+                $ne: req.params.id
             }
         })
-        .limit(6)
-        .populate('user')
-        .populate('specialization')
+            .limit(6)
+            .populate('user')
+            .populate('specialization')
 
         res.status(200).json({
             status: 200,
@@ -387,15 +394,15 @@ exports.find = async (req, res, next) => {
 exports.findForAppointmentSubmit = async (req, res, next) => {
     try {
         const doctor = await Doctor.findById(req.params.id)
-        .populate('user')
-        .populate('specialization')
-        .populate({
-            path : 'chambers',
-            populate : {
-                path : 'vanue',
-                model : 'Vanue'
-            }
-        })
+            .populate('user')
+            .populate('specialization')
+            .populate({
+                path: 'chambers',
+                populate: {
+                    path: 'vanue',
+                    model: 'Vanue'
+                }
+            })
 
         res.status(200).json({
             status: 200,
@@ -415,14 +422,14 @@ exports.findForAppointmentSubmit = async (req, res, next) => {
 exports.findDoctorProfile = async (req, res, next) => {
     try {
         const doctor = await Doctor.findOne({ user: req.params.id })
-        .populate('specialization')
-        
+            .populate('specialization')
+
         const specialists = await Specialist.find({})
 
         res.status(200).json({
             status: 200,
             success: true,
-            data: {doctor,specialists}
+            data: { doctor, specialists }
         })
 
     } catch (error) {
