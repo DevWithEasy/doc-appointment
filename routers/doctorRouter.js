@@ -17,5 +17,4 @@ router.post('/apply', authenticated, applyDoctor)
       .get('/find/appointment/:id',findForAppointmentSubmit)
       .get('/find/profile/:id',authenticated,findDoctorProfile)
       
-
 module.exports = router
