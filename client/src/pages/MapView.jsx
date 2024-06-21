@@ -67,7 +67,7 @@ const MapView = () => {
                                 >
                                     <Popup>
                                         <div>
-                                            <Link to={`/hospital/${hospital._id}`}>{hospital?.name}</Link>
+                                            <Link href={`/hospital/${hospital._id}`}>{hospital?.name}</Link>
 
                                             <p
                                                 className=''
