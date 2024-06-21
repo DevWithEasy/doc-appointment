@@ -27,7 +27,7 @@ dbConnection()
 //socket initialize
 initSocket(server)
 
-// app server initialzed
+// app server initialzed 
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'client/dist/index.html'))
 })
